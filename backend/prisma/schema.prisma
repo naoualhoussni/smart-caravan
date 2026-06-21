@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(TRAINER)
+  teamId    String?
+  team      Team?    @relation(fields: [teamId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  reports   Report[]
+}
+
+enum Role {
+  ADMIN
+  COORDINATOR
+  SUPERVISOR
+  TRAINER
+}
+
+model Caravan {
+  id          String   @id @default(uuid())
+  name        String
+  province    String
+  startDate   DateTime
+  endDate     DateTime?
+  status      String   @default("PLANNED") // PLANNED, ACTIVE, COMPLETED
+  teams       Team[]
+  schools     School[]
+  reports     Report[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Team {
+  id         String     @id @default(uuid())
+  name       String
+  caravanId  String
+  caravan    Caravan    @relation(fields: [caravanId], references: [id])
+  members    User[]
+  activities Activity[]
+  createdAt  DateTime   @default(now())
+}
+
+model School {
+  id         String     @id @default(uuid())
+  name       String
+  province   String
+  commune    String?
+  status     String     @default("PENDING") // PENDING, COMPLETED
+  caravanId  String
+  caravan    Caravan    @relation(fields: [caravanId], references: [id])
+  activities Activity[]
+  createdAt  DateTime   @default(now())
+}
+
+model Activity {
+  id        String   @id @default(uuid())
+  type      String   // CHECK_IN, CHECK_OUT, MODULE_COMPLETED, PHOTO_UPLOAD
+  content   String?
+  latitude  Float?
+  longitude Float?
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id])
+  schoolId  String
+  school    School   @relation(fields: [schoolId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Report {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  type      String   @default("MANUAL") // MANUAL, AI_GENERATED
+  caravanId String
+  caravan   Caravan  @relation(fields: [caravanId], references: [id])
+  userId    String
+  author    User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}

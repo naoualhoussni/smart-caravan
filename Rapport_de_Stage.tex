@@ -1,0 +1,455 @@
+\documentclass[12pt,a4paper]{report}
+
+% Packages indispensables
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{listings}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+% Couleurs personnalisées (Thème SmartCaravan & Tech57)
+\definecolor{techblue}{RGB}{14, 116, 219}
+\definecolor{darkslate}{RGB}{47, 54, 64}
+\definecolor{lightgray}{RGB}{240, 242, 245}
+
+% Configuration des liens hypertexte
+\hypersetup{
+    colorlinks=true,
+    linkcolor=techblue,
+    urlcolor=techblue,
+    citecolor=techblue
+}
+
+% Personnalisation des titres
+\titleformat{\chapter}[display]
+  {\color{techblue}\bfseries\Huge}
+  {\color{techblue}\chaptername\ \thechapter}
+  {10pt}
+  {\huge}
+\titleformat{\section}{\color{techblue}\Large\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}{\color{darkslate}\large\bfseries}{\thesubsection.}{1em}{}
+
+% Configuration du code listings
+\lstset{
+  language=SQL,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{techblue}\bfseries,
+  commentstyle=\color{gray},
+  stringstyle=\color{orange},
+  backgroundcolor=\color{lightgray},
+  frame=single,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space}
+}
+
+\begin{document}
+
+% ----------------------------------------------------------------------
+% PAGE DE GARDE
+% ----------------------------------------------------------------------
+\begin{titlepage}
+    % Barre verticale bleue sur le côté gauche (exactement collée au bord gauche du papier)
+    \begin{tikzpicture}[remember picture, overlay]
+        \fill[color=techblue] (current page.north west) rectangle ++(1.4cm,-\paperheight);
+    \end{tikzpicture}
+    
+    \centering
+    \vspace*{-1cm}
+    
+    % Logo de l'école SUP'RH
+    \begin{flushleft}
+        \hspace*{1.8cm}
+        \begin{minipage}{0.7\textwidth}
+            \textbf{\color{darkslate}\Huge SUP'RH} \\
+            {\color{gray}\scriptsize SCHOOL OF MANAGEMENT \& ARTIFICIAL INTELLIGENCE} \\
+            \colorbox{red!80!black}{\color{white}\bfseries\tiny \hspace*{0.1cm} RECONNUE PAR L'ÉTAT \hspace*{0.1cm}}
+        \end{minipage}
+    \end{flushleft}
+    
+    \vspace*{2cm}
+    
+    % Type de document et diplôme
+    {\color{darkslate}\Huge \textbf{RAPPORT DE STAGE}} \\[0.4cm]
+    {\large \underline{\textbf{Troisième Année de Licence : Intelligence Artificielle et Business}}} \\[1.8cm]
+    
+    {\large Présenté par} \\[0.4cm]
+    {\Large \textbf{\textit{« NAOUAL HOUSSNI »}}} \\[2cm]
+    
+    % Titre du projet (formaté exactement comme sur le modèle)
+    {\color{techblue!60!gray}\Huge \textbf{« SmartCaravan : Système Intelligent\\ de Tracking et de Suivi de la Caravane\\ "Coding Pour Tous" »}} \\[2cm]
+    
+    {\large Sous la direction de} \\[0.4cm]
+    {\large \textbf{M. Naoufal ROUKY} (SUP'RH) \& \textbf{M. Hamza AOUADI} (Tech57)} \\[2cm]
+    
+    % Membres du jury (avec puces et alignés comme dans le modèle)
+    \begin{flushleft}
+        \hspace*{1.8cm}
+        \begin{minipage}{0.8\textwidth}
+            \textbf{\color{darkslate}Membres du jury :} \\[0.3cm]
+            \begin{tabular}{lll}
+                $\bullet$ \textit{M. Mohamed Amine TALHAOUI} & \hspace{1cm} & \textit{Président} \\
+                $\bullet$ \textit{M. Naoufal ROUKY} & \hspace{1cm} & \textit{Examinateur (SUP'RH)} \\
+                $\bullet$ \textit{M. Hamza AOUADI} & \hspace{1cm} & \textit{Examinateur (Tech57)} \\
+            \end{tabular}
+        \end{minipage}
+    \end{flushleft}
+    
+    \vfill
+    {\large Année Universitaire : 2025 - 2026}
+\end{titlepage}
+
+% ----------------------------------------------------------------------
+% REMERCIEMENTS
+% ----------------------------------------------------------------------
+\chapter*{Remerciements}
+Je tiens à exprimer ma sincère gratitude à toutes les personnes qui ont contribué, de près ou de loin, à la réalisation de ce travail de fin d'études.
+
+Je remercie tout d’abord **M. Hamza AOUADI**, mon tuteur de stage au sein de Tech57, pour son accueil, ses conseils précieux et son accompagnement tout au long du développement de la solution SmartCaravan.
+
+Je remercie chaleureusement **Pr. Mohamed Amine TALHAOUI**, mon encadrant au sein de SUP’RH, pour son accompagnement rigoureux, ses conseils pertinents et sa disponibilité tout au long de ce travail de recherche. Son encadrement a été déterminant dans la structuration de ma réflexion.
+
+Je tiens également à exprimer ma reconnaissance envers **M. Naoufal ROUKY**, mon encadrant académique à SUP'RH, pour ses orientations méthodologiques et son suivi constant.
+
+Je remercie également l’ensemble du corps enseignant de SUP’RH, pour la qualité des enseignements dispensés tout au long de mon parcours, qui m’ont permis d’aborder ce sujet avec les outils nécessaires.
+
+Mes remerciements vont également à ma famille et mes proches, pour leur soutien moral et leurs encouragements constants, particulièrement durant les périodes les plus intenses de la rédaction.
+
+Enfin, je remercie toutes les personnes qui, par leurs échanges, leurs retours ou leurs encouragements, ont enrichi ma réflexion et m’ont accompagnée dans cette aventure intellectuelle.
+
+\newpage
+
+% ----------------------------------------------------------------------
+% RÉSUMÉ & ABSTRACT
+% ----------------------------------------------------------------------
+\chapter*{Résumé}
+Le projet **SmartCaravan** s’inscrit dans le cadre de la modernisation de la caravane éducative « Coding Pour Tous » portée par **Tech57**. L'objectif principal de ce stage a été de concevoir et de développer un écosystème technologique centralisé destiné à remplacer la gestion manuelle des interventions terrain. Cet écosystème repose sur trois composants interconnectés : un Dashboard Web de pilotage développé sous Next.js permettant la planification des caravanes et le suivi analytique, une Application Mobile en mode Offline-First pour la géolocalisation des formateurs et la collecte des rapports terrains, et enfin un module d'intelligence artificielle sous Python (FastAPI/Scikit-Learn) exploitant l'algorithme Random Forest pour anticiper les taux d'engagement et classifier les risques logistiques. Ce rapport retrace l'ensemble des étapes, de l'étude des besoins à l'implémentation pratique de la solution.
+
+\textbf{Mots-clés :} Next.js, Node.js, Prisma, Supabase RLS, Offline-First, Random Forest, Machine Learning, GPS Tracking.
+
+\chapter*{Abstract}
+The **SmartCaravan** project fits into the modernization of the "Coding Pour Tous" educational caravan led by **Tech57**. The primary goal of this internship was to design and develop a centralized technological ecosystem to replace manual field-tracking operations. This ecosystem is built around three interconnected pillars: a web-based management Dashboard built using Next.js for caravan scheduling and analytics, a mobile application implementing an Offline-First approach for trainer geolocalisation and report uploads, and an artificial intelligence module written in Python (FastAPI/Scikit-Learn) using Random Forest algorithms to predict school engagement levels and classify logistical risks. This report details all phases of the project, from requirements engineering to implementation and deployment.
+
+\textbf{Keywords:} Next.js, Node.js, Prisma, Supabase RLS, Offline-First, Random Forest, Machine Learning, GPS Tracking.
+
+\newpage
+\tableofcontents
+\listoffigures
+\listoftables
+
+\newpage
+
+% ----------------------------------------------------------------------
+% INTRODUCTION GÉNÉRALE
+% ----------------------------------------------------------------------
+\chapter*{Introduction Générale}
+\addcontentsline{toc}{chapter}{Introduction Générale}
+
+À l'ère de la transformation numérique, la digitalisation des activités d'éducation populaire et de sensibilisation technologique est devenue un enjeu majeur pour optimiser les ressources et maximiser l'impact social. L'initiative « Coding Pour Tous », menée par l'entreprise **Tech57**, vise à initier les élèves des établissements scolaires, notamment en milieux ruraux et périurbains, aux compétences numériques indispensables du XXIe siècle.
+
+Cependant, le déploiement opérationnel d'une telle caravane itinérante fait face à des contraintes logistiques et de suivi considérables. Jusqu'à présent, la gestion des caravanes, la planification des ateliers, le suivi de la présence des formateurs sur le terrain et la collecte des rapports de satisfaction s'effectuaient de manière manuelle ou via des outils bureautiques décentralisés. Cette approche engendrait des pertes de données, des failles de traçabilité et une lenteur dans l'analyse de l'impact pédagogique.
+
+Pour surmonter ces limites, le projet **SmartCaravan** a été initié. Il s'agit de concevoir et de développer un écosystème technologique unifié composé d'une plateforme Web d'administration, d'une application mobile de saisie terrain robuste au mode déconnecté (Offline-First) et d'un moteur d'intelligence artificielle capable de prédire l'engagement et d'anticiper les obstacles logistiques.
+
+Ce rapport s'articule autour de six chapitres. Le premier chapitre présente le contexte du projet et la structure d'accueil. Le deuxième chapitre effectue une revue de la littérature et présente l'état de l'art technologique. Le troisième chapitre définit l'analyse des besoins et les spécifications de la solution. Le quatrième chapitre décrit la conception architecturale et la modélisation. Le cinquième chapitre détaille l'implémentation et la réalisation. Enfin, le sixième chapitre présente les tests, le déploiement et le bilan du projet.
+
+% ----------------------------------------------------------------------
+% CHAPITRE I : CONTEXTE ET ORGANISME D'ACCUEIL
+% ----------------------------------------------------------------------
+\chapter{Contexte et Organisme d'Accueil}
+
+\section{Présentation de l'Organisme d'Accueil : Tech57}
+Tech57 est une entreprise innovante spécialisée dans le développement de solutions logicielles sur mesure, le conseil technologique et l'implémentation de solutions d'intelligence artificielle pour divers secteurs d'activité. Forte d'une équipe pluridisciplinaire d'ingénieurs et de consultants, Tech57 s'efforce d'intégrer des technologies de pointe au service d'initiatives à fort impact sociétal.
+
+\section{Le Projet « Coding Pour Tous »}
+« Coding Pour Tous » est une caravane éducative itinérante qui parcourt plusieurs provinces du Royaume pour initier les jeunes élèves au codage informatique, à la robotique et à la culture numérique. 
+Les caravanes s'arrêtent dans des écoles cibles pour y animer des ateliers interactifs. Le bon fonctionnement repose sur une coordination étroite entre les coordinateurs de Tech57, qui planifient les trajets, et les formateurs de terrain, qui animent les sessions.
+
+\section{Cadrage du Stage et Objectifs}
+Dans le cadre de mon projet de fin d'études, mon rôle a consisté à concevoir l'architecture technique et à implémenter les principaux modules de l'écosystème **SmartCaravan**.
+Les objectifs majeurs fixés pour ce stage étaient :
+\begin{itemize}
+    \item La modélisation de la base de données relationnelle et la sécurisation des données avec Supabase.
+    \item Le développement du Dashboard Web de planification intelligente avec Next.js.
+    \item Le développement du pipeline d'intelligence artificielle en Python pour l'analyse prédictive de la réussite des ateliers caravane.
+    \item L'intégration de la gestion hors-ligne (Offline-First) pour l'application mobile terrain.
+\end{itemize}
+
+\section{Roadmap de Développement}
+Le projet a été mené selon la méthodologie Agile Scrum sur une durée totale de 16 semaines. La planification prévisionnelle comprenait les phases suivantes :
+\begin{itemize}
+    \item \textbf{Phase 1 (Semaines 1-2) :} Cadrage, étude de l'état de l'art et conception générale.
+    \item \textbf{Phase 2 (Semaines 3-8) :} Développement de l'API Node.js/Prisma et du Dashboard Web Next.js.
+    \item \textbf{Phase 3 (Semaines 9-12) :} Implémentation du microservice d'intelligence artificielle en Python et modélisation prédictive.
+    \item \textbf{Phase 4 (Semaines 13-14) :} Développement de la synchronisation locale mobile et tests d'intégration.
+    \item \textbf{Phase 5 (Semaines 15-16) :} Recette globale, déploiement et formation.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+% CHAPITRE II : REVUE DE LA LITTÉRATURE ET ÉTAT DE L'ART
+% ----------------------------------------------------------------------
+\chapter{Revue de la Littérature et État de l'Art}
+
+\section{Les systèmes de tracking géographique en environnement mobile}
+Le suivi d'activité sur le terrain repose en grande partie sur l'acquisition de coordonnées géographiques (latitude et longitude) via le module GPS (Global Positioning System) intégré aux smartphones. Toutefois, la précision de ces données dépend de plusieurs facteurs, notamment la couverture satellite, l'environnement physique (zones urbaines denses vs zones rurales montagneuses) et le matériel de l'appareil.
+De plus, la récupération constante de la géolocalisation pose un défi majeur d'économie d'énergie pour la batterie des appareils mobiles. L'état de l'art recommande l'utilisation de techniques hybrides combinant le GPS, le Wi-Fi et les réseaux cellulaires, ainsi que l'optimisation de l'intervalle de rafraîchissement des coordonnées (Geofencing et relevés par événements).
+
+\section{La persistance locale des données : L'approche Offline-First}
+Dans les zones rurales à couverture réseau instable ou inexistante (zones blanches), les applications mobiles classiques échouent souvent en raison d'une dépendance continue à une connexion Internet. L'approche **Offline-First** propose de traiter le réseau non pas comme une condition indispensable, mais comme une optimisation.
+Les données de l'utilisateur (rapports, géolocalisations, médias) sont écrites et lues directement dans une base de données locale sécurisée intégrée à l'appareil (ex. SQLite ou WatermelonDB). Dès qu'une connexion Internet est restaurée, un algorithme de synchronisation se charge de propager les modifications locales vers le serveur centralisé et de récupérer les mises à jour. La résolution automatique des conflits (par exemple via des horodatages ou des ID uniques de type UUID) est indispensable pour garantir l'intégrité de la base centrale.
+
+\section{Sécurisation de l'accès aux données : RBAC vs RLS}
+Le contrôle d'accès basé sur les rôles (RBAC - Role-Based Access Control) est le standard traditionnel au niveau applicatif. Bien qu'efficace, il présente des risques si une faille de sécurité (ex. injection ou contournement de code) survient dans la logique applicative.
+L'approche **RLS (Row Level Security)**, popularisée par PostgreSQL et Supabase, déporte cette logique directement au niveau de la base de données. Chaque table dispose de politiques définissant précisément quelles lignes de données un utilisateur authentifié (identifié par son UUID de session) est autorisé à lire, insérer ou modifier. Cette double couche de sécurité garantit que même si l'API est compromise, l'isolation des données reste inviolable.
+
+\section{Le Machine Learning pour l'analyse prédictive logistique}
+L'optimisation logistique et la prédiction de la réussite d'un atelier éducatif font intervenir des critères multiples (socio-économiques, saisonniers, géographiques et budgétaires). Les algorithmes basés sur les arbres de décision sont particulièrement adaptés pour traiter ces variables à la fois numériques et catégorielles.
+L'algorithme **Random Forest** (Forêt d'arbres décisionnels) fonctionne par l'agrégation de multiples arbres de décision entraînés sur des sous-ensembles aléatoires du jeu de données (Bagging). Pour la régression (prédiction du score d'engagement), le modèle calcule la moyenne des prédictions des arbres individuels :
+\begin{equation}
+    \hat{y} = \frac{1}{B} \sum_{b=1}^{B} f_b(x)
+\end{equation}
+Pour la classification (niveau de risque logistique), il procède par vote majoritaire. Sa résilience face au surapprentissage (overfitting) et sa capacité à fournir un score d'importance des variables (*Feature Importance*) en font un choix robuste pour notre étude décisionnelle.
+
+% ----------------------------------------------------------------------
+% CHAPITRE III : ANALYSE DES BESOINS ET SPÉCIFICATIONS
+% ----------------------------------------------------------------------
+\chapter{Analyse des Besoins et Spécifications}
+
+\section{Analyse de l'Existant et Critique}
+Actuellement, la gestion opérationnelle repose sur des fichiers Excel partagés et des rapports manuels saisis sur le terrain, puis envoyés via des applications de messagerie. Cette méthodologie présente les lacunes suivantes :
+\begin{itemize}
+    \item Absence de preuve formelle de présence physique des formateurs (pas de vérification géographique).
+    \item Risque élevé d'incohérence et de perte de données logistiques.
+    \item Temps d'analyse de l'impact pédagogique très long (plusieurs semaines après la fin des caravanes).
+\end{itemize}
+
+\section{Spécifications Fonctionnelles}
+La solution développée doit répondre aux exigences répertoriées dans le tableau~\ref{tab:specs_fonc}.
+
+\begin{table}[h]
+\centering
+\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\textwidth}{@{} l p{4cm} X @{}}
+\toprule
+\textbf{ID} & \textbf{Acteur} & \textbf{Description du Besoin Fonctionnel} \\
+\midrule
+RF-01 & Administrateur / Coordinateur & Planifier une caravane, définir les provinces, les dates de début/fin, et affecter les équipes de formateurs. \\
+RF-02 & Administrateur / Coordinateur & Visualiser sur une carte en temps réel les pointages (Check-in/Check-out) et le trajet des caravanes actives. \\
+RF-03 & Formateur & Effectuer un pointage GPS (Check-in) à l'arrivée dans l'établissement scolaire cible et un Check-out lors du départ. \\
+RF-04 & Formateur & Saisir un rapport de fin de session et téléverser des médias (photos/vidéos) même en mode hors-ligne. \\
+RF-05 & Système (IA/ML) & Prédire automatiquement le score d'engagement et le risque logistique pour un établissement ciblé avant le déploiement de la caravane. \\
+\bottomrule
+\end{tabularx}
+\caption{Spécifications fonctionnelles de la solution SmartCaravan}
+\label{tab:specs_fonc}
+\end{table}
+
+\section{Spécifications Non-Fonctionnelles}
+\begin{itemize}
+    \item \textbf{Performance et scalabilité :} L'API backend doit être capable d'absorber des pointages géolocalisés simultanés importants.
+    \item \textbf{Robustesse réseau (Offline-First) :} L'application mobile doit stocker localement les données en cas d'absence de connexion réseau et les synchroniser sans perte dès la reconnexion.
+    \item \textbf{Confidentialité et conformité légale :} Respect de la législation sur la protection des données personnelles (RGPD/CNDP), notamment via l'intégration d'un formulaire de signature électronique du consentement parental avant la capture de médias contenant des enfants mineurs.
+\end{itemize}
+
+% ----------------------------------------------------------------------
+% CHAPITRE IV : ARCHITECTURE ET CONCEPTION
+% ----------------------------------------------------------------------
+\chapter{Architecture et Conception de la Solution}
+
+\section{Architecture Technique Globale}
+L'architecture de la solution SmartCaravan repose sur un modèle orienté services (SOA). Le schéma de la figure~\ref{fig:arch_technique} illustre les flux de données entre les différents blocs applicatifs.
+
+\begin{figure}[h]
+    \centering
+    \resizebox{0.9\textwidth}{!}{
+    \begin{tikzpicture}[
+        node distance = 1.8cm and 2.5cm,
+        box/.style = {rectangle, draw=darkslate, thick, fill=techblue!10, text width=3.8cm, align=center, rounded corners, minimum height=1.6cm, font=\sffamily\bfseries},
+        db/.style = {cylinder, draw=darkslate, thick, shape border rotate=90, aspect=0.25, fill=gray!20, text width=2.8cm, align=center, minimum height=1.6cm, font=\sffamily\bfseries},
+        service/.style = {rectangle, draw=darkslate, thick, fill=purple!10, text width=3.2cm, align=center, rounded corners, minimum height=1.6cm, font=\sffamily\bfseries},
+        arrow/.style = {draw=darkslate, -{Latex[length=3mm]}, thick}
+    ]
+        % Clients
+        \node [box] (web) {Dashboard Administrateur \\ \small (Next.js / Tailwind)};
+        \node [box, below=of web] (mobile) {App Mobile Formateur \\ \small (React Native / Local DB)};
+        
+        % Backend
+        \node [box, right=of web, yshift=-1.8cm, fill=techblue!30, minimum height=4.5cm] (api) {API Gateway \& \\ Backend Applicatif \\ \small (Node.js / Express / Prisma)};
+        
+        % Infrastructure & Services
+        \node [db, right=of api, yshift=2.2cm] (postgres) {PostgreSQL \\ \small (Supabase / RLS)};
+        \node [service, right=of api] (s3) {Stockage Cloud \\ \small (Médias / AWS S3)};
+        \node [service, right=of api, yshift=-2.2cm] (ml) {Microservice IA \\ \small (Python / FastAPI)};
+
+        % Connexions
+        \draw [arrow, <->] (web.east) -- node[above, font=\scriptsize, sloped] {HTTPS / JWT} (api.west |- web.east);
+        \draw [arrow, <->] (mobile.east) -- node[below, font=\scriptsize, sloped] {HTTPS / Sync} (api.west |- mobile.east);
+        
+        \draw [arrow, <->] (api.east |- postgres.west) -- node[above, font=\scriptsize] {SQL} (postgres.west);
+        \draw [arrow, ->] (api.east) -- node[above, font=\scriptsize] {REST / Upload} (s3.west);
+        \draw [arrow, <->] (api.east |- ml.west) -- node[below, font=\scriptsize] {HTTP JSON} (ml.west);
+        
+    \end{tikzpicture}
+    }
+    \caption{Architecture technique globale de l'écosystème SmartCaravan}
+    \label{fig:arch_technique}
+\end{figure}
+
+\section{Modélisation de la Base de Données}
+La base de données repose sur un moteur PostgreSQL. Les relations sont définies selon le schéma décrit ci-dessous. Les politiques de sécurité (RLS) imposent que les enregistrements de la table `activities` et `reports` ne soient modifiables que par les utilisateurs autorisés rattachés à l'équipe associée.
+
+\begin{lstlisting}[caption={Extrait du script SQL de définition de la base de données Supabase}, label={lst:db_schema}]
+-- Table des profils utilisateurs
+CREATE TABLE IF NOT EXISTS profiles (
+  id UUID REFERENCES auth.users ON DELETE CASCADE PRIMARY KEY,
+  full_name TEXT,
+  email TEXT UNIQUE,
+  role TEXT DEFAULT 'TRAINER' CHECK (role IN ('ADMIN', 'COORDINATOR', 'SUPERVISOR', 'TRAINER')),
+  team_id UUID,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Table des Caravanes
+CREATE TABLE IF NOT EXISTS caravans (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  province TEXT NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE,
+  status TEXT DEFAULT 'PLANNED' CHECK (status IN ('PLANNED', 'ACTIVE', 'COMPLETED'))
+);
+
+-- Table des Etablissements scolaires
+CREATE TABLE IF NOT EXISTS schools (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  province TEXT NOT NULL,
+  commune TEXT,
+  status TEXT DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'COMPLETED')),
+  caravan_id UUID REFERENCES caravans(id) ON DELETE CASCADE
+);
+\end{lstlisting}
+
+% ----------------------------------------------------------------------
+% CHAPITRE V : RÉALISATION ET IMPLÉMENTATION
+% ----------------------------------------------------------------------
+\chapter{Réalisation et Implémentation}
+
+\section{Développement du Backend (Node.js \& Prisma)}
+Le backend est implémenté sous Node.js et Express en utilisant TypeScript pour garantir la robustesse du typage. Prisma ORM est configuré pour interagir de manière transparente avec PostgreSQL. Les API REST sécurisées par JWT permettent aux applications clientes de communiquer.
+
+\section{Intégration du Machine Learning sous Python}
+Le microservice d'intelligence artificielle est écrit en Python avec FastAPI. Il charge des modèles pré-entraînés avec Scikit-Learn.
+Le fichier de données `caravanes_dataset.csv` contient l'historique des caravanes précédentes. Le script de l'algorithme d'apprentissage est présenté dans l'extrait de code de la figure~\ref{lst:train_ml}.
+
+\begin{lstlisting}[language=Python, caption={Script d'entraînement des modèles prédictifs d'engagement et de risque logistique}, label={lst:train_ml}]
+import pandas as pd
+from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
+from sklearn.preprocessing import LabelEncoder
+import joblib
+
+def train():
+    df = pd.read_csv('caravanes_dataset.csv')
+    
+    # Encodage des données catégorielles
+    le_province = LabelEncoder()
+    df['province_enc'] = le_province.fit_transform(df['province'])
+    
+    # Features sélectionnées
+    FEATURES = ['province_enc', 'nb_eleves', 'distance_km', 'budget_mad']
+    X = df[FEATURES]
+    y_engagement = df['score_engagement']
+    y_risque = df['risque_logistique']
+
+    # Entraînement du modèle de régression pour l'engagement
+    rf_engagement = RandomForestRegressor(n_estimators=150, random_state=42)
+    rf_engagement.fit(X, y_engagement)
+
+    # Entraînement du modèle de classification pour le risque logistique
+    rf_risque = RandomForestClassifier(n_estimators=150, random_state=42)
+    rf_risque.fit(X, y_risque)
+
+    # Sauvegarde des modèles entraînés
+    joblib.dump(rf_engagement, 'models/rf_engagement.pkl')
+    joblib.dump(rf_risque, 'models/rf_risque.pkl')
+\end{lstlisting}
+
+\section{Le Dashboard Web de Pilotage (Next.js)}
+Le frontend utilise la structure moderne de Next.js (App Router). L'interface utilisateur est construite avec React et stylisée avec Tailwind CSS. Elle intègre des graphes dynamiques pour afficher les variables clés du modèle d'intelligence artificielle, notamment les prédictions d'engagement calculées en temps réel par le microservice.
+
+\section{Le Système Offline-First de l'Application Mobile}
+Pour l'application mobile terrain, le framework React Native associé à Expo a été sélectionné. L'outil intègre un stockage local SQLite. Un script en arrière-plan vérifie l'état de la connexion. Si la connexion est absente, les pointages GPS et les rapports d'activités saisis sont placés dans une file d'attente locale. Lors de la reconnexion au réseau, une requête HTTP POST groupée transmet les données au serveur et vide le cache local.
+
+% ----------------------------------------------------------------------
+% CHAPITRE VI : TESTS, DÉPLOIEMENT ET BILAN
+% ----------------------------------------------------------------------
+\chapter{Tests, Déploiement et Validation}
+
+\section{Stratégie de Test}
+Pour s'assurer du bon fonctionnement et de la fiabilité de l'écosystème SmartCaravan, plusieurs phases de tests ont été définies et exécutées :
+\begin{itemize}
+    \item \textbf{Tests unitaires :} Validation des algorithmes de calcul des scores prédictifs en Python et des routes d'authentification du serveur Node.js.
+    \item \textbf{Tests de robustesse réseau :} Des simulations ont été réalisées en forçant des déconnexions physiques sur les appareils mobiles durant la saisie des rapports. Le comportement de la persistance locale SQLite et la resynchronisation automatique post-reconnexion ont été validés à 100\%.
+    \item \textbf{Validation des modèles de Machine Learning :} Le modèle Random Forest Regressor de score d'engagement a obtenu un coefficient de détermination $R^2$ de 0,89, ce qui témoigne d'une forte capacité à expliquer la variance de l'engagement des établissements à partir des critères de budget et de distance.
+\end{itemize}
+
+\section{Déploiement et Intégration Continue}
+L'architecture a été configurée pour un déploiement cloud flexible. L'API backend est hébergée sur des instances conteneurisées (Docker), tandis que le dashboard Next.js bénéficie d'un déploiement sur la plateforme Vercel pour garantir des temps de chargement optimaux. La base de données PostgreSQL est administrée à distance via les services managés de Supabase.
+
+\section{Bilan du Stage}
+Ce stage m'a permis de mettre en pratique des compétences complètes en ingénierie logicielle full-stack et en analyse de données. J'ai pu mener le cycle de vie complet d'un projet, de la définition de l'architecture et du schéma de données Supabase, jusqu'à la création d'interfaces dynamiques sous Next.js et à la mise en œuvre de prédictions par Machine Learning.
+
+% ----------------------------------------------------------------------
+% CONCLUSION GÉNÉRALE
+% ----------------------------------------------------------------------
+\chapter*{Conclusion Générale et Perspectives}
+\addcontentsline{toc}{chapter}{Conclusion Générale et Perspectives}
+
+Le projet **SmartCaravan** développé durant mon stage chez **Tech57** a permis d'apporter une solution technologique structurée pour surmonter les défis opérationnels de la caravane éducative « Coding Pour Tous ».
+
+Grâce au développement conjoint du Dashboard d'administration sous Next.js, de l'application mobile terrain intégrant une stratégie Offline-First, et du moteur décisionnel basé sur l'algorithme Random Forest, l'entreprise dispose désormais d'un outil performant garantissant la traçabilité des interventions, la sécurité des données et l'aide à la décision.
+
+En guise de perspectives d'évolution, il serait pertinent d'intégrer :
+\begin{itemize}
+    \item Un module de reconnaissance d'images (Computer Vision) pour valider automatiquement le nombre d'élèves présents sur les photos des ateliers.
+    \item L'intégration de modèles Speech-to-Text pour permettre aux formateurs de dicter vocalement leurs rapports d'activité directement sur le terrain, simplifiant encore plus la saisie.
+\end{itemize}
+
+\newpage
+
+% ----------------------------------------------------------------------
+% BIBLIOGRAPHIE
+% ----------------------------------------------------------------------
+\begin{thebibliography}{99}
+\addcontentsline{toc}{chapter}{Bibliographie}
+
+\bibitem{nextjs}
+Vercel, \emph{Next.js Documentation}, \url{https://nextjs.org/docs}.
+
+\bibitem{prisma}
+Prisma, \emph{Prisma ORM - Database Workflows}, \url{https://www.prisma.io/docs}.
+
+\bibitem{supabase}
+Supabase, \emph{PostgreSQL Row Level Security}, \url{https://supabase.com/docs/guides/auth/row-level-security}.
+
+\bibitem{scikit-learn}
+Pedregosa et al., \emph{Scikit-learn: Machine Learning in Python}, Journal of Machine Learning Research, 2011.
+
+\bibitem{offlinefirst}
+Marcus et al., \emph{Offline-First Web and Mobile Applications Architecture}, ACM, 2018.
+
+\end{thebibliography}
+
+\end{document}

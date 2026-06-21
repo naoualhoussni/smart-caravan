@@ -1,0 +1,198 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages indispensables
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+% Couleurs personnalisées (Thème SmartCaravan)
+\definecolor{techblue}{RGB}{14, 116, 219}
+\definecolor{darkslate}{RGB}{47, 54, 64}
+
+% Configuration des liens hypertexte
+\hypersetup{
+    colorlinks=true,
+    linkcolor=techblue,
+    urlcolor=techblue
+}
+
+% Personnalisation des titres
+\titleformat{\section}{\color{techblue}\Large\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}{\color{darkslate}\large\bfseries}{\thesubsection.}{1em}{}
+
+\begin{document}
+
+% -------------------------
+% PAGE DE GARDE
+% -------------------------
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\Large \textbf{TECH-57}} \\[1cm]
+    
+    % Emplacement pour le logo (décommentez la ligne ci-dessous si vous avez l'image du logo dans le même dossier)
+    % \includegraphics[width=10cm]{votre_logo_smartcaravan.png} \\[1cm]
+    
+    \rule{\linewidth}{0.5mm} \\[0.5cm]
+    {\Huge \textbf{\color{techblue} SmartCaravan \{...\}}} \\[0.5cm]
+    {\Large Système Intelligent de Tracking et de Suivi\\[0.2cm] de la Caravane « Coding Pour Tous »} \\[0.4cm]
+    \rule{\linewidth}{0.5mm} \\[1.5cm]
+    
+    {\large \textbf{Dossier d'Architecture et de Conception}} \\[2cm]
+    
+    \vfill
+    
+    \begin{minipage}{0.4\textwidth}
+        \begin{flushleft} \large
+            \emph{Auteur :}\\
+            \textbf{Naoual HOUSSNI}
+        \end{flushleft}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.4\textwidth}
+        \begin{flushright} \large
+            \emph{Destinataire :}\\
+            \textbf{TECH-57}
+        \end{flushright}
+    \end{minipage}
+    
+    \vspace{2cm}
+    {\large \today}
+    
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% -------------------------
+% CONTENU DU RAPPORT
+% -------------------------
+
+\section{Analyse Générale du Projet}
+Le projet consiste à concevoir le cœur numérique de la caravane éducative \textbf{« Coding Pour Tous »}. L'objectif principal est de moderniser le suivi des activités terrains en passant d'une gestion manuelle à un écosystème digital centralisé garantissant la traçabilité en temps réel, l'analyse d'impact et l'automatisation des tâches opérationnelles.
+
+La solution s'articule autour de trois piliers fondamentaux :
+\begin{itemize}
+    \item \textbf{Un outil de pilotage (Dashboard Web) :} Permettant à la direction et aux coordinateurs de planifier les caravanes, gérer les affectations et visualiser les statistiques en temps réel.
+    \item \textbf{Un outil de collecte (App Mobile Terrain) :} Destiné aux formateurs pour certifier leur présence par géolocalisation (GPS), remonter les preuves d'activité (photos/vidéos), et saisir les bilans d'intervention.
+    \item \textbf{Une couche d'Intelligence Artificielle :} Agissant comme un assistant pour analyser les données collectées (Computer Vision), faciliter la saisie (Speech-to-Text) et générer automatiquement des rapports de performance.
+\end{itemize}
+
+\section{Propositions d'Amélioration (Valeur Ajoutée)}
+Au-delà des spécifications initiales du cahier des charges, je propose d'intégrer les éléments suivants pour garantir la robustesse et la conformité du système :
+
+\begin{itemize}
+    \item \textbf{Stratégie "Offline-First" Avancée :} Implémentation d'une base de données locale (type SQLite/WatermelonDB) sécurisée sur l'application mobile. Les formateurs pourront utiliser l'application (pointage, rapports) même sans réseau. La synchronisation avec le serveur central s'effectuera automatiquement dès qu'une connexion internet sera détectée.
+    \item \textbf{Conformité et Gestion des Consentements (RGPD/CNDP) :} Puisque l'application traitera des données de géolocalisation et des images de mineurs, l'intégration d'un module de signature électronique de consentement dans l'application mobile est indispensable pour protéger l'organisation sur le plan juridique.
+    \item \textbf{Optimisation des Médias :} Compression automatique des photos et vidéos directement sur le smartphone avant l'envoi vers le cloud, afin d'économiser la bande passante dans les zones rurales où la couverture réseau est instable.
+    \item \textbf{Gamification :} Intégration d'un système de badges ou d'objectifs pour les formateurs sur l'application mobile afin de stimuler leur engagement et la régularité de leurs retours terrain.
+\end{itemize}
+
+\section{Technologies Recommandées}
+Afin d'optimiser les temps de développement et de faciliter la maintenance future, je recommande une architecture \textbf{Full-Stack JavaScript/TypeScript}. Cette approche permet de mutualiser les compétences et de maintenir une base de code cohérente.
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabularx}{\textwidth}{@{} l X @{}}
+\toprule
+\textbf{Composant} & \textbf{Technologie Recommandée \& Justification} \\
+\midrule
+\textbf{Frontend (Web)} & \textbf{Next.js (React) + Tailwind CSS} : Standard de l'industrie, création rapide d'interfaces riches, réactives, et excellentes performances de rendu. \\
+\textbf{Mobile (Terrain)} & \textbf{React Native (Expo)} : Permet de compiler l'application pour Android et iOS avec le même code source JavaScript. Dispose d'une excellente gestion du cache et du mode hors-ligne. \\
+\textbf{Backend (API)} & \textbf{Node.js (Express ou NestJS)} : Architecture non-bloquante idéale pour gérer les requêtes concurrentes importantes (pointages GPS simultanés). \\
+\textbf{Base de Données} & \textbf{PostgreSQL} : Moteur SQL relationnel robuste, parfait pour gérer les entités fortement liées (Caravane $\rightarrow$ Province $\rightarrow$ École $\rightarrow$ Formateur). \\
+\textbf{Stockage Cloud} & \textbf{AWS S3 ou Cloudinary} : Service Cloud sécurisé et évolutif pour stocker les fichiers lourds (médias et signatures numériques). \\
+\textbf{Module IA} & \textbf{OpenAI API + Python} : Utilisation de l'API Whisper pour la transcription vocale et GPT-4 pour les rapports. Un microservice Python (FastAPI) sera utilisé pour les algorithmes spécifiques de Computer Vision. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Architecture Technique Proposée}
+Le système reposera sur une architecture orientée services (\textbf{API RESTful} sécurisée).
+
+\begin{itemize}
+    \item Les applications Web (Next.js) et Mobile (React Native) communiquent avec le Backend Node.js via des requêtes HTTP chiffrées et sécurisées par des tokens JWT (JSON Web Tokens).
+    \item Le Backend interroge la base de données PostgreSQL pour les données structurées et délègue le stockage des fichiers lourds à l'infrastructure S3.
+    \item Pour les fonctionnalités intelligentes, le Backend sert de "Proxy" pour interroger les services d'IA, garantissant ainsi que les clés d'API privées ne sont jamais exposées côté client.
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \resizebox{\textwidth}{!}{
+    \begin{tikzpicture}[
+        node distance = 1.5cm and 2.5cm,
+        box/.style = {rectangle, draw=darkslate, thick, fill=techblue!10, text width=3.5cm, align=center, rounded corners, minimum height=1.5cm, font=\sffamily\bfseries},
+        db/.style = {cylinder, draw=darkslate, thick, shape border rotate=90, aspect=0.25, fill=gray!20, text width=2.5cm, align=center, minimum height=1.5cm, font=\sffamily\bfseries},
+        service/.style = {rectangle, draw=darkslate, thick, fill=purple!10, text width=3cm, align=center, rounded corners, minimum height=1.5cm, font=\sffamily\bfseries},
+        arrow/.style = {draw=darkslate, -{Latex[length=3mm]}, thick}
+    ]
+        % Clients
+        \node [box] (web) {Dashboard Web \\ \small (Next.js)};
+        \node [box, below=of web] (mobile) {App Mobile \\ \small (React Native)};
+        
+        % Backend
+        \node [box, right=of web, yshift=-1.5cm, fill=techblue!30, minimum height=4.5cm] (api) {API Gateway \& \\ Backend Central \\ \small (Node.js)};
+        
+        % Infrastructure
+        \node [db, right=of api, yshift=2cm] (postgres) {PostgreSQL};
+        \node [service, right=of api] (s3) {Stockage S3 \\ \small (Médias)};
+        \node [service, right=of api, yshift=-2cm] (openai) {OpenAI API \\ \small (IA)};
+
+        % Connections
+        \draw [arrow, <->] (web.east) -- node[above, font=\scriptsize] {HTTPS / JWT} (api.west |- web.east);
+        \draw [arrow, <->] (mobile.east) -- node[below, font=\scriptsize] {HTTPS / JWT} (api.west |- mobile.east);
+        
+        \draw [arrow, <->] (api.east |- postgres.west) -- node[above, font=\scriptsize] {SQL} (postgres.west);
+        \draw [arrow, <->] (api.east) -- node[above, font=\scriptsize] {API} (s3.west);
+        \draw [arrow, <->] (api.east |- openai.west) -- node[below, font=\scriptsize] {REST} (openai.west);
+        
+    \end{tikzpicture}
+    }
+    \vspace{0.5cm}
+    \caption{Schéma d'architecture de l'écosystème SmartCaravan}
+    \label{fig:architecture}
+\end{figure}
+
+\section{Roadmap de Développement \& Estimation}
+La réalisation du projet est estimée à \textbf{16 semaines}, organisées selon une approche itérative :
+
+\begin{description}
+    \item[Phase 1 : Cadrage \& Conception (Semaines 1-2)] \hfill \\
+    Validation définitive de l'architecture, création du Modèle Conceptuel de Données (MCD) et maquettage (UI/UX) complet sur Figma.
+    
+    \item[Phase 2 : Développement du MVP Core (Semaines 3-8)] \hfill \\
+    Mise en place de l'API Node.js et du schéma PostgreSQL. Développement du Frontend Web (gestion des entités) et de l'application Mobile (Check-in/out GPS, upload de médias, mode offline basique).
+    
+    \item[Phase 3 : Intégration de l'Intelligence Artificielle (Semaines 9-12)] \hfill \\
+    Intégration du module Speech-to-Text pour la rédaction des rapports terrains. Mise en place du Dashboard Intelligent pour la détection d'anomalies et la génération de statistiques.
+    
+    \item[Phase 4 : Tests \& Recette (Semaines 13-14)] \hfill \\
+    Réalisation des tests de bout en bout, simulations de perte de couverture réseau sur mobile, corrections de bugs et optimisations de sécurité.
+    
+    \item[Phase 5 : Déploiement \& Formation (Semaines 15-16)] \hfill \\
+    Déploiement en production sur serveurs Cloud, rédaction de la documentation technique, et session de formation pour les coordinateurs.
+\end{description}
+
+\section{Recommandations Techniques et Organisationnelles}
+Pour assurer le succès et la scalabilité du projet, les méthodologies suivantes seront appliquées :
+\begin{itemize}
+    \item \textbf{Gestion de Projet Agile :} Utilisation du framework Scrum avec des itérations (Sprints) de 2 semaines, suivies de démonstrations régulières à l'équipe encadrante.
+    \item \textbf{Gestion des Versions :} Utilisation de \textbf{Git} (via GitHub ou GitLab) avec la convention GitFlow (séparation stricte des branches de développement et de production).
+    \item \textbf{Sécurité (RBAC) :} Implémentation d'un système de droits d'accès granulaires : un formateur n'a accès qu'aux données de sa caravane, tandis qu'un superviseur possède une vue transversale.
+    \item \textbf{CI/CD :} Mise en place d'une pipeline d'Intégration et de Déploiement Continus afin d'automatiser les tests de non-régression à chaque nouvelle fonctionnalité ajoutée.
+\end{itemize}
+
+\end{document}
