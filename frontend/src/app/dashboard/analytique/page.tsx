@@ -259,7 +259,7 @@ export default function AnalytiquePage() {
             <p className="text-xs text-slate-400 mb-4">3 clusters identifiés parmi les provinces</p>
             <ResponsiveContainer width="100%" height={220}>
               <PieChart>
-                <Pie data={clusterPieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}>
+                <Pie data={clusterPieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={(props: any) => `${((props.percent || 0) * 100).toFixed(0)}%`}>
                   {clusterPieData.map((entry, i) => (
                     <Cell key={i} fill={Object.values(CLUSTER_COLORS)[i] || '#94a3b8'} />
                   ))}
