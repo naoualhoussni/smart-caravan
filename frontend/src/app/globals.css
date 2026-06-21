@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #F8F9FC;
+  --foreground: #0B2B5B;
+  --brand-blue: #0B2B5B;
+  --brand-green: #00B4A0;
+  --brand-white: #F8F9FC;
+  --brand-gray: #E2E8F0;
+  --card: #ffffff;
+  --card-foreground: #0B2B5B;
+  --popover: #ffffff;
+  --popover-foreground: #0B2B5B;
+  --primary: #0B2B5B;
+  --primary-foreground: #F8F9FC;
+  --secondary: #00B4A0;
+  --secondary-foreground: #ffffff;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #00B4A0;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --destructive-foreground: #f8fafc;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #0B2B5B;
+  --radius: 1rem;
+}
+
+/* ════════════════════════════════════════════
+   MODE SOMBRE — Overrides complets
+   ════════════════════════════════════════════ */
+.dark {
+  --background: #0F172A;
+  --foreground: #F1F5F9;
+  --brand-blue: #38BDF8;
+  --brand-green: #2DD4BF;
+  --brand-gray: #1E293B;
+  --card: #1E293B;
+  --card-foreground: #F1F5F9;
+  --popover: #1E293B;
+  --popover-foreground: #F1F5F9;
+  --primary: #2DD4BF;
+  --primary-foreground: #0F172A;
+  --secondary: #334155;
+  --secondary-foreground: #F1F5F9;
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+  --accent: #2DD4BF;
+  --accent-foreground: #0F172A;
+  --destructive: #ef4444;
+  --destructive-foreground: #f8fafc;
+  --border: #334155;
+  --input: #1E293B;
+  --ring: #2DD4BF;
+}
+
+/* ────────────────────────────────────────────
+   Overrides globaux pour toutes les pages
+   sans avoir à modifier chaque composant
+   ──────────────────────────────────────────── */
+
+/* Fond principal */
+.dark body,
+.dark main {
+  background-color: #0F172A !important;
+  color: #F1F5F9 !important;
+}
+
+/* Toutes les cartes blanches → slate-800 */
+.dark .bg-white {
+  background-color: #1E293B !important;
+  color: #F1F5F9 !important;
+}
+
+/* Fonds clairs → slate-800 */
+.dark .bg-\[#F8F9FC\],
+.dark .bg-slate-50,
+.dark .bg-gray-50 {
+  background-color: #0F172A !important;
+}
+
+/* Muted backgrounds */
+.dark .bg-muted\/30,
+.dark .bg-muted\/10,
+.dark .bg-muted\/60 {
+  background-color: rgba(30, 41, 59, 0.5) !important;
+}
+
+/* Textes bleu foncé → clair */
+.dark .text-\[\#0B2B5B\] {
+  color: #38BDF8 !important;
+}
+
+/* Textes muted */
+.dark .text-slate-500,
+.dark .text-slate-600 {
+  color: #94A3B8 !important;
+}
+
+/* Bordures */
+.dark .border-border,
+.dark .border-slate-100,
+.dark .border-slate-200 {
+  border-color: #334155 !important;
+}
+
+/* Tableaux */
+.dark .bg-slate-50\/70,
+.dark .bg-muted\/10 {
+  background-color: rgba(51, 65, 85, 0.3) !important;
+}
+
+/* Badges et pills */
+.dark .bg-muted {
+  background-color: #334155 !important;
+  color: #CBD5E1 !important;
+}
+
+/* Inputs et selects */
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: #1E293B !important;
+  color: #F1F5F9 !important;
+  border-color: #334155 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748B !important;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-green: var(--brand-green);
+  --color-brand-white: var(--brand-white);
+  --color-brand-gray: var(--brand-gray);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --font-sans: var(--font-poppins);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 shadow-xl;
+  }
+  .glass-dark {
+    @apply bg-black/20 backdrop-blur-md border border-white/10 shadow-xl;
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-blue via-brand-green to-brand-green;
+  }
+}
