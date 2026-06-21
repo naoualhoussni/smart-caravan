@@ -110,7 +110,7 @@ export default function EquipesPage() {
     }
   };
 
-  const [teamMembersMap, setTeamMembersMap] = useState<Record<string, number[]>>({});
+  const [teamMembersMap, setTeamMembersMap] = useState<Record<string, (string | number)[]>>({});
 
   const toggleMember = async (teamId: string, memberId: string | number) => {
     setTeamMembersMap(prev => {
