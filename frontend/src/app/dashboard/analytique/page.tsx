@@ -559,7 +559,7 @@ export default function AnalytiquePage() {
                       cx="50%"
                       cy="50%"
                       outerRadius={75}
-                      label={({ role, percent }) => `${role.split(' ')[0]} (${(percent * 100).toFixed(0)}%)`}
+                      label={(props: any) => `${(props.role || '').split(' ')[0]} (${((props.percent || 0) * 100).toFixed(0)}%)`}
                     >
                       {liveData.charts.roles_formateurs.map((entry: any, i: number) => (
                         <Cell key={i} fill={THEME_COLORS[i % THEME_COLORS.length]} />
