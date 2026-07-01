@@ -50,8 +50,16 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#F8F9FC]/80 backdrop-blur-md px-6 py-4 md:px-12">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
-          <img src="/logo.png" alt="Coding Pour Tous" className="h-12 w-auto mix-blend-multiply" />
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-[#0B2B5B] rounded-lg flex items-center justify-center shadow-md">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+          </div>
+          <span className="text-xl font-black tracking-tight text-[#0B2B5B]">SmartCaravan<span className="text-[#00B4A0]">.</span></span>
         </Link>
 
         {/* Desktop Nav */}

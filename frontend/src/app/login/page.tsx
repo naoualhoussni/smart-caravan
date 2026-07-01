@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Lock, ArrowRight, ShieldCheck, Globe, Truck, Map, Users } from "lucide-react";
+import { Mail, Lock, ArrowRight, ShieldCheck, Globe, Truck } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
@@ -47,95 +47,35 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row">
-      {/* Left Panel - Branding & Visuals */}
-      <div className="hidden md:flex md:w-1/2 bg-[#0B2B5B] relative overflow-hidden flex-col justify-between p-12 text-white">
-        {/* Background decorative elements */}
-        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-500/30 rounded-full blur-3xl" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-[#00B4A0]/30 rounded-full blur-3xl" />
-        
-        <div className="relative z-10">
-          <Link href="/" className="inline-flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#00B4A0] rounded-xl flex items-center justify-center shadow-lg shadow-[#00B4A0]/30">
-              <Truck size={22} className="text-white" />
+    <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 relative overflow-hidden pt-24">
+      {/* Background Blobs */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0B2B5B]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#00B4A0]/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-md relative z-10"
+      >
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 mb-6 group bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
+            <div className="w-8 h-8 bg-[#0B2B5B] rounded-lg flex items-center justify-center shadow-md">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="1" y="3" width="15" height="13"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              </svg>
             </div>
-            <span className="text-2xl font-black tracking-tight text-white">SmartCaravan<span className="text-[#00B4A0]">.</span></span>
-          </Link>
-        </div>
-
-        <div className="relative z-10 max-w-lg mt-20">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-5xl font-black leading-tight mb-6"
-          >
-            Gérez vos interventions logistiques avec <span className="text-[#00B4A0]">l'IA</span>.
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-indigo-200 text-lg mb-10"
-          >
-            Plateforme complète pour les formateurs et les administrateurs de Coding Pour Tous. Optimisez les tournées, anticipez les risques et suivez vos équipes en temps réel.
-          </motion.p>
-
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex gap-6"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md">
-                <Map className="text-[#00B4A0]" size={20} />
-              </div>
-              <div>
-                <div className="font-bold">Déploiement</div>
-                <div className="text-xs text-indigo-300">National</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md">
-                <Users className="text-[#00B4A0]" size={20} />
-              </div>
-              <div>
-                <div className="font-bold">Gestion</div>
-                <div className="text-xs text-indigo-300">Équipes</div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        <div className="relative z-10 mt-auto pt-10 text-sm text-indigo-300 font-medium">
-          © {new Date().getFullYear()} Coding Pour Tous. Tous droits réservés.
-        </div>
-      </div>
-
-      {/* Right Panel - Login Form */}
-      <div className="w-full md:w-1/2 flex items-center justify-center p-6 sm:p-12 relative bg-white">
-        
-        {/* Mobile Header (visible only on small screens) */}
-        <div className="md:hidden absolute top-6 left-6 flex items-center gap-2">
-          <div className="w-8 h-8 bg-[#0B2B5B] rounded-lg flex items-center justify-center">
-            <Truck size={16} className="text-white" />
+            <span className="text-xl font-black tracking-tight text-[#0B2B5B]">SmartCaravan<span className="text-[#00B4A0]">.</span></span>
           </div>
-          <span className="text-xl font-black tracking-tight text-[#0B2B5B]">SmartCaravan</span>
+          <h1 className="text-3xl font-black mb-2 text-[#0B2B5B]">Bon retour 👋</h1>
+          <p className="text-slate-500 font-medium">Connectez-vous pour piloter votre caravane.</p>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          className="w-full max-w-md"
-        >
-          <div className="mb-10">
-            <h2 className="text-3xl font-black text-[#0B2B5B] mb-2">Bon retour 👋</h2>
-            <p className="text-slate-500 font-medium">Connectez-vous à votre espace personnel.</p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="bg-white/80 backdrop-blur-md p-8 rounded-[32px] shadow-xl border border-white">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
               <label className="text-sm font-bold text-slate-700 ml-1">
                 Adresse Email
@@ -197,7 +137,7 @@ const LoginPage = () => {
             <button
               disabled={isLoading}
               type="submit"
-              className="w-full py-4 mt-4 bg-[#0B2B5B] text-white rounded-xl font-black flex items-center justify-center gap-2 hover:bg-[#082045] hover:shadow-lg hover:shadow-[#0B2B5B]/20 transition-all duration-300 group disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full py-4 bg-[#0B2B5B] text-white rounded-xl font-black flex items-center justify-center gap-2 hover:bg-[#082045] hover:shadow-lg hover:shadow-[#0B2B5B]/20 transition-all duration-300 group disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -215,7 +155,7 @@ const LoginPage = () => {
               <div className="w-full border-t border-slate-200"></div>
             </div>
             <div className="relative flex justify-center text-xs uppercase tracking-widest font-bold">
-              <span className="bg-white px-4 text-slate-400">Ou</span>
+              <span className="bg-white/80 backdrop-blur-md px-4 text-slate-400">Ou</span>
             </div>
           </div>
 
@@ -227,22 +167,22 @@ const LoginPage = () => {
             <Globe size={18} className="text-slate-500" />
             Continuer avec Google
           </button>
+        </div>
 
-          <p className="text-center mt-8 text-sm text-slate-500 font-medium">
-            Pas encore de compte ?{" "}
-            <Link href="#" className="text-[#00B4A0] font-bold hover:underline">
-              Contactez l'admin
-            </Link>
-          </p>
+        <p className="text-center mt-8 text-sm text-slate-500 font-medium">
+          Pas encore de compte ?{" "}
+          <Link href="#" className="text-[#00B4A0] font-bold hover:underline">
+            Contactez l'admin
+          </Link>
+        </p>
 
-          <div className="mt-12 flex justify-center">
-             <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1.5 rounded-full border border-slate-100">
-                <ShieldCheck size={14} className="text-[#00B4A0]" />
-                <span>Connexion Chiffrée</span>
-             </div>
-          </div>
-        </motion.div>
-      </div>
+        <div className="mt-8 flex justify-center">
+           <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-white/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-slate-100">
+              <ShieldCheck size={14} className="text-[#00B4A0]" />
+              <span>Connexion Chiffrée</span>
+           </div>
+        </div>
+      </motion.div>
     </div>
   );
 };
