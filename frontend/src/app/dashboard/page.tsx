@@ -97,9 +97,9 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Utilise la variable d'env pour éviter l'URL codée en dur
-        const ML_API = process.env.NEXT_PUBLIC_ML_API_URL || "http://localhost:8000";
-        const res = await fetch(`${ML_API}/analytics/real-overview`);
+        // Appel via le proxy serveur Next.js — évite l'erreur ERR_CONNECTION_REFUSED
+        // côté navigateur. Le serveur Next.js se charge de contacter l'API Python.
+        const res = await fetch(`/api/ml-overview`);
         const data = await res.json();
         
         if (data.success) {
@@ -137,7 +137,7 @@ export default function DashboardPage() {
           setCaravanes([...caravansData, ...simulatedCaravans]);
         }
       } catch (error) {
-        console.error("Erreur récupération vraies données via Python:", error);
+        console.error("Erreur récupération données dashboard:", error);
       }
     };
 
