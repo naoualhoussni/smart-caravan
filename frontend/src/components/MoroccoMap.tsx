@@ -48,44 +48,53 @@ export default function MoroccoMap({ caravanes }: MoroccoMapProps) {
   // [PARTIE 1] Initialisation de la carte centrée sur le Maroc par défaut
   useEffect(() => {
     let L: any;
+    let initDone = false;
 
     const initMap = async () => {
       L = await import("leaflet");
       await import("leaflet/dist/leaflet.css");
+
+      // Guard: don't re-initialize and ensure the container exists in the DOM
       if (mapRef.current || !mapContainerRef.current) return;
 
+      // Patch the default icon BEFORE creating the map to avoid _initIcon crash
+      delete (L.Icon.Default.prototype as any)._getIconUrl;
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+        iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+        shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      });
+
       const map = L.map(mapContainerRef.current, {
-        center: [31.5, -6.5], // Centre Maroc par défaut
+        center: [31.5, -6.5],
         zoom: 5,
         zoomControl: true,
         scrollWheelZoom: false,
       });
       mapRef.current = map;
-      
-      // Fix for Leaflet default icon error in Next.js
-      delete (L.Icon.Default.prototype as any)._getIconUrl;
-      L.Icon.Default.mergeOptions({
-        iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-        iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-        shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-      });
 
       L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+        attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> &copy; <a href='https://carto.com/'>CARTO</a>",
         subdomains: "abcd",
         maxZoom: 18,
       }).addTo(map);
 
-      addMarkers(L, map, caravanes);
-
-      // [PARTIE 2] Géolocalisation automatique au chargement
-      // L'API navigator.geolocation demande l'autorisation du navigateur
-      // Si accordée, on place un marqueur sur la vraie position du formateur
-      locateUser(L, map);
+      // [CRITICAL FIX] Defer all marker operations until after Leaflet has fully
+      // initialized its internal DOM panes (markerPane, shadowPane, etc.).
+      // Calling marker.addTo(map) synchronously after L.map() can crash because
+      // Leaflet's _initPanes() hasn't run yet in some environments (Next.js/SSR).
+      setTimeout(() => {
+        if (!mapRef.current || initDone) return;
+        initDone = true;
+        map.invalidateSize(); // Ensure map container dimensions are computed
+        addMarkers(L, map, caravanes);
+        locateUser(L, map);
+      }, 100);
     };
 
     initMap();
     return () => {
+      initDone = true; // Prevent deferred callbacks from running after unmount
       if (mapRef.current) { mapRef.current.remove(); mapRef.current = null; }
     };
   }, []);
