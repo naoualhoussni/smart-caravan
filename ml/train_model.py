@@ -43,8 +43,10 @@ def train():
     print("   -> Encodage terminé.")
 
     # 4. Définition des features (on exclut toujours 'nom_etablissement_enc')
+    # IMPORTANT : les noms de colonnes encodées doivent correspondre exactement
+    # à ce que le LabelEncoder génère via df[f'{col}_enc'] ci-dessus
     FEATURES = [
-        'province_enc', 'type_zone_enc', 'type_etab_enc',
+        'province_enc', 'type_zone_enc', 'type_etablissement_enc',  # ← correction bug : était 'type_etab_enc'
         'nb_eleves', 'mois_depuis_derniere_visite',
         'theme_enc', 'saison_enc', 'jour_enc',
         'distance_km', 'budget_mad'
@@ -52,8 +54,7 @@ def train():
     X = df[FEATURES]
     y_eng = df['score_engagement']
     y_risk = df['risque_logistique']
-    print(y_risk)
-    exit()
+
     print(f"\n4. Features utilisées : {FEATURES}")
 
     # --- 5. Évaluation HONNÊTE via Cross-Validation (5-fold) ---

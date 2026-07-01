@@ -60,13 +60,8 @@ const LoginPage = () => {
         className="w-full max-w-md relative z-10"
       >
         <div className="text-center mb-10">
-          <Link href="/" className="inline-flex items-center justify-center mb-6 group">
-            {/* Ligne commentée temporairement car le fichier image est absent sur le disque */}
-            {/* <Image src="/logo.png" alt="Coding Pour Tous" width={220} height={80} className="object-contain group-hover:scale-105 transition-transform duration-300" /> */}
-            <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm mx-auto mb-4 border border-white/30">
-              <Code2 size={32} className="text-white" />
-            </div>
-            <span className="text-4xl font-black text-white tracking-tight">Smart<span className="text-teal-400">Caravan</span></span>
+          <Link href="/" className="inline-flex items-center justify-center mb-6 group bg-white p-3 rounded-2xl shadow-sm border border-slate-100">
+            <Image src="/logo.png" alt="Coding Pour Tous" width={220} height={90} className="object-contain group-hover:scale-105 transition-transform duration-300 mix-blend-multiply" />
           </Link>
           <h1 className="text-3xl font-black mb-2">Bon retour parmi nous</h1>
           <p className="text-muted-foreground font-medium">Connectez-vous pour piloter votre caravane.</p>

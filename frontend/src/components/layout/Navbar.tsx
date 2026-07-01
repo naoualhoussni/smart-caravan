@@ -50,8 +50,8 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#F8F9FC]/80 backdrop-blur-md px-6 py-4 md:px-12">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="text-2xl font-black text-[#0B2B5B] tracking-tight">
-          SmartCaravan
+        <Link href="/" className="flex items-center gap-3">
+          <img src="/logo.png" alt="Coding Pour Tous" className="h-12 w-auto mix-blend-multiply" />
         </Link>
 
         {/* Desktop Nav */}

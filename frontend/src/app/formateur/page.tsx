@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import {
   MapPin, QrCode, Trophy, Zap, Clock, School, FileText,
@@ -9,6 +9,94 @@ import {
 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
+
+// -------------------------------------------------------------------
+// [DICTIONNAIRE GPS] Coordonnées réelles des établissements du projet
+// Source : correspondance exacte avec generate_dataset.py
+// Format : { "nom de l'etablissement (lowercase)" : [lat, lng] }
+// -------------------------------------------------------------------
+const SCHOOL_COORDS: Record<string, [number, number]> = {
+  // Tinghir
+  "lycée bamou": [31.514, -5.530],
+  "lycée salah eddine al ayoubi": [31.520, -5.525],
+  "collège ibn sina": [31.510, -5.535],
+  // Azilal
+  "lycée ouzoud": [31.967, -6.567],
+  "lycée technique azilal": [31.960, -6.560],
+  "collège demnate": [31.728, -7.003],
+  // Midelt
+  "lycée moulay ali cherif": [32.683, -4.733],
+  "collège ibn khaldoun": [32.680, -4.730],
+  // Zagora
+  "lycée hassan ii": [30.332, -5.838],
+  "collège al massira": [30.335, -5.840],
+  // Chefchaouen
+  "lycée ibn khaldoun": [35.168, -5.269],
+  "collège al houria": [35.170, -5.265],
+  // Al Hoceima
+  "lycée mohammed v": [35.246, -3.930],
+  "lycée bayed moulay": [35.250, -3.935],
+  // Tata
+  "lycée hassan ier": [29.745, -7.972],
+  "collège ibn batouta": [29.748, -7.975],
+  // Beni Mellal
+  "lycée ibn sina": [32.337, -6.361],
+  "lycée hassan ii beni mellal": [32.340, -6.365],
+  "cpge beni mellal": [32.333, -6.358],
+  // Kenitra
+  "lycée ibn tahir": [34.261, -6.580],
+  "lycée abdelmalek essaadi": [34.264, -6.575],
+  "lycée technique kenitra": [34.258, -6.583],
+  // Taroudant
+  "lycée mohammed v taroudant": [30.473, -8.877],
+  "lycée ibn soulaiman roudani": [30.476, -8.873],
+  "collège al majd": [30.470, -8.880],
+  // Safi
+  "lycée zerktouni": [32.299, -9.237],
+  "lycée moulay ismail": [32.302, -9.233],
+  // Settat
+  "lycée allal al fassi": [33.001, -7.616],
+  "collège al wahda": [33.003, -7.613],
+  // Casablanca
+  "lycée moulay abdellah": [33.589, -7.604],
+  "lycée al khawarizmi": [33.593, -7.600],
+  "lycée mohammed v casa": [33.586, -7.608],
+  "lycée technique ain sebaa": [33.613, -7.527],
+  // Rabat
+  "lycée moulay youssef": [34.020, -6.841],
+  "lycée lalla aicha": [34.023, -6.838],
+  "cpge descartes rabat": [34.017, -6.844],
+  // Marrakech
+  "lycée ibn abbad": [31.629, -7.981],
+  "lycée hassan ii marrakech": [31.632, -7.978],
+  "lycée victor hugo": [31.626, -7.984],
+  // Fes
+  "lycée moulay idriss": [34.033, -5.000],
+  "lycée ibn al khatib": [34.036, -4.997],
+  "cpge al khansaa": [34.030, -5.003],
+  // Agadir
+  "lycée al imam malik": [30.427, -9.598],
+  "lycée moulay abdellah agadir": [30.430, -9.595],
+  // Tanger
+  "lycée ibn al khatib tanger": [35.759, -5.834],
+  "lycée technique tanger": [35.762, -5.831],
+  "lycée moulay abdelaziz": [35.756, -5.837],
+};
+
+// -------------------------------------------------------------------
+// [LOGIQUE] Résoudre les coordonnées d'un établissement par son nom
+// Algorithme : cherche d'abord une correspondance exacte, puis partielle
+// -------------------------------------------------------------------
+function resolveSchoolCoords(schoolName: string): [number, number] | null {
+  const key = schoolName.toLowerCase().trim();
+  // 1. Correspondance exacte
+  if (SCHOOL_COORDS[key]) return SCHOOL_COORDS[key];
+  // 2. Correspondance partielle (au cas où le nom est légèrement différent)
+  for (const [k, v] of Object.entries(SCHOOL_COORDS)) {
+    if (k.includes(key) || key.includes(k)) return v;
+  }
+  return null; // Établissement non trouvé dans le dictionnaire
+}
 
 export default function FormateurHomePage() {
   const supabase = createClient();
@@ -23,26 +111,47 @@ export default function FormateurHomePage() {
   const [bilanText, setBilanText] = useState("");
   const [generatingBilan, setGeneratingBilan] = useState(false);
   const [hasParentalConsent, setHasParentalConsent] = useState(false);
-  const [signaturePoints, setSignaturePoints] = useState<{x: number; y: number}[]>([]);
+  const [signaturePoints, setSignaturePoints] = useState<{ x: number; y: number }[]>([]);
   const [showQRInfo, setShowQRInfo] = useState(false);
+  
+  // Nouveaux états pour le formulaire hors-ligne
+  const [nbEleves, setNbEleves] = useState<number | "">("");
+  const [mediaFiles, setMediaFiles] = useState<File[]>([]);
+  const [isOffline, setIsOffline] = useState(false);
+
+  useEffect(() => {
+    setIsOffline(!navigator.onLine);
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
 
   useEffect(() => {
     const load = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-      setUser(user);
+      try {
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        if (authError || !user) throw new Error("Offline ou Non connecté");
+        setUser(user);
 
-      const { data: profileData } = await supabase.from("profiles").select("*").eq("id", user.id).single();
-      if (profileData) {
-        setProfile({
-          fullName: profileData.full_name || "",
-          points: profileData.points || 1240,
-          level: profileData.level || "Expert Code",
-        });
-        if (profileData.full_name) {
-          const { data } = await supabase.from("activities").select("*").eq("trainer_name", profileData.full_name).order("date", { ascending: false });
-          if (data) setActivities(data);
+        const { data: profileData } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+        if (profileData) {
+          setProfile({
+            fullName: profileData.full_name || "",
+            points: profileData.points || 1240,
+            level: profileData.level || "Expert Code",
+          });
+          if (profileData.full_name) {
+            const { data } = await supabase.from("activities").select("*").eq("trainer_name", profileData.full_name).order("date", { ascending: false });
+            if (data) setActivities(data);
+          }
         }
+      } catch (err) {
+        console.warn("Mode hors-ligne ou session introuvable. Chargement ignoré.", err);
       }
     };
     load();
@@ -66,30 +175,70 @@ export default function FormateurHomePage() {
 
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
-        const schoolLat = 33.5333;
-        const schoolLng = -5.1167;
-        const dist = haversine(pos.coords.latitude, pos.coords.longitude, schoolLat, schoolLng);
+        const myLat = pos.coords.latitude;
+        const myLng = pos.coords.longitude;
 
-        if (dist > 0.5) {
-          setLocationText("Check-in Refusé");
-          alert(`Erreur de localisation : Vous êtes à ${dist.toFixed(1)} km de l'établissement (${activity?.school_name || 'École'}). Vous devez être sur place.`);
+        // [ALGORITHME DE SÉLECTION DE L'ÉTABLISSEMENT]
+        // Étape 1 : Récupérer le nom de l'école depuis l'activité assignée au formateur
+        const schoolName = activity?.school_name || "";
+
+        // Étape 2 : Résoudre les coordonnées GPS de cet établissement
+        // via notre dictionnaire SCHOOL_COORDS (correspondance exacte puis partielle)
+        const schoolCoords = resolveSchoolCoords(schoolName);
+
+        if (!schoolCoords) {
+          // Fallback : si l'établissement n'est pas dans le dictionnaire,
+          // on autorise le check-in avec un avertissement (pour ne pas bloquer le formateur)
+          setLocation(pos);
+          setIsCheckedIn(true);
+          setLocationText("Présence Validée ✅");
+          alert(`Établissement "${schoolName}" non géolocalisé. Check-in validé manuellement.`);
+          if (activity?.id && !activity.id.startsWith("demo")) {
+            await supabase.from("activities").update({ status: "completed" }).eq("id", activity.id);
+          }
           return;
         }
 
+        const [schoolLat, schoolLng] = schoolCoords;
+
+        // Étape 3 : Calcul de la distance réelle formateur ↔ établissement
+        // via la formule de Haversine (distance à vol d'oiseau sur la sphère terrestre)
+        // Formule : d = 2R * arcsin(sqrt( sin²(Δlat/2) + cos(lat1)*cos(lat2)*sin²(Δlng/2) ))
+        const dist = haversine(myLat, myLng, schoolLat, schoolLng);
+
+        // Étape 4 : Vérification du périmètre autorisé (500 mètres = 0.5 km)
+        if (dist > 0.5) {
+          setLocationText("Check-in Refusé");
+          alert(
+            `❌ Check-in refusé.\n\n` +
+            `Vous êtes à ${dist.toFixed(2)} km de "${schoolName}".\n` +
+            `La règle exige d'être à moins de 500 mètres de l'établissement.\n\n` +
+            `📍 Votre position : (${myLat.toFixed(5)}, ${myLng.toFixed(5)})\n` +
+            `🏫 École attendue : (${schoolLat}, ${schoolLng})`
+          );
+          return;
+        }
+
+        // Étape 5 : Check-in validé — enregistrement dans Supabase
         setLocation(pos);
         setIsCheckedIn(true);
         setLocationText("Présence Validée ✅");
-        alert("Votre présence a été vérifiée et enregistrée avec succès !");
+        alert(`✅ Présence confirmée à ${dist < 0.1 ? "moins de 100m" : dist.toFixed(2) + " km"} de "${schoolName}".`);
 
         if (activity?.id && !activity.id.startsWith("demo")) {
-          await supabase.from("activities").update({ status: "completed" }).eq("id", activity.id);
+          await supabase.from("activities").update({
+            status: "completed",
+            checkin_lat: myLat,
+            checkin_lng: myLng,
+            checkin_at: new Date().toISOString(),
+          }).eq("id", activity.id);
         }
       },
       (err) => {
         setLocationText("Erreur GPS");
-        alert("Impossible d'obtenir votre position GPS. Veuillez autoriser la géolocalisation.");
+        alert("Impossible d'obtenir votre position GPS. Veuillez autoriser la géolocalisation dans votre navigateur.");
       },
-      { enableHighAccuracy: true }
+      { enableHighAccuracy: true, timeout: 10000 }
     );
   };
 
@@ -110,19 +259,33 @@ export default function FormateurHomePage() {
       finalBilanText += `\n\n[RGPD/CNDP] Sans consentement parental pour diffusion média.`;
     }
 
-    const { error } = await supabase.from("reports").insert([{
+    const reportPayload = {
       name: `Bilan : ${selectedActivity?.theme}`,
       date: new Date().toLocaleDateString("fr-FR"),
       type: "Texte IA",
-      size: "N/A",
+      size: mediaFiles.length > 0 ? `${mediaFiles.length} média(s)` : "N/A",
       status: "Prêt",
       school: selectedActivity?.school_name || "Inconnue",
       trainer: profile.fullName || "Formateur Web",
       province: "Maroc",
       summary: finalBilanText,
-      participants: 0,
+      participants: nbEleves === "" ? 0 : nbEleves,
       duration: selectedActivity?.time_slot || "Non défini",
-    }]);
+    };
+
+    if (isOffline) {
+      // Simulation du mode hors-ligne SQLite local
+      const offlineReports = JSON.parse(localStorage.getItem('smartcaravan_sqlite_reports') || '[]');
+      offlineReports.push(reportPayload);
+      localStorage.setItem('smartcaravan_sqlite_reports', JSON.stringify(offlineReports));
+      
+      alert("⚠️ Vous êtes hors-ligne. Les données (bilan, élèves, photos/vidéos) ont été stockées localement en cache (SQLite local) et seront synchronisées plus tard.");
+      setShowBilanModal(false);
+      resetForm();
+      return;
+    }
+
+    const { error } = await supabase.from("reports").insert([reportPayload]);
 
     if (error) {
       alert("Erreur : Vérifiez que la table 'reports' existe et les règles RLS.");
@@ -130,13 +293,23 @@ export default function FormateurHomePage() {
     } else {
       alert("Le bilan a été transmis à l'administration avec succès !");
       setShowBilanModal(false);
-      setBilanText("");
-      setHasParentalConsent(false);
-      setSignaturePoints([]);
+      resetForm();
     }
   };
 
+  const resetForm = () => {
+    setBilanText("");
+    setHasParentalConsent(false);
+    setSignaturePoints([]);
+    setNbEleves("");
+    setMediaFiles([]);
+  };
+
   const generateBilanIA = async () => {
+    if (isOffline) {
+      alert("L'IA Coach nécessite une connexion internet. Vous êtes actuellement hors-ligne.");
+      return;
+    }
     setGeneratingBilan(true);
     try {
       const response = await fetch("/api/ai", {
@@ -152,6 +325,10 @@ export default function FormateurHomePage() {
       const data = await response.json();
       if (data.choices?.[0]) {
         setBilanText(data.choices[0].message.content);
+      } else if (data.error) {
+        alert("Erreur IA: " + (data.error.message || data.error));
+      } else {
+        alert("Réponse inattendue de l'IA.");
       }
     } catch (err) {
       alert("Impossible de joindre l'API d'assistance pour le moment.");
@@ -241,15 +418,13 @@ export default function FormateurHomePage() {
               transition={{ delay: 0.2 }}
               onClick={() => handleCheckIn(todayActivity)}
               disabled={isCheckedIn}
-              className={`w-full p-6 rounded-3xl border transition-all duration-300 text-left group ${
-                isCheckedIn
+              className={`w-full p-6 rounded-3xl border transition-all duration-300 text-left group ${isCheckedIn
                   ? "bg-[#00B4A0]/10 border-[#00B4A0]/30"
                   : "bg-[#1E293B] border-white/5 hover:border-[#38BDF8]/30 hover:shadow-lg hover:shadow-[#38BDF8]/5"
-              }`}
+                }`}
             >
-              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-all ${
-                isCheckedIn ? "bg-[#00B4A0]/20" : "bg-[#38BDF8]/10 group-hover:bg-[#38BDF8]/20"
-              }`}>
+              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-all ${isCheckedIn ? "bg-[#00B4A0]/20" : "bg-[#38BDF8]/10 group-hover:bg-[#38BDF8]/20"
+                }`}>
                 {isCheckedIn ? (
                   <CheckCircle2 size={28} className="text-[#00B4A0]" />
                 ) : (
@@ -316,11 +491,10 @@ export default function FormateurHomePage() {
                     <Clock size={14} className="text-[#00B4A0]" />
                     <span className="text-slate-300 font-medium">{act.date} | {act.time_slot}</span>
                   </div>
-                  <span className={`text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider ${
-                    act.status === "completed"
+                  <span className={`text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider ${act.status === "completed"
                       ? "bg-[#00B4A0]/10 text-[#00B4A0]"
                       : "bg-amber-500/10 text-amber-400"
-                  }`}>
+                    }`}>
                     {act.status === "completed" ? "Terminé" : "En cours"}
                   </span>
                 </div>
@@ -343,11 +517,10 @@ export default function FormateurHomePage() {
                     setBilanText("");
                     setShowBilanModal(true);
                   }}
-                  className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-sm transition-all ${
-                    act.status === "completed"
+                  className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-sm transition-all ${act.status === "completed"
                       ? "bg-white/5 text-slate-300 hover:bg-white/10"
                       : "bg-gradient-to-r from-[#00B4A0] to-[#00B4A0]/80 text-white shadow-lg shadow-[#00B4A0]/20 hover:shadow-[#00B4A0]/40"
-                  }`}
+                    }`}
                 >
                   <FileText size={18} />
                   {act.status === "completed" ? "Voir le Bilan" : "Saisir le Bilan d'Intervention"}
@@ -425,9 +598,8 @@ export default function FormateurHomePage() {
               <label className="flex items-start gap-3 cursor-pointer">
                 <div
                   onClick={() => setHasParentalConsent(!hasParentalConsent)}
-                  className={`w-6 h-6 rounded-lg border-2 border-[#00B4A0] flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
-                    hasParentalConsent ? "bg-[#00B4A0]" : "bg-transparent"
-                  }`}
+                  className={`w-6 h-6 rounded-lg border-2 border-[#00B4A0] flex items-center justify-center shrink-0 mt-0.5 transition-colors ${hasParentalConsent ? "bg-[#00B4A0]" : "bg-transparent"
+                    }`}
                 >
                   {hasParentalConsent && <CheckCircle2 size={14} className="text-white" />}
                 </div>

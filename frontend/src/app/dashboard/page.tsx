@@ -97,7 +97,9 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch("http://localhost:8000/analytics/real-overview");
+        // Utilise la variable d'env pour éviter l'URL codée en dur
+        const ML_API = process.env.NEXT_PUBLIC_ML_API_URL || "http://localhost:8000";
+        const res = await fetch(`${ML_API}/analytics/real-overview`);
         const data = await res.json();
         
         if (data.success) {

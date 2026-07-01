@@ -12,7 +12,9 @@ import {
   MapPin, Layers, Activity, Zap, ChevronRight
 } from 'lucide-react';
 
-const ML_API = 'http://localhost:8000';
+// URL centralisée via variable d'environnement — changez .env.local pour pointer vers la prod
+const ML_API = process.env.NEXT_PUBLIC_ML_API_URL || 'http://localhost:8000';
+
 
 const CLUSTER_COLORS: Record<string, string> = {
   'Zone a Fort Potentiel': '#10b981',

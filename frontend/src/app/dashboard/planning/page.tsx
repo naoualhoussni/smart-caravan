@@ -84,9 +84,11 @@ export default function PlanningPage() {
   };
   const handleSmartGenerate = async () => {
     setIsGenerating(true);
+    // Utilise la variable d'env pour éviter l'URL codée en dur (facilite le déploiement)
+    const ML_API = process.env.NEXT_PUBLIC_ML_API_URL || "http://localhost:8000";
 
     try {
-      const response = await fetch("http://localhost:8000/recommend?limit=5");
+      const response = await fetch(`${ML_API}/recommend?limit=5`);
       const data = await response.json();
       if (data.success) {
         setPredictions(data.recommendations);
@@ -142,7 +144,7 @@ export default function PlanningPage() {
     // On compte le nombre d'ateliers 'pending' déjà assignés à chaque formateur
     const workloadMap: Record<string, number> = {};
     activities.forEach(act => {
-      if (act.status === 'pending' || act.status === 'ACTIVE') {
+      if (act.status === 'pending') {
         workloadMap[act.trainer_name] = (workloadMap[act.trainer_name] || 0) + 1;
       }
     });
@@ -172,6 +174,7 @@ export default function PlanningPage() {
     const { error } = await supabase.from('activities').insert([
       {
         school_name: newAct.school_name,
+        province: newAct.province,
         date: newAct.date,
         time_slot: newAct.time_slot,
         trainer_name: newAct.trainer_name,

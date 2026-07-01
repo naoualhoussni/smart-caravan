@@ -60,51 +60,37 @@
 % PAGE DE GARDE
 % ----------------------------------------------------------------------
 \begin{titlepage}
-    % Barre verticale bleue sur le côté gauche (exactement collée au bord gauche du papier)
-    \begin{tikzpicture}[remember picture, overlay]
-        \fill[color=techblue] (current page.north west) rectangle ++(1.4cm,-\paperheight);
-    \end{tikzpicture}
-    
     \centering
-    \vspace*{-1cm}
+    \vspace*{1cm}
     
-    % Logo de l'école SUP'RH
-    \begin{flushleft}
-        \hspace*{1.8cm}
-        \begin{minipage}{0.7\textwidth}
-            \textbf{\color{darkslate}\Huge SUP'RH} \\
-            {\color{gray}\scriptsize SCHOOL OF MANAGEMENT \& ARTIFICIAL INTELLIGENCE} \\
-            \colorbox{red!80!black}{\color{white}\bfseries\tiny \hspace*{0.1cm} RECONNUE PAR L'ÉTAT \hspace*{0.1cm}}
-        \end{minipage}
-    \end{flushleft}
+    {\Large \textbf{RÉPUBLIQUE MAROCAINE}} \\[0.2cm]
+    {\large \textbf{ÉTABLISSEMENT D'ENSEIGNEMENT SUPÉRIEUR}} \\[1.5cm]
     
-    \vspace*{2cm}
+    {\Large \textbf{TECH-57}} \\[0.5cm]
+    %\includegraphics[width=4cm]{votre_logo_tech57.png} \\[0.8cm] % Décommentez et remplacez par le logo
     
-    % Type de document et diplôme
-    {\color{darkslate}\Huge \textbf{RAPPORT DE STAGE}} \\[0.4cm]
-    {\large \underline{\textbf{Troisième Année de Licence : Intelligence Artificielle et Business}}} \\[1.8cm]
+    \rule{\linewidth}{0.5mm} \\[0.5cm]
+    {\Huge \textbf{\color{techblue} SmartCaravan}} \\[0.5cm]
+    {\Large Système Intelligent de Tracking et de Suivi\\ de la Caravane « Coding Pour Tous »} \\[0.4cm]
+    \rule{\linewidth}{0.5mm} \\[1.5cm]
     
-    {\large Présenté par} \\[0.4cm]
-    {\Large \textbf{\textit{« NAOUAL HOUSSNI »}}} \\[2cm]
+    {\large \textbf{RAPPORT DE STAGE DE FIN D'ÉTUDES}} \\[0.2cm]
+    {\large Pour l'obtention du diplôme d'études supérieures} \\[1.5cm]
     
-    % Titre du projet (formaté exactement comme sur le modèle)
-    {\color{techblue!60!gray}\Huge \textbf{« SmartCaravan : Système Intelligent\\ de Tracking et de Suivi de la Caravane\\ "Coding Pour Tous" »}} \\[2cm]
-    
-    {\large Sous la direction de} \\[0.4cm]
-    {\large \textbf{M. Naoufal ROUKY} (SUP'RH) \& \textbf{M. Hamza AOUADI} (Tech57)} \\[2cm]
-    
-    % Membres du jury (avec puces et alignés comme dans le modèle)
-    \begin{flushleft}
-        \hspace*{1.8cm}
-        \begin{minipage}{0.8\textwidth}
-            \textbf{\color{darkslate}Membres du jury :} \\[0.3cm]
-            \begin{tabular}{lll}
-                $\bullet$ \textit{M. Mohamed Amine TALHAOUI} & \hspace{1cm} & \textit{Président} \\
-                $\bullet$ \textit{M. Naoufal ROUKY} & \hspace{1cm} & \textit{Examinateur (SUP'RH)} \\
-                $\bullet$ \textit{M. Hamza AOUADI} & \hspace{1cm} & \textit{Examinateur (Tech57)} \\
-            \end{tabular}
-        \end{minipage}
-    \end{flushleft}
+    \begin{minipage}{0.45\textwidth}
+        \begin{flushleft} \large
+            \emph{Réalisé par :}\\
+            \textbf{Naoual HOUSSNI}
+        \end{flushleft}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \begin{flushright} \large
+            \emph{Sous la direction de :}\\
+            \textbf{M. Hamza AOUADI} (Tech57)\\
+            \textbf{M. Naoufal ROUKY} (Encadrant École)
+        \end{flushright}
+    \end{minipage}
     
     \vfill
     {\large Année Universitaire : 2025 - 2026}
@@ -114,19 +100,15 @@
 % REMERCIEMENTS
 % ----------------------------------------------------------------------
 \chapter*{Remerciements}
-Je tiens à exprimer ma sincère gratitude à toutes les personnes qui ont contribué, de près ou de loin, à la réalisation de ce travail de fin d'études.
+Avant d’entamer la présentation de ce rapport de stage, je tiens à exprimer ma profonde gratitude et mes sincères remerciements à toutes les personnes qui ont contribué, de près ou de loin, au bon déroulement de mon stage ainsi qu'à la réalisation de ce travail au sein de **Tech57**.
 
-Je remercie tout d’abord **M. Hamza AOUADI**, mon tuteur de stage au sein de Tech57, pour son accueil, ses conseils précieux et son accompagnement tout au long du développement de la solution SmartCaravan.
+Je tiens à remercier tout particulièrement **M. Hamza Aouadi**, mon tuteur de stage chez Tech57, pour son accueil, sa confiance, sa disponibilité constante et ses précieux conseils techniques et méthodologiques tout au long de ce projet. Son accompagnement m'a permis de surmonter les défis complexes liés au développement de l'écosystème **Smart Caravan** et de consolider mes compétences en ingénierie logicielle et en intelligence artificielle.
 
-Je remercie chaleureusement **Pr. Mohamed Amine TALHAOUI**, mon encadrant au sein de SUP’RH, pour son accompagnement rigoureux, ses conseils pertinents et sa disponibilité tout au long de ce travail de recherche. Son encadrement a été déterminant dans la structuration de ma réflexion.
+Mes remerciements s'adressent également à l'ensemble du personnel de **Tech57** pour leur bienveillance, leur esprit d'équipe et pour m’avoir offert un environnement de travail stimulant et agréable, propice à l’apprentissage et à l'innovation.
 
-Je tiens également à exprimer ma reconnaissance envers **M. Naoufal ROUKY**, mon encadrant académique à SUP'RH, pour ses orientations méthodologiques et son suivi constant.
+J'exprime ma reconnaissance envers mon tuteur académique, **M. Naoufal Rouky**, pour son suivi attentif, sa rigueur scientifique et ses orientations tout au long de la période de préparation de ce rapport.
 
-Je remercie également l’ensemble du corps enseignant de SUP’RH, pour la qualité des enseignements dispensés tout au long de mon parcours, qui m’ont permis d’aborder ce sujet avec les outils nécessaires.
-
-Mes remerciements vont également à ma famille et mes proches, pour leur soutien moral et leurs encouragements constants, particulièrement durant les périodes les plus intenses de la rédaction.
-
-Enfin, je remercie toutes les personnes qui, par leurs échanges, leurs retours ou leurs encouragements, ont enrichi ma réflexion et m’ont accompagnée dans cette aventure intellectuelle.
+Enfin, je remercie chaleureusement les membres du jury qui ont accepté d'évaluer ce travail et de m'honorer par leur présence pour la soutenance de ce rapport de stage.
 
 \newpage
 

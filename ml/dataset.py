@@ -146,10 +146,10 @@ def generate_dataset(filename="caravanes_dataset.csv", num_rows=5000):
 
             # Règle 1 : Type de zone
             if type_zone == "Rurale":
-                base_engagement += 18
+                base_engagement += 8   # (Avant: 18)
                 risque_score += 40
             elif type_zone == "Mixte":
-                base_engagement += 8
+                base_engagement += 4   # (Avant: 8)
                 risque_score += 20
             else:
                 base_engagement -= 5
@@ -157,27 +157,27 @@ def generate_dataset(filename="caravanes_dataset.csv", num_rows=5000):
 
             # Règle 2 : Plus l'école n'a pas été visitée depuis longtemps, plus l'engagement est fort
             if mois_visite >= 12:
-                base_engagement += 15
+                base_engagement += 8   # (Avant: 15)
             elif mois_visite >= 6:
-                base_engagement += 8
+                base_engagement += 4   # (Avant: 8)
             elif mois_visite <= 2:
-                base_engagement -= 10  # Trop récent, effet de nouveauté diminué
+                base_engagement -= 10
 
             # Règle 3 : Plus l'école est grande, plus le potentiel d'impact est élevé
             if nb_eleves >= 800:
-                base_engagement += 8
+                base_engagement += 5   # (Avant: 8)
             elif nb_eleves >= 500:
-                base_engagement += 4
+                base_engagement += 2   # (Avant: 4)
 
             # Règle 4 : Type d'établissement
             if type_etab == "CPGE":
-                base_engagement += 12  # Très motivés
+                base_engagement += 8   # (Avant: 12)
             elif type_etab == "Lycée Technique":
-                base_engagement += 6   # Intérêt pour le pratique
+                base_engagement += 4   # (Avant: 6)
 
             # Règle 5 : Thème selon contexte
             if theme == 'Robotique & Arduino' and type_zone in ["Rurale", "Mixte"]:
-                base_engagement += 10
+                base_engagement += 5   # (Avant: 10)
             elif theme == 'Creation de Jeux Scratch' and type_zone == "Urbaine":
                 base_engagement -= 8
 
@@ -189,7 +189,7 @@ def generate_dataset(filename="caravanes_dataset.csv", num_rows=5000):
 
             # Règle 7 : Jour
             if jour in ['Samedi', 'Dimanche']:
-                base_engagement += 10
+                base_engagement += 5   # (Avant: 10)
             elif jour == 'Lundi':
                 base_engagement -= 5
 

@@ -128,7 +128,16 @@ try:
     rf_risque = joblib.load('models/rf_risque.pkl')
     encoders = joblib.load('models/encoders.pkl')
     FEATURES = joblib.load('models/features.pkl')
-    print("Modeles charges avec succes !")
+    FEATURES = [
+        # CORRECTION : 'type_etablissement_enc' correspond exactement au nom généré par le LabelEncoder
+        # dans train_model.py via df[f'{col}_enc'] où col = 'type_etablissement'
+        'province_enc', 'type_zone_enc', 'type_etablissement_enc',
+        'nb_eleves', 'mois_depuis_derniere_visite',
+        'theme_enc', 'saison_enc', 'jour_enc',
+        'distance_km', 'budget_mad'
+    ]
+    print("Modèles chargés avec succes !")
+    # Force reload again
 except Exception as e:
     print(f"ERREUR de chargement: {e}")
 
@@ -182,7 +191,6 @@ def get_hybrid_df():
             X_input = pd.DataFrame([[
                 encode_safe(encoders['province'], found_province),
                 encode_safe(encoders['type_zone'], type_zone),
-                encode_safe(encoders['nom_etablissement'], school_name),
                 encode_safe(encoders['type_etablissement'], type_etab),
                 nb_eleves,
                 mois_visite,
@@ -343,15 +351,21 @@ def recommend(limit: int = 5):
                 best_eng = -1
 
                 for theme in themes:
-                    # Simulation d'un historique réaliste (dernière visite)
-                    mois_visite = random.randint(3, 24)
+                    # [Déterministe] : mois_visite basé sur une heuristique fixe selon la zone
+                    # Rurale = 18 mois (rarement visité), Mixte = 12 mois, Urbaine = 6 mois
+                    # Ceci élimine toute aléatoire dans les scores de recommandation
+                    if type_zone == "Rurale":
+                        mois_visite = 18
+                    elif type_zone == "Mixte":
+                        mois_visite = 12
+                    else:
+                        mois_visite = 6
                     budget = distance * 10
 
                     X_input = pd.DataFrame([[
                         encode_safe(encoders['province'], province),
                         encode_safe(encoders['type_zone'], type_zone),
-                        encode_safe(encoders['nom_etablissement'], etab['nom']),
-                        encode_safe(encoders['type_etablissement'], etab['type']),
+                        encode_safe(encoders['type_etablissement'], etab['type']),  # clé corrigée
                         etab['nb_eleves'],
                         mois_visite,
                         encode_safe(encoders['theme'], theme),
@@ -728,4 +742,136 @@ def get_real_overview():
     except Exception as e:
         print(f"Erreur Supabase: {e}")
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/optimisation/assign-trainers")
+def assign_trainers_logic():
+    """
+    [PARTIE 1 : Objectif de l'Algorithme]
+    Algorithme déterministe (sans hasard) pour affecter les formateurs aux ateliers en attente.
+    Il résout le problème logistique en calculant le temps de trajet précis,
+    la durée de l'atelier, et en équilibrant la charge de travail totale de chaque formateur.
+    """
+    try:
+        # [PARTIE 2 : Récupération des Données (Inputs)]
+        # 2.1. Récupérer tous les ateliers qui n'ont pas encore de formateur (status = pending)
+        acts_res = supabase_client.table("activities").select("*").eq("status", "pending").execute()
+        pending_activities = acts_res.data if acts_res.data else []
+
+        # 2.2. Récupérer la liste des formateurs disponibles depuis la table 'profiles'
+        profiles_res = supabase_client.table("profiles").select("id, full_name, role, skills").eq("role", "formateur").execute()
+        trainers = profiles_res.data if profiles_res.data else []
+
+        # 2.3. Gestion des cas vides
+        if not pending_activities:
+            return {"success": True, "message": "Aucun atelier en attente.", "assignments": []}
+        if not trainers:
+            return {"success": False, "message": "Aucun formateur disponible."}
+
+        # [PARTIE 3 : Initialisation des variables]
+        # On crée un dictionnaire pour suivre le nombre d'heures travaillées par chaque formateur
+        # Cela nous servira pour le "Load Balancing" (équilibrage de charge)
+        workloads = {t['id']: 0 for t in trainers}
+        assignments = []
+
+        # Définition des vitesses moyennes selon l'état des routes par zone (en km/h)
+        SPEEDS = {"Rurale": 50, "Mixte": 70, "Urbaine": 30}
+
+        # On trie les activités par ordre de création (FIFO : First In, First Out)
+        # pour traiter en priorité les demandes les plus anciennes.
+        pending_activities.sort(key=lambda x: x.get('created_at', ''))
+
+        # [PARTIE 4 : Boucle d'Affectation pour chaque atelier]
+        for act in pending_activities:
+            # 4.1. Extraction des informations de l'atelier
+            theme = act.get('theme', 'Robotique & Arduino')
+            school_name = act.get('school_name', '')
+            
+            # 4.2. Recherche des coordonnées de l'école (Zone et Distance)
+            # On cherche dans notre dictionnaire local pour trouver le type de zone
+            found_province = "Casablanca"
+            type_zone = "Urbaine"
+            distance_km = 30
+            
+            for prov, etabs in ETABLISSEMENTS.items():
+                for e in etabs:
+                    if e['nom'].lower() == school_name.lower():
+                        found_province = prov
+                        type_zone = TYPE_ZONE_MAP.get(prov, "Urbaine")
+                        distance_km = DISTANCE_MAP.get(type_zone, 50)
+                        break
+
+            # [PARTIE 5 : Calcul Mathématique des Temps (Sans Hasard)]
+            # 5.1. Calcul du temps de trajet (Aller-Retour)
+            # Formule : Temps = (Distance * 2) / Vitesse
+            speed = SPEEDS.get(type_zone, 50)
+            travel_time_hours = round((distance_km * 2) / speed, 1)
+
+            # 5.2. Détermination de la durée pédagogique de l'atelier
+            # Selon la complexité du thème choisi
+            base_duration = 3.0 # Durée standard (ex: Robotique)
+            if theme == 'Intelligence Artificielle MVP':
+                base_duration = 4.0 # L'IA prend plus de temps à expliquer
+            elif theme == 'Initiation Python':
+                base_duration = 2.5 # Les initiations sont plus rapides
+
+            # 5.3. Temps total de la mission pour le formateur
+            total_mission_time = travel_time_hours + base_duration
+
+            # [PARTIE 6 : Moteur de Recherche du Meilleur Formateur]
+            # On cherche le formateur idéal basé sur 2 critères :
+            # 1. Il doit posséder la compétence (skill) pour le thème
+            # 2. Il doit avoir la plus petite charge de travail actuelle (min_workload)
+            best_trainer = None
+            min_workload = float('inf')
+
+            for t in trainers:
+                skills = t.get('skills', [])
+                
+                # Vérification des compétences : si le formateur a des skills définis
+                # et que le thème de l'atelier n'en fait pas partie, on l'ignore.
+                if skills and theme not in skills:
+                    continue
+                
+                # Si le formateur est compétent, on regarde sa charge de travail
+                # On retient celui qui a le moins d'heures affectées jusqu'à présent
+                if workloads[t['id']] < min_workload:
+                    min_workload = workloads[t['id']]
+                    best_trainer = t
+
+            # Cas de secours (Fallback) : Si aucun formateur n'a la compétence exacte,
+            # on affecte la mission au formateur le moins surchargé globalement.
+            if not best_trainer:
+                best_trainer = min(trainers, key=lambda x: workloads[x['id']])
+
+            # [PARTIE 7 : Mise à jour et Enregistrement]
+            # On ajoute le temps de cette mission au compteur du formateur choisi
+            workloads[best_trainer['id']] += total_mission_time
+
+            # On construit l'objet de réponse détaillé pour le frontend
+            assignments.append({
+                "activity_id": act['id'],
+                "school_name": school_name,
+                "theme": theme,
+                "zone": type_zone,
+                "distance_km": distance_km,
+                "temps_trajet_estime_heures": travel_time_hours,
+                "duree_atelier_heures": base_duration,
+                "temps_total_mission_heures": total_mission_time,
+                "formateur_affecte": best_trainer['full_name'],
+                "formateur_id": best_trainer['id']
+            })
+
+        # [PARTIE 8 : Retour de la réponse API]
+        return {
+            "success": True,
+            "message": "Affectations calculées avec succès.",
+            "total_assignes": len(assignments),
+            "assignments": assignments,
+            "charge_travail_formateurs": workloads
+        }
+
+    except Exception as e:
+        print(f"Erreur lors de l'affectation: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 
