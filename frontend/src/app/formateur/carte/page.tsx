@@ -81,39 +81,47 @@ export default function CartePage() {
     // Add zoom control in bottom-right
     L.control.zoom({ position: "bottomright" }).addTo(map);
 
-    // Custom marker icons
-    const activeIcon = L.divIcon({
-      className: "custom-marker",
-      html: `<div style="width:28px;height:28px;background:linear-gradient(135deg,#00B4A0,#38BDF8);border-radius:50%;border:3px solid white;box-shadow:0 4px 12px rgba(0,180,160,0.4);display:flex;align-items:center;justify-content:center;">
-        <div style="width:8px;height:8px;background:white;border-radius:50%;"></div>
-      </div>`,
-      iconSize: [28, 28],
-      iconAnchor: [14, 14],
-    });
+    // [CRITICAL FIX] Defer ALL marker.addTo() calls by 150ms to ensure
+    // Leaflet's internal DOM panes (markerPane, shadowPane...) are created.
+    setTimeout(() => {
+      if (!map || !mapRef.current) return;
 
-    const completedIcon = L.divIcon({
-      className: "custom-marker",
-      html: `<div style="width:24px;height:24px;background:#64748B;border-radius:50%;border:3px solid white;box-shadow:0 4px 12px rgba(100,116,139,0.3);display:flex;align-items:center;justify-content:center;">
-        <div style="width:6px;height:6px;background:white;border-radius:50%;"></div>
-      </div>`,
-      iconSize: [24, 24],
-      iconAnchor: [12, 12],
-    });
+      map.invalidateSize();
 
-    // Add markers
-    DEMO_MARKERS.forEach((marker) => {
-      const icon = marker.status === "active" ? activeIcon : completedIcon;
-      const m = L.marker([marker.lat, marker.lng], { icon }).addTo(map);
-      m.bindPopup(`
-        <div style="font-family:Poppins,sans-serif;padding:4px;">
-          <strong style="color:#0F172A;font-size:14px;">${marker.name}</strong><br/>
-          <span style="color:#64748B;font-size:12px;">📍 ${marker.province}</span><br/>
-          <span style="color:${marker.status === 'active' ? '#00B4A0' : '#94A3B8'};font-size:11px;font-weight:bold;text-transform:uppercase;">
-            ${marker.status === 'active' ? '● Atelier en cours' : '● Terminé'}
-          </span>
-        </div>
-      `);
-    });
+      // Custom marker icons
+      const activeIcon = L.divIcon({
+        className: "custom-marker",
+        html: `<div style="width:28px;height:28px;background:linear-gradient(135deg,#00B4A0,#38BDF8);border-radius:50%;border:3px solid white;box-shadow:0 4px 12px rgba(0,180,160,0.4);display:flex;align-items:center;justify-content:center;">
+          <div style="width:8px;height:8px;background:white;border-radius:50%;"></div>
+        </div>`,
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+      });
+
+      const completedIcon = L.divIcon({
+        className: "custom-marker",
+        html: `<div style="width:24px;height:24px;background:#64748B;border-radius:50%;border:3px solid white;box-shadow:0 4px 12px rgba(100,116,139,0.3);display:flex;align-items:center;justify-content:center;">
+          <div style="width:6px;height:6px;background:white;border-radius:50%;"></div>
+        </div>`,
+        iconSize: [24, 24],
+        iconAnchor: [12, 12],
+      });
+
+      // Add markers
+      DEMO_MARKERS.forEach((marker) => {
+        const icon = marker.status === "active" ? activeIcon : completedIcon;
+        const m = L.marker([marker.lat, marker.lng], { icon }).addTo(map);
+        m.bindPopup(`
+          <div style="font-family:Poppins,sans-serif;padding:4px;">
+            <strong style="color:#0F172A;font-size:14px;">${marker.name}</strong><br/>
+            <span style="color:#64748B;font-size:12px;">📍 ${marker.province}</span><br/>
+            <span style="color:${marker.status === 'active' ? '#00B4A0' : '#94A3B8'};font-size:11px;font-weight:bold;text-transform:uppercase;">
+              ${marker.status === 'active' ? '● Atelier en cours' : '● Terminé'}
+            </span>
+          </div>
+        `);
+      });
+    }, 150);
 
     leafletMapRef.current = map;
 
