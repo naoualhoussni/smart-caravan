@@ -156,17 +156,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     </div>
   );
 
-  // Show minimal loader while Supabase auth check is in progress
-  if (!authChecked) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-slate-50 dark:bg-[#0F172A]">
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-4 border-[#0B2B5B] border-t-[#00B4A0] rounded-full animate-spin" />
-          <p className="text-sm font-bold text-slate-400">Vérification de la session...</p>
-        </div>
-      </div>
-    );
-  }
+  // Non-blocking auth check: on rend l'interface immédiatement,
+  // sans attendre la vérification de session Supabase.
 
   return (
     <div className="flex h-screen bg-slate-50 dark:bg-[#0F172A] overflow-hidden transition-colors duration-300">

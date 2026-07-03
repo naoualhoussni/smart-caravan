@@ -104,6 +104,7 @@ export default function MoroccoMap({ caravanes }: MoroccoMapProps) {
     const updateMarkers = async () => {
       if (!mapRef.current) return;
       const L = await import("leaflet");
+      if (!mapRef.current || !mapRef.current._panes) return;
       markersRef.current.forEach((m) => m.remove());
       markersRef.current = [];
       addMarkers(L, mapRef.current, caravanes);
@@ -119,6 +120,9 @@ export default function MoroccoMap({ caravanes }: MoroccoMapProps) {
     setGpsStatus("loading");
     navigator.geolocation.getCurrentPosition(
       (pos) => {
+        // Guard: check if map still exists and has panes (prevent appendChild crash if unmounted)
+        if (!mapRef.current || !mapRef.current._panes) return;
+
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
         const accuracy = pos.coords.accuracy; // précision en mètres
