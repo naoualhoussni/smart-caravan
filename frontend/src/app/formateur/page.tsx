@@ -262,7 +262,7 @@ export default function FormateurHomePage() {
     }
 
     const reportPayload = {
-      name: `Bilan : ${selectedActivity?.theme}`,
+      title: `Bilan : ${selectedActivity?.theme}`,
       date: new Date().toLocaleDateString("fr-FR"),
       type: "Texte IA",
       size: mediaFiles.length > 0 ? `${mediaFiles.length} média(s)` : "N/A",
