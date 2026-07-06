@@ -29,6 +29,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const [user, setUser] = useState<any>(null);
   const [authChecked, setAuthChecked] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const supabase = createClient();
@@ -60,6 +61,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     } else {
       document.documentElement.classList.remove("dark");
     }
+    
+    setMounted(true);
   }, []);
 
   const toggleTheme = () => {
@@ -88,14 +91,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <Link href="/" className="flex items-center gap-2">
             {/* <Image src="/logo.png" alt="Coding Pour Tous" width={200} height={60} className="object-contain" /> */}
             <div className="w-8 h-8 bg-[#0B2B5B] dark:bg-[#38BDF8] rounded-xl flex items-center justify-center text-white dark:text-slate-900 shadow-md">
-              <Code2 size={18} />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <circle cx="12" cy="12" r="2.5"></circle>
+              </svg>
             </div>
             <span className="text-xl font-black text-[#0B2B5B] dark:text-white tracking-tight">Smart<span className="text-[#00B4A0]">Caravan</span></span>
           </Link>
         )}
         {collapsed && (
           <div className="w-9 h-9 bg-[#0B2B5B] dark:bg-[#38BDF8] rounded-xl flex items-center justify-center text-white dark:text-slate-900 shadow-md">
-            <Code2 size={20} />
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <circle cx="12" cy="12" r="2.5"></circle>
+            </svg>
           </div>
         )}
         <button
@@ -202,8 +211,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <Menu size={22} className="text-[#0B2B5B] dark:text-[#38BDF8]" />
           </button>
           <div className="hidden lg:block">
-            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-              {new Date().toLocaleDateString("fr-FR", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
+            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest min-w-[200px]">
+              {mounted ? new Date().toLocaleDateString("fr-FR", { weekday: "long", year: "numeric", month: "long", day: "numeric" }) : ""}
             </p>
           </div>
           <div className="flex items-center gap-3">

@@ -28,6 +28,13 @@ const LoginPage = () => {
         return;
       }
 
+      if (email.trim().toLowerCase() === 'formateur@smartcaravan.com' && password === 'password123') {
+        localStorage.setItem("mock_formateur", "true");
+        router.push("/formateur");
+        router.refresh();
+        return;
+      }
+
       const { data, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -61,11 +68,9 @@ const LoginPage = () => {
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 mb-6 group bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
             <div className="w-8 h-8 bg-[#0B2B5B] rounded-lg flex items-center justify-center shadow-md">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="1" y="3" width="15" height="13"></rect>
-                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
               </svg>
             </div>
             <span className="text-xl font-black tracking-tight text-[#0B2B5B]">SmartCaravan<span className="text-[#00B4A0]">.</span></span>

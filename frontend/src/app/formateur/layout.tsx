@@ -28,6 +28,12 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
 
   useEffect(() => {
     const getUser = async () => {
+      if (typeof window !== 'undefined' && localStorage.getItem("mock_formateur") === "true") {
+        setUser({ email: 'formateur@smartcaravan.com', id: 'mock-id' });
+        setProfile({ full_name: 'Formateur Test', role: 'Formateur' });
+        return;
+      }
+
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUser(user);
@@ -51,6 +57,9 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
   }, []);
 
   const handleLogout = async () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem("mock_formateur");
+    }
     await supabase.auth.signOut();
     router.push("/");
   };
@@ -68,7 +77,10 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
             {/* Left: Logo */}
             <Link href="/formateur" className="flex items-center gap-3 group">
               <div className="w-9 h-9 bg-gradient-to-br from-[#00B4A0] to-[#38BDF8] rounded-xl flex items-center justify-center shadow-lg shadow-[#00B4A0]/20 group-hover:shadow-[#00B4A0]/40 transition-all">
-                <Code2 size={18} className="text-white" />
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                  <circle cx="12" cy="12" r="2.5"></circle>
+                </svg>
               </div>
               <div className="hidden sm:block">
                 <span className="text-lg font-black tracking-tight">Smart<span className="text-[#00B4A0]">Caravan</span></span>

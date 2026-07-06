@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import {
   MapPin, QrCode, Trophy, Zap, Clock, School, FileText,
   CheckCircle2, AlertTriangle, ChevronRight, ArrowUpRight,
-  Loader2, Navigation, Sparkles, X
+  Loader2, Navigation, Sparkles, X, Camera
 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
@@ -118,8 +118,10 @@ export default function FormateurHomePage() {
   const [nbEleves, setNbEleves] = useState<number | "">("");
   const [mediaFiles, setMediaFiles] = useState<File[]>([]);
   const [isOffline, setIsOffline] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     setIsOffline(!navigator.onLine);
     const handleOnline = () => setIsOffline(false);
     const handleOffline = () => setIsOffline(true);
@@ -363,8 +365,8 @@ export default function FormateurHomePage() {
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
               Bonjour, <span className="text-[#00B4A0]">{profile.fullName || "Formateur"}</span> 👋
             </h1>
-            <p className="text-slate-400 font-medium mt-1">
-              {new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" })}
+            <p className="text-slate-400 font-medium mt-1 min-h-[24px]">
+              {mounted ? new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) : ""}
             </p>
           </div>
           <div className="flex items-center gap-2 px-4 py-2 bg-[#00B4A0]/10 border border-[#00B4A0]/20 rounded-2xl self-start">
@@ -593,6 +595,51 @@ export default function FormateurHomePage() {
                 rows={6}
                 className="w-full bg-[#1E293B] border border-white/10 rounded-2xl p-4 text-white placeholder-slate-500 resize-none focus:outline-none focus:border-[#00B4A0]/50 transition-colors"
               />
+
+              {/* Media Upload */}
+              <div className="bg-[#1E293B] border border-white/10 rounded-2xl p-4">
+                <label className="flex flex-col items-center justify-center cursor-pointer w-full">
+                  <div className="flex items-center gap-2 text-[#38BDF8] font-bold mb-2">
+                    <Camera size={20} />
+                    <span>Ajouter Photos / Vidéos</span>
+                  </div>
+                  <p className="text-xs text-slate-400 mb-4">Prenez une photo en direct ou choisissez un fichier</p>
+                  <input
+                    type="file"
+                    accept="image/*,video/*"
+                    capture="environment"
+                    multiple
+                    className="hidden"
+                    onChange={(e) => {
+                      if (e.target.files) {
+                        setMediaFiles(prev => [...prev, ...Array.from(e.target.files!)]);
+                      }
+                    }}
+                  />
+                  <div className="flex flex-wrap gap-2 w-full justify-center mt-2">
+                    {mediaFiles.map((file, idx) => (
+                      <div key={idx} className="relative group cursor-default">
+                        <div className="w-16 h-16 bg-[#0F172A] rounded-xl flex items-center justify-center text-xs text-slate-400 overflow-hidden border border-white/10">
+                          {file.type.startsWith('image/') ? (
+                            <img src={URL.createObjectURL(file)} alt="preview" className="w-full h-full object-cover" />
+                          ) : (
+                            <span className="text-[10px]">Vidéo</span>
+                          )}
+                        </div>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setMediaFiles(prev => prev.filter((_, i) => i !== idx));
+                          }}
+                          className="absolute -top-2 -right-2 bg-rose-500 rounded-full p-1 shadow-md z-10"
+                        >
+                          <X size={12} className="text-white" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </label>
+              </div>
 
               {/* RGPD Consent Checkbox */}
               <label className="flex items-start gap-3 cursor-pointer">
