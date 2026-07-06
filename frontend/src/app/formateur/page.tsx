@@ -290,8 +290,8 @@ export default function FormateurHomePage() {
     const { error } = await supabase.from("reports").insert([reportPayload]);
 
     if (error) {
-      alert("Erreur : Vérifiez que la table 'reports' existe et les règles RLS.");
-      console.log(error);
+      alert(`Erreur Supabase :\n${error.message}\nDétails : ${error.details}\nCode : ${error.code}`);
+      console.error("Supabase Error:", error);
     } else {
       alert("Le bilan a été transmis à l'administration avec succès !");
       setShowBilanModal(false);
