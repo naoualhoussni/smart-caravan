@@ -104,14 +104,35 @@ export default function PlanningPage() {
 
   // Dictionnaire statique de vrais établissements par province pour le MVP
   const REAL_SCHOOLS_MAP: Record<string, string[]> = {
-    "Tinghir": ["Lycée Bamou", "Lycée Salah Eddine Al Ayoubi", "Lycée Ibn Sina"],
-    "Azilal": ["Lycée Ouzoud", "Lycée Technique Azilal", "Lycée Demnate"],
-    "Casablanca": ["Lycée Lyautey", "Lycée Moulay Abdellah", "Lycée Al Khawarizmi", "Lycée Mohammed V"],
-    "Rabat": ["Lycée Moulay Youssef", "Lycée Descartes", "Lycée Hassan II", "Lycée Lalla Aicha"],
+    "Tinghir": ["Lycée Bamou", "Lycée Salah Eddine Al Ayoubi", "Lycée Ibn Sina", "Collège Ibn Sina"],
+    "Azilal": ["Lycée Ouzoud", "Lycée Technique Azilal", "Lycée Demnate", "Collège Demnate"],
+    "Casablanca": ["Lycée Lyautey", "Lycée Moulay Abdellah", "Lycée Al Khawarizmi", "Lycée Mohammed V", "Lycée technique Ain Sebaa"],
+    "Rabat": ["Lycée Moulay Youssef", "Lycée Descartes", "Lycée Hassan II", "Lycée Lalla Aicha", "CPGE Descartes"],
     "Marrakech": ["Lycée Victor Hugo", "Lycée Ibn Abbad", "Lycée Hassan II"],
-    "Beni Mellal": ["Lycée Ibn Sina", "Lycée Hassan II", "Lycée Technique"],
-    "Kenitra": ["Lycée Ibn Tahir", "Lycée Abdelmalek Essaadi", "Lycée Mohammed V"],
-    "Taroudant": ["Lycée Mohammed V", "Lycée Ibn Soulaiman Roudani", "Lycée technique"]
+    "Beni Mellal": ["Lycée Ibn Sina", "Lycée Hassan II", "Lycée Technique", "CPGE Beni Mellal"],
+    "Kenitra": ["Lycée Ibn Tahir", "Lycée Abdelmalek Essaadi", "Lycée Mohammed V", "Lycée Technique Kenitra"],
+    "Taroudant": ["Lycée Mohammed V", "Lycée Ibn Soulaiman Roudani", "Lycée technique", "Collège Al Majd"],
+    "Midelt": ["Lycée Moulay Ali Cherif", "Collège Ibn Khaldoun"],
+    "Zagora": ["Lycée Hassan II", "Collège Al Massira"],
+    "Chefchaouen": ["Lycée Ibn Khaldoun", "Collège Al Houria"],
+    "Al Hoceima": ["Lycée Mohammed V", "Lycée Bayed Moulay"],
+    "Tata": ["Lycée Hassan Ier", "Collège Ibn Batouta"],
+    "Safi": ["Lycée Zerktouni", "Lycée Moulay Ismail"],
+    "Settat": ["Lycée Allal Al Fassi", "Collège Al Wahda"],
+    "Fes": ["Lycée Moulay Idriss", "Lycée Ibn Al Khatib", "CPGE Al Khansaa"],
+    "Agadir": ["Lycée Al Imam Malik", "Lycée Moulay Abdellah Agadir", "Collège Tafraout"],
+    "Tanger": ["Lycée Ibn Al Khatib", "Lycée Technique Tanger", "Lycée Moulay Abdelaziz"],
+  };
+
+  const getProvinceForSchool = (schoolName: string) => {
+    if (!schoolName) return null;
+    const nameLower = schoolName.toLowerCase();
+    for (const [province, schools] of Object.entries(REAL_SCHOOLS_MAP)) {
+      if (schools.some(s => s.toLowerCase().includes(nameLower) || nameLower.includes(s.toLowerCase()))) {
+        return province;
+      }
+    }
+    return null;
   };
 
   const handleAcceptRecommendation = async (rec: any) => {
@@ -353,9 +374,9 @@ export default function PlanningPage() {
                       </div>
                     </td>
                     <td className="p-4">
-                      {act.province ? (
+                      {act.province || getProvinceForSchool(act.school_name || (act as any).nom_ecole || (act as any).school || (act as any).name) ? (
                         <span className="flex items-center gap-1 text-slate-300 text-sm">
-                          <span>📍</span> {act.province}
+                          <span>📍</span> {act.province || getProvinceForSchool(act.school_name || (act as any).nom_ecole || (act as any).school || (act as any).name)}
                         </span>
                       ) : (
                         <span className="text-slate-500 text-sm italic">—</span>
