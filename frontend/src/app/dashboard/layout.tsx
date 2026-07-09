@@ -6,7 +6,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  LayoutDashboard, MapPin, Users, BarChart3, FileText,
+  LayoutDashboard, MapPin, Users, FileText,
   Settings, LogOut, Code2, ChevronLeft, Bell, Menu, Calendar,
   Sun, Moon
 } from "lucide-react";
@@ -19,7 +19,6 @@ const navItems = [
   { label: "Planning", href: "/dashboard/planning", icon: Calendar },
   { label: "Caravanes", href: "/dashboard/caravanes", icon: MapPin },
   { label: "Équipes", href: "/dashboard/equipes", icon: Users },
-  { label: "Analytique", href: "/dashboard/analytique", icon: BarChart3 },
   { label: "Rapports", href: "/dashboard/rapports", icon: FileText },
 ];
 
