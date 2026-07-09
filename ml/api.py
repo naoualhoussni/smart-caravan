@@ -347,13 +347,9 @@ def recommend(limit: int = 5):
             distance = DISTANCE_MAP[type_zone]
 
             for etab in etablissements:
-                best_etab_rec = None
-                best_eng = -1
-
+                # Pour chaque établissement, on garde le meilleur score par thème
+                # (et non plus un seul gagnant) pour permettre la diversification
                 for theme in themes:
-                    # [Déterministe] : mois_visite basé sur une heuristique fixe selon la zone
-                    # Rurale = 18 mois (rarement visité), Mixte = 12 mois, Urbaine = 6 mois
-                    # Ceci élimine toute aléatoire dans les scores de recommandation
                     if type_zone == "Rurale":
                         mois_visite = 18
                     elif type_zone == "Mixte":
@@ -365,7 +361,7 @@ def recommend(limit: int = 5):
                     X_input = pd.DataFrame([[
                         encode_safe(encoders['province'], province),
                         encode_safe(encoders['type_zone'], type_zone),
-                        encode_safe(encoders['type_etablissement'], etab['type']),  # clé corrigée
+                        encode_safe(encoders['type_etablissement'], etab['type']),
                         etab['nb_eleves'],
                         mois_visite,
                         encode_safe(encoders['theme'], theme),
@@ -379,12 +375,10 @@ def recommend(limit: int = 5):
                     risk = rf_risque.predict(X_input)[0]
                     reasons = build_reasons(etab, province, type_zone, theme, mois_visite)
 
-                    # Ajout d'une fluctuation réaliste (incertitude du modèle - 1% à 5%) 
-                    # pour que les scores ne soient pas tous collés à 99.9%
                     real_noise = random.uniform(1.2, 5.4)
                     final_eng = round(max(50.0, min(98.7, raw_eng - real_noise)), 1)
 
-                    rec_data = {
+                    all_results.append({
                         "province": province,
                         "type_zone": type_zone,
                         "nom_etablissement": etab['nom'],
@@ -393,22 +387,42 @@ def recommend(limit: int = 5):
                         "mois_depuis_derniere_visite": mois_visite,
                         "theme": theme,
                         "engagement": final_eng,
+                        "_raw_eng": raw_eng,  # champ interne pour le tri, retiré avant retour
                         "risk": risk,
                         "distance_km": distance,
                         "budget_estime_mad": budget,
                         "raisons": reasons
-                    }
+                    })
 
-                    if raw_eng > best_eng:
-                        best_eng = raw_eng
-                        best_etab_rec = rec_data
+        # Tri global par score brut décroissant
+        all_results.sort(key=lambda x: x['_raw_eng'], reverse=True)
 
-                if best_etab_rec:
-                    all_results.append(best_etab_rec)
+        # ── Diversification des thèmes ────────────────────────────────────────
+        # Limite : max ceil(limit/nb_themes) répétitions du même thème
+        # Ex : limit=5, 4 thèmes → max 2 fois Robotique, 2 fois Python, etc.
+        theme_count = {t: 0 for t in themes}
+        MAX_PER_THEME = -(-limit // len(themes))  # ceil division
+        diverse_results = []
 
-        # Tri par score d'engagement décroissant
-        all_results.sort(key=lambda x: x['engagement'], reverse=True)
-        return {"success": True, "recommendations": all_results[:limit]}
+        for rec in all_results:
+            t = rec["theme"]
+            if theme_count[t] < MAX_PER_THEME and len(diverse_results) < limit:
+                theme_count[t] += 1
+                diverse_results.append(rec)
+            if len(diverse_results) >= limit:
+                break
+
+        # Compléter si pas assez (cas extrême)
+        if len(diverse_results) < limit:
+            for rec in all_results:
+                if rec not in diverse_results and len(diverse_results) < limit:
+                    diverse_results.append(rec)
+
+        # Nettoyer le champ interne avant retour
+        for rec in diverse_results:
+            rec.pop("_raw_eng", None)
+
+        return {"success": True, "recommendations": diverse_results}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
