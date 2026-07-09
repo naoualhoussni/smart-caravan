@@ -174,7 +174,6 @@ export default function PlanningPage() {
     const { error } = await supabase.from('activities').insert([
       {
         school_name: newAct.school_name,
-        province: newAct.province,
         date: newAct.date,
         time_slot: newAct.time_slot,
         trainer_name: newAct.trainer_name,

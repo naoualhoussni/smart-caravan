@@ -53,6 +53,23 @@ RÈGLES DE FORMATAGE STRICTES :
       }),
     });
 
+    if (!response.ok) {
+      const errBody = await response.json().catch(() => ({}));
+      console.error(`[AI Route] Groq API error ${response.status}:`, errBody);
+      return NextResponse.json(
+        {
+          error: `Erreur Groq (${response.status})`,
+          details: errBody?.error?.message ?? "Clé API invalide ou quota dépassé.",
+          choices: [{
+            message: {
+              content: "⚠️ Le service IA est temporairement indisponible (clé API expirée ou quota dépassé). Veuillez réessayer plus tard."
+            }
+          }]
+        },
+        { status: 200 } // On retourne 200 pour que le front affiche le message d'erreur proprement
+      );
+    }
+
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error: any) {
