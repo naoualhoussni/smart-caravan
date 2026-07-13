@@ -64,6 +64,7 @@ export default function DashboardPage() {
   const [caravanes, setCaravanes] = useState<any[]>([]);
   const [combinedActivities, setCombinedActivities] = useState<any[]>(recentActivities);
   const [insights, setInsights] = useState<any[]>([]);
+  const [provincesStats, setProvincesStats] = useState<any[]>([]);
   const [loadingInsights, setLoadingInsights] = useState(false);
   const supabase = createClient();
 
@@ -136,6 +137,17 @@ export default function DashboardPage() {
           ];
           setCaravanes([...caravansData, ...simulatedCaravans]);
         }
+        // Fetch provinces stats
+        try {
+          const provRes = await fetch(`/api/ml-provinces`);
+          const provData = await provRes.json();
+          if (provData.success && provData.provinces) {
+            setProvincesStats(provData.provinces);
+          }
+        } catch (error) {
+          console.error("Erreur récupération KPIs provinces:", error);
+        }
+
       } catch (error) {
         console.error("Erreur récupération données dashboard:", error);
       }
@@ -308,6 +320,69 @@ export default function DashboardPage() {
               </div>
             </div>
           ))}
+        </div>
+      </motion.div>
+
+      {/* Provinces Analytics Table */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.7 }}
+        className="bg-white rounded-3xl p-6 border border-border shadow-sm overflow-hidden"
+      >
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <MapPin size={20} className="text-brand-green" />
+            <h2 className="text-lg font-black text-brand-blue">Bilan par Province</h2>
+          </div>
+          <span className="text-xs font-bold text-brand-green bg-brand-green/10 px-3 py-1 rounded-full">
+            Analytique ML
+          </span>
+        </div>
+        
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-border/60">
+                <th className="pb-3 text-xs font-bold text-muted-foreground uppercase tracking-wider">Province</th>
+                <th className="pb-3 text-xs font-bold text-muted-foreground uppercase tracking-wider text-center">Ateliers</th>
+                <th className="pb-3 text-xs font-bold text-muted-foreground uppercase tracking-wider text-center">Engagement Moyen</th>
+                <th className="pb-3 text-xs font-bold text-muted-foreground uppercase tracking-wider text-center">Budget Est. (MAD)</th>
+                <th className="pb-3 text-xs font-bold text-muted-foreground uppercase tracking-wider text-center">Risque Élevé (%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {provincesStats.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="py-8 text-center text-sm font-semibold text-muted-foreground border-b border-border/30">
+                    Chargement des analytiques...
+                  </td>
+                </tr>
+              ) : (
+                provincesStats.map((prov, idx) => (
+                  <tr key={idx} className="border-b border-border/30 hover:bg-slate-50 transition-colors">
+                    <td className="py-4 text-sm font-black text-brand-blue">{prov.province}</td>
+                    <td className="py-4 text-sm font-semibold text-slate-600 text-center">{prov.kpis.total_ateliers}</td>
+                    <td className="py-4 text-center">
+                      <span className={`px-2 py-1 rounded-full text-xs font-bold ${
+                        prov.kpis.engagement_moyen >= 70 ? 'bg-green-100 text-green-700' :
+                        prov.kpis.engagement_moyen >= 50 ? 'bg-orange-100 text-orange-700' :
+                        'bg-red-100 text-red-700'
+                      }`}>
+                        {prov.kpis.engagement_moyen}%
+                      </span>
+                    </td>
+                    <td className="py-4 text-sm font-semibold text-slate-600 text-center">{prov.kpis.budget_total_mad.toLocaleString('fr-MA')} MAD</td>
+                    <td className="py-4 text-center">
+                      <span className={`text-xs font-bold ${prov.kpis.pct_risque_eleve > 50 ? 'text-red-500' : 'text-slate-600'}`}>
+                        {prov.kpis.pct_risque_eleve}%
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </motion.div>
     </div>

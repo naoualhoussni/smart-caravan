@@ -40,6 +40,7 @@ export default function MoroccoMap({ caravanes }: MoroccoMapProps) {
   const mapRef = useRef<any>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const markersRef = useRef<any[]>([]);
+  const polylinesRef = useRef<any[]>([]);
   const userMarkerRef = useRef<any>(null);
   const userCircleRef = useRef<any>(null);
   const [gpsStatus, setGpsStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
@@ -107,6 +108,10 @@ export default function MoroccoMap({ caravanes }: MoroccoMapProps) {
       if (!mapRef.current || !mapRef.current._panes) return;
       markersRef.current.forEach((m) => m.remove());
       markersRef.current = [];
+      if (polylinesRef.current) {
+        polylinesRef.current.forEach((p) => p.remove());
+        polylinesRef.current = [];
+      }
       addMarkers(L, mapRef.current, caravanes);
     };
     updateMarkers();
@@ -193,10 +198,33 @@ export default function MoroccoMap({ caravanes }: MoroccoMapProps) {
 
   const addMarkers = (L: any, map: any, caravanesList: MoroccoMapProps["caravanes"]) => {
     const newMarkers: any[] = [];
+    const newPolylines: any[] = [];
+    
+    // Hub Central de départ (Rabat)
+    const HUB_COORDS: [number, number] = [34.020, -6.841];
+
     caravanesList.forEach((caravan) => {
       const coords = getCoords(caravan.province);
       if (!coords) return;
+      
       const isActive = caravan.status === "ACTIVE";
+
+      // Tracer le parcours (polyline)
+      if (isActive) {
+        // Point intermédiaire pour créer une légère courbe dans le parcours
+        const midLat = (HUB_COORDS[0] + coords[0]) / 2 + 0.3;
+        const midLng = (HUB_COORDS[1] + coords[1]) / 2;
+        
+        const path = L.polyline([HUB_COORDS, [midLat, midLng], coords], {
+          color: '#00B4A0',
+          weight: 2,
+          opacity: 0.7,
+          dashArray: '6, 8',
+          lineJoin: 'round'
+        }).addTo(map);
+        newPolylines.push(path);
+      }
+
       const iconHtml = `
         <div style="position:relative;width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
           ${isActive ? `<div style="position:absolute;width:36px;height:36px;border-radius:50%;background:rgba(0,180,160,0.25);animation:pulse 2s infinite;"></div>` : ""}
@@ -216,6 +244,7 @@ export default function MoroccoMap({ caravanes }: MoroccoMapProps) {
       newMarkers.push(marker);
     });
     markersRef.current = newMarkers;
+    polylinesRef.current = newPolylines;
   };
 
   return (

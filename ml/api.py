@@ -583,6 +583,48 @@ def get_top_themes():
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.get("/analytics/provinces")
+def get_provinces_kpis():
+    """Bilan et KPIs détaillés pour chaque province"""
+    try:
+        df = get_hybrid_df()
+        
+        # Agréger les données par province
+        province_stats = df.groupby('province').agg(
+            nb_ateliers=('score_engagement', 'count'),
+            engagement_moyen=('score_engagement', 'mean'),
+            budget_total=('budget_mad', 'sum'),
+            budget_moyen=('budget_mad', 'mean'),
+            distance_moyenne=('distance_km', 'mean'),
+            risque_eleve_count=('risque_logistique', lambda x: (x == 'Eleve').sum())
+        ).reset_index()
+
+        result = []
+        for _, row in province_stats.iterrows():
+            total_ateliers = int(row['nb_ateliers'])
+            pct_risque = round((row['risque_eleve_count'] / total_ateliers) * 100, 1) if total_ateliers > 0 else 0
+            
+            result.append({
+                "province": row['province'],
+                "kpis": {
+                    "total_ateliers": total_ateliers,
+                    "engagement_moyen": round(row['engagement_moyen'], 1),
+                    "budget_total_mad": round(row['budget_total'], 0),
+                    "budget_moyen_mad": round(row['budget_moyen'], 0),
+                    "distance_moyenne_km": round(row['distance_moyenne'], 1),
+                    "pct_risque_eleve": pct_risque
+                }
+            })
+            
+        # Trier par engagement moyen décroissant
+        result.sort(key=lambda x: x['kpis']['engagement_moyen'], reverse=True)
+
+        return {"success": True, "provinces": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
 # ============================================================
 # INSIGHTS IA ROUTES
 # ============================================================
