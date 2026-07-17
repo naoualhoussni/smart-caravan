@@ -118,6 +118,9 @@ TYPE_ZONE_MAP = {
     "Fes": "Urbaine", "Agadir-Ida-Ou-Tanane": "Urbaine", "Tanger-Assilah": "Urbaine"
 }
 
+# Division de chaque province en 3 ou 4 zones
+SUB_ZONES = ["Zone Nord", "Zone Sud", "Zone Est", "Zone Ouest"]
+
 DISTANCE_MAP = {
     "Rurale": 300, "Mixte": 100, "Urbaine": 30
 }
@@ -930,4 +933,59 @@ def assign_trainers_logic():
         print(f"Erreur lors de l'affectation: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+class LogisticsRequest(BaseModel):
+    distance_km: float
+    prix_gasoil_unitaire: float
+    jours_avant_recuperation: int = 7
+    nb_eleves: int = 30
+    cout_peage: float = 0.0
 
+@app.post("/simulate-logistics")
+def simulate_logistics(req: LogisticsRequest):
+    """
+    Simule la logistique et le budget:
+    - 2 visites technicien (Installation et Récupération)
+    - Budget total = (Distance * Prix Gasoil Unitaire * 2 (aller-retour) * 2 (visites)) + (Peage * 2 (visites))
+    - Durée fixe de la visite
+    - Taille du groupe = 30
+    """
+    try:
+        # Chaque visite nécessite un aller-retour. 
+        # Visite 1: Installation
+        # Visite 2: Récupération
+        nb_visites = 2
+        
+        cout_carburant_par_visite = (req.distance_km * 2) * req.prix_gasoil_unitaire
+        cout_carburant_total = cout_carburant_par_visite * nb_visites
+        
+        # Le péage est souvent payé à l'aller et au retour, disons cout_peage = cout aller-retour ou cout par trajet.
+        # Supposons cout_peage est le cout d'un trajet simple (aller). 
+        # Donc pour 1 visite (aller-retour) = cout_peage * 2. 
+        # Pour 2 visites = cout_peage * 4.
+        cout_peage_total = req.cout_peage * 2 * nb_visites
+        
+        budget_total = cout_carburant_total + cout_peage_total
+        
+        nb_groupes = max(1, req.nb_eleves // 30 + (1 if req.nb_eleves % 30 != 0 else 0))
+
+        return {
+            "success": True,
+            "simulation": {
+                "distance_km": req.distance_km,
+                "prix_gasoil_unitaire": req.prix_gasoil_unitaire,
+                "cout_peage_trajet": req.cout_peage,
+                "budget_carburant_total": round(cout_carburant_total, 2),
+                "budget_peage_total": round(cout_peage_total, 2),
+                "budget_total_mad": round(budget_total, 2),
+                "visites": [
+                    {"type": "Installation de matériels", "jour": 1},
+                    {"type": "Récupération de matériels", "jour": 1 + req.jours_avant_recuperation}
+                ],
+                "duree_fixe_jours": req.jours_avant_recuperation,
+                "nb_eleves_total": req.nb_eleves,
+                "taille_groupe_atelier": 30,
+                "nb_groupes_necessaires": nb_groupes
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

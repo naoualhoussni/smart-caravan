@@ -9,7 +9,7 @@ import {
 } from 'recharts';
 import {
   BrainCircuit, TrendingUp, AlertTriangle, Target,
-  MapPin, Layers, Activity, Zap, ChevronRight
+  MapPin, Layers, Activity, Zap, ChevronRight, Truck, Calculator
 } from 'lucide-react';
 
 // URL centralisée via variable d'environnement — changez .env.local pour pointer vers la prod
@@ -17,12 +17,12 @@ const ML_API = process.env.NEXT_PUBLIC_ML_API_URL || 'http://localhost:8000';
 
 
 const CLUSTER_COLORS: Record<string, string> = {
-  'Zone a Fort Potentiel': '#10b981',
-  'Zone a Risque Logistique': '#f59e0b',
-  'Zone Saturee / Mature': '#6366f1',
+  'Zone a Fort Potentiel': '#98c242', // Vert du logo
+  'Zone a Risque Logistique': '#f7b32b', // Jaune du logo
+  'Zone Saturee / Mature': '#6babb3', // Bleu clair/Teal du logo
 };
 
-const THEME_COLORS = ['#6366f1', '#10b981', '#f59e0b', '#ef4444'];
+const THEME_COLORS = ['#1e3b70', '#98c242', '#f7b32b', '#6babb3']; // Bleu foncé, Vert, Jaune, Teal
 
 export default function AnalytiquePage() {
   const [kpis, setKpis] = useState<any>(null);
@@ -34,7 +34,11 @@ export default function AnalytiquePage() {
   const [aiSummary, setAiSummary] = useState<any>(null);
   const [liveData, setLiveData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'overview' | 'clusters' | 'anomalies' | 'insights' | 'live'>('live');
+  const [activeTab, setActiveTab] = useState<'overview' | 'clusters' | 'anomalies' | 'insights' | 'live' | 'simulator'>('live');
+  
+  // Simulator state
+  const [simData, setSimData] = useState({ distance_km: 150, prix_gasoil_unitaire: 1.2, cout_peage: 50, nb_eleves: 60, jours_avant_recuperation: 7 });
+  const [simResult, setSimResult] = useState<any>(null);
 
   useEffect(() => {
     async function fetchAll() {
@@ -115,7 +119,24 @@ export default function AnalytiquePage() {
     { id: 'clusters', label: 'K-Means Clusters', icon: Layers },
     { id: 'anomalies', label: 'Détection Anomalies', icon: AlertTriangle },
     { id: 'insights', label: 'Insights IA', icon: BrainCircuit },
+    { id: 'simulator', label: 'Simulateur Logistique', icon: Truck },
   ];
+
+  const handleSimulate = async () => {
+    try {
+      const res = await fetch(`${ML_API}/simulate-logistics`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(simData)
+      });
+      const data = await res.json();
+      if(data.success) {
+        setSimResult(data.simulation);
+      }
+    } catch(e) {
+      console.error(e);
+    }
+  };
 
   return (
     <div className="p-8 bg-slate-50 min-h-screen text-slate-900">
@@ -123,13 +144,13 @@ export default function AnalytiquePage() {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1e3b70] to-[#6babb3] flex items-center justify-center">
             <BrainCircuit className="text-white" size={20} />
           </div>
-          <h1 className="text-3xl font-extrabold text-[#0B2B5B]">Analytique IA</h1>
+          <h1 className="text-3xl font-extrabold text-[#1e3b70]">Analytique IA</h1>
         </div>
         <p className="text-slate-500 ml-13">
-          Powered by <span className="font-semibold text-indigo-600">Random Forest · K-Means Clustering · Isolation Forest</span> — {kpis?.total_ateliers_historiques?.toLocaleString()} ateliers analysés
+          Powered by <span className="font-semibold text-[#1e3b70]">Random Forest · K-Means Clustering · Isolation Forest</span> — {kpis?.total_ateliers_historiques?.toLocaleString()} ateliers analysés
         </p>
       </div>
 
@@ -137,10 +158,10 @@ export default function AnalytiquePage() {
       {kpis && (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
-            { label: 'Engagement Moyen', value: `${kpis.engagement_moyen}%`, sub: `Médiane: ${kpis.engagement_median}%`, color: 'from-emerald-500 to-teal-600', icon: Target },
-            { label: 'Risque Élevé', value: `${kpis.pct_risque_eleve}%`, sub: `${kpis.pct_risque_faible}% faible`, color: 'from-amber-500 to-orange-600', icon: AlertTriangle },
-            { label: 'Budget Moyen', value: `${kpis.budget_moyen_mad?.toLocaleString()} MAD`, sub: `Dist. moy: ${kpis.distance_moyenne_km} km`, color: 'from-blue-500 to-indigo-600', icon: Activity },
-            { label: 'Meilleure Zone', value: kpis.zone_la_plus_performante, sub: kpis.theme_le_plus_performant, color: 'from-purple-500 to-violet-600', icon: Zap },
+            { label: 'Engagement Moyen', value: `${kpis.engagement_moyen}%`, sub: `Médiane: ${kpis.engagement_median}%`, color: 'from-[#98c242] to-[#6babb3]', icon: Target },
+            { label: 'Risque Élevé', value: `${kpis.pct_risque_eleve}%`, sub: `${kpis.pct_risque_faible}% faible`, color: 'from-[#f7b32b] to-[#e0a020]', icon: AlertTriangle },
+            { label: 'Budget Moyen', value: `${kpis.budget_moyen_mad?.toLocaleString()} MAD`, sub: `Dist. moy: ${kpis.distance_moyenne_km} km`, color: 'from-[#1e3b70] to-[#2b519c]', icon: Activity },
+            { label: 'Meilleure Zone', value: kpis.zone_la_plus_performante, sub: kpis.theme_le_plus_performant, color: 'from-[#6babb3] to-[#458b94]', icon: Zap },
           ].map((kpi, i) => (
             <motion.div
               key={i}
@@ -166,7 +187,7 @@ export default function AnalytiquePage() {
             onClick={() => setActiveTab(tab.id as any)}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
               activeTab === tab.id
-                ? 'bg-[#0B2B5B] text-white shadow-md'
+                ? 'bg-[#1e3b70] text-white shadow-md'
                 : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'
             }`}
           >
@@ -190,8 +211,8 @@ export default function AnalytiquePage() {
                 <XAxis dataKey="mois" tick={{ fontSize: 11 }} />
                 <YAxis domain={[50, 100]} tick={{ fontSize: 11 }} />
                 <Tooltip formatter={(v: any) => [`${v}%`, 'Engagement prédit']} />
-                <Line type="monotone" dataKey="engagement_predit" stroke="#6366f1" strokeWidth={3}
-                  dot={{ r: 5, fill: '#6366f1' }} activeDot={{ r: 7 }} />
+                <Line type="monotone" dataKey="engagement_predit" stroke="#1e3b70" strokeWidth={3}
+                  dot={{ r: 5, fill: '#1e3b70' }} activeDot={{ r: 7 }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -223,7 +244,7 @@ export default function AnalytiquePage() {
               <RadarChart data={radarData}>
                 <PolarGrid />
                 <PolarAngleAxis dataKey="theme" tick={{ fontSize: 11 }} />
-                <Radar name="Engagement" dataKey="engagement" stroke="#6366f1" fill="#6366f1" fillOpacity={0.3} />
+                <Radar name="Engagement" dataKey="engagement" stroke="#98c242" fill="#98c242" fillOpacity={0.3} />
               </RadarChart>
             </ResponsiveContainer>
           </div>
@@ -573,6 +594,110 @@ export default function AnalytiquePage() {
               )}
             </div>
 
+          </div>
+        </motion.div>
+      )}
+
+      {/* TAB: Simulator Logistique */}
+      {activeTab === 'simulator' && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
+          <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Form */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Truck className="text-[#1e3b70]" />
+                <h3 className="font-bold text-[#1e3b70] text-lg">Configuration du Trajet et Logistique</h3>
+              </div>
+              <p className="text-sm text-slate-500 mb-6">Ajustez les paramètres pour prédire le budget total, les divisions géographiques, et l'emploi du temps des techniciens.</p>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Distance (km) — Aller simple</label>
+                  <input type="number" value={simData.distance_km} onChange={e => setSimData({...simData, distance_km: Number(e.target.value)})} className="w-full p-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6babb3]" />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Prix Unitaire Gasoil (MAD/km)</label>
+                  <input type="number" step="0.1" value={simData.prix_gasoil_unitaire} onChange={e => setSimData({...simData, prix_gasoil_unitaire: Number(e.target.value)})} className="w-full p-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6babb3]" />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Coût Péage API Maps (MAD) — Aller simple</label>
+                  <input type="number" value={simData.cout_peage} onChange={e => setSimData({...simData, cout_peage: Number(e.target.value)})} className="w-full p-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6babb3]" />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Nombre d'Élèves (30 par groupe)</label>
+                  <input type="number" value={simData.nb_eleves} onChange={e => setSimData({...simData, nb_eleves: Number(e.target.value)})} className="w-full p-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6babb3]" />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-1">Durée fixe de la visite (jours avant récupération)</label>
+                  <input type="number" value={simData.jours_avant_recuperation} onChange={e => setSimData({...simData, jours_avant_recuperation: Number(e.target.value)})} className="w-full p-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6babb3]" />
+                </div>
+                <button onClick={handleSimulate} className="w-full mt-4 bg-[#1e3b70] hover:bg-[#2b519c] text-white font-bold py-3 rounded-xl shadow-md flex justify-center items-center gap-2 transition-all">
+                  <Calculator size={18} /> Simuler le Budget
+                </button>
+              </div>
+            </div>
+
+            {/* Results */}
+            <div className="bg-slate-50 p-6 rounded-xl border border-slate-100 flex flex-col justify-center">
+              {simResult ? (
+                <div className="space-y-6">
+                  <div className="bg-white p-4 rounded-lg shadow-sm border border-[#98c242]">
+                    <h4 className="font-bold text-[#1e3b70] mb-2 flex items-center gap-2"><Zap className="text-[#f7b32b]" size={16} /> Budget Prédictif</h4>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p className="text-slate-500">Budget Carburant (2 Visites A/R)</p>
+                        <p className="font-bold text-[#1e3b70] text-lg">{simResult.budget_carburant_total} MAD</p>
+                      </div>
+                      <div>
+                        <p className="text-slate-500">Budget Péage (2 Visites A/R)</p>
+                        <p className="font-bold text-[#1e3b70] text-lg">{simResult.budget_peage_total} MAD</p>
+                      </div>
+                    </div>
+                    <div className="mt-4 pt-4 border-t border-slate-100">
+                      <p className="text-slate-500 text-sm">Budget Total Estimé</p>
+                      <p className="font-black text-[#98c242] text-3xl">{simResult.budget_total_mad} MAD</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <h4 className="font-bold text-[#1e3b70] mb-2">Suivi Technicien & Matériels</h4>
+                    <ul className="space-y-2 text-sm text-slate-700">
+                      {simResult.visites.map((v: any, idx: number) => (
+                        <li key={idx} className="flex justify-between items-center bg-slate-50 p-2 rounded">
+                          <span className="font-semibold">{v.type}</span>
+                          <span className="text-slate-500">Jour {v.jour}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="text-xs text-slate-400 mt-2">Durée fixe de déploiement: <span className="font-bold">{simResult.duree_fixe_jours} jours</span></p>
+                  </div>
+                  
+                  <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <h4 className="font-bold text-[#1e3b70] mb-2">Structure des Groupes</h4>
+                    <div className="flex justify-between items-center text-sm">
+                      <span>Total Élèves : <strong>{simResult.nb_eleves_total}</strong></span>
+                      <span>Taille d'un groupe : <strong>{simResult.taille_groupe_atelier}</strong></span>
+                    </div>
+                    <p className="text-[#6babb3] font-bold mt-2 text-center text-lg">{simResult.nb_groupes_necessaires} groupes de formation requis</p>
+                  </div>
+                  
+                  <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
+                    <h4 className="font-bold text-[#1e3b70] mb-2">Division Géographique (Transport Optimisé)</h4>
+                    <p className="text-sm text-slate-600 mb-2">La province cible a été virtuellement divisée en zones pour limiter la charge du formateur :</p>
+                    <div className="flex gap-2 flex-wrap">
+                      {['Zone Nord', 'Zone Sud', 'Zone Est', 'Zone Ouest'].map(z => (
+                        <span key={z} className="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded-md font-semibold">{z}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center text-slate-400">
+                  <Calculator size={48} className="mx-auto mb-4 opacity-50 text-[#6babb3]" />
+                  <p>Ajustez les paramètres et cliquez sur Simuler pour afficher les prédictions logistiques.</p>
+                </div>
+              )}
+            </div>
           </div>
         </motion.div>
       )}
