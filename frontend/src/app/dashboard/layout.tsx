@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard, MapPin, Users, FileText,
   Settings, LogOut, Code2, ChevronLeft, Bell, Menu, Calendar,
-  Sun, Moon
+  Sun, Moon, BrainCircuit
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/utils/supabase/client";
@@ -16,6 +16,7 @@ import AIChatWidget from "@/components/layout/AIChatWidget";
 
 const navItems = [
   { label: "Vue Globale", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Analytique IA", href: "/dashboard/analytique", icon: BrainCircuit },
   { label: "Planning", href: "/dashboard/planning", icon: Calendar },
   { label: "Caravanes", href: "/dashboard/caravanes", icon: MapPin },
   { label: "Équipes", href: "/dashboard/equipes", icon: Users },
@@ -89,17 +90,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         {!collapsed && (
           <Link href="/" className="flex items-center gap-2">
             {/* <Image src="/logo.png" alt="Coding Pour Tous" width={200} height={60} className="object-contain" /> */}
-            <div className="w-8 h-8 bg-[#0B2B5B] dark:bg-[#38BDF8] rounded-xl flex items-center justify-center text-white dark:text-slate-900 shadow-md">
+            <div className="w-8 h-8 bg-[#1e3b70] dark:bg-[#6babb3] rounded-xl flex items-center justify-center text-white dark:text-slate-900 shadow-md">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
                 <circle cx="12" cy="12" r="2.5"></circle>
               </svg>
             </div>
-            <span className="text-xl font-black text-[#0B2B5B] dark:text-white tracking-tight">Smart<span className="text-[#00B4A0]">Caravan</span></span>
+            <span className="text-xl font-black text-[#1e3b70] dark:text-white tracking-tight">Smart<span className="text-[#98c242]">Caravan</span></span>
           </Link>
         )}
         {collapsed && (
-          <div className="w-9 h-9 bg-[#0B2B5B] dark:bg-[#38BDF8] rounded-xl flex items-center justify-center text-white dark:text-slate-900 shadow-md">
+          <div className="w-9 h-9 bg-[#1e3b70] dark:bg-[#6babb3] rounded-xl flex items-center justify-center text-white dark:text-slate-900 shadow-md">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
               <circle cx="12" cy="12" r="2.5"></circle>
@@ -108,7 +109,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         )}
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="hidden lg:flex w-8 h-8 rounded-xl border border-border items-center justify-center text-muted-foreground hover:bg-muted hover:text-[#0B2B5B] dark:hover:text-[#38BDF8] transition-all"
+          className="hidden lg:flex w-8 h-8 rounded-xl border border-border items-center justify-center text-muted-foreground hover:bg-muted hover:text-[#1e3b70] dark:hover:text-[#6babb3] transition-all"
         >
           <ChevronLeft size={16} className={cn("transition-transform duration-300", collapsed && "rotate-180")} />
         </button>
@@ -125,14 +126,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               className={cn(
                 "flex items-center gap-3 px-3 py-3 rounded-xl font-semibold text-sm transition-all duration-200 group relative",
                 active
-                  ? "bg-[#0B2B5B] dark:bg-[#38BDF8] text-white dark:text-slate-900 shadow-lg shadow-[#0B2B5B]/20 dark:shadow-[#38BDF8]/10"
-                  : "text-muted-foreground hover:bg-muted hover:text-[#0B2B5B] dark:hover:text-[#38BDF8]"
+                  ? "bg-[#1e3b70] dark:bg-[#6babb3] text-white dark:text-slate-900 shadow-lg shadow-[#1e3b70]/20 dark:shadow-[#6babb3]/10"
+                  : "text-muted-foreground hover:bg-muted hover:text-[#1e3b70] dark:hover:text-[#6babb3]"
               )}
             >
-              <item.icon size={20} className={cn(active ? "text-white dark:text-slate-900" : "group-hover:text-[#00B4A0] transition-colors")} />
+              <item.icon size={20} className={cn(active ? "text-white dark:text-slate-900" : "group-hover:text-[#98c242] transition-colors")} />
               {!collapsed && <span>{item.label}</span>}
               {collapsed && (
-                <div className="absolute left-14 bg-[#0B2B5B] dark:bg-slate-800 text-white text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-xl">
+                <div className="absolute left-14 bg-[#1e3b70] dark:bg-slate-800 text-white text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50 shadow-xl">
                   {item.label}
                 </div>
               )}
@@ -143,7 +144,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Bottom */}
       <div className="p-3 border-t border-border space-y-1 mt-4">
-        <Link href="/dashboard/parametres" className="flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-semibold text-muted-foreground hover:bg-muted hover:text-[#0B2B5B] dark:hover:text-[#38BDF8] transition-all">
+        <Link href="/dashboard/parametres" className="flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-semibold text-muted-foreground hover:bg-muted hover:text-[#1e3b70] dark:hover:text-[#6babb3] transition-all">
           <Settings size={20} />
           {!collapsed && <span>Paramètres</span>}
         </Link>
@@ -155,8 +156,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {!collapsed && <span>Déconnexion</span>}
         </button>
         {!collapsed && user && (
-          <div className="mx-2 mt-4 p-3 rounded-xl bg-[#00B4A0]/10 border border-[#00B4A0]/20">
-            <p className="text-xs font-black text-[#00B4A0] truncate">{user.email?.split('@')[0].toUpperCase()}</p>
+          <div className="mx-2 mt-4 p-3 rounded-xl bg-[#98c242]/10 border border-[#98c242]/20">
+            <p className="text-xs font-black text-[#98c242] truncate">{user.email?.split('@')[0].toUpperCase()}</p>
             <p className="text-xs text-muted-foreground mt-0.5 truncate">{user.email}</p>
           </div>
         )}
@@ -207,7 +208,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             onClick={() => setMobileOpen(true)}
             className="lg:hidden p-2 rounded-xl hover:bg-muted transition-colors"
           >
-            <Menu size={22} className="text-[#0B2B5B] dark:text-[#38BDF8]" />
+            <Menu size={22} className="text-[#1e3b70] dark:text-[#6babb3]" />
           </button>
           <div className="hidden lg:block">
             <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest min-w-[200px]">
@@ -229,9 +230,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
             <button className="relative p-2 rounded-xl hover:bg-muted transition-colors">
               <Bell size={20} className="text-muted-foreground" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#00B4A0] rounded-full border-2 border-white dark:border-[#1E293B]" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#98c242] rounded-full border-2 border-white dark:border-[#1E293B]" />
             </button>
-            <div className="w-9 h-9 rounded-xl bg-[#0B2B5B] dark:bg-[#38BDF8] flex items-center justify-center text-white dark:text-slate-900 font-black text-sm shadow-md">
+            <div className="w-9 h-9 rounded-xl bg-[#1e3b70] dark:bg-[#6babb3] flex items-center justify-center text-white dark:text-slate-900 font-black text-sm shadow-md">
               NH
             </div>
           </div>
