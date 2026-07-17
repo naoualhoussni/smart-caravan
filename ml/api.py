@@ -830,7 +830,23 @@ def assign_trainers_logic():
         # On crée un dictionnaire pour suivre le nombre d'heures travaillées par chaque formateur
         # Cela nous servira pour le "Load Balancing" (équilibrage de charge)
         workloads = {t['id']: 0 for t in trainers}
+        trainer_schedules = {t['id']: set() for t in trainers}
         assignments = []
+
+        # Récupération des horaires déjà assignés pour éviter les conflits
+        try:
+            assigned_acts = supabase_client.table("activities").select("trainer_name, date, time_slot").neq("status", "pending").execute()
+            if assigned_acts.data:
+                # Dictionnaire inversé pour trouver l'ID du formateur à partir de son nom
+                name_to_id = {t['full_name']: t['id'] for t in trainers}
+                for a in assigned_acts.data:
+                    tname = a.get("trainer_name")
+                    d = a.get("date")
+                    ts = a.get("time_slot")
+                    if tname in name_to_id and d and ts:
+                        trainer_schedules[name_to_id[tname]].add(f"{d}_{ts}")
+        except Exception as e:
+            print(f"Erreur de récupération des plannings existants: {e}")
 
         # Définition des vitesses moyennes selon l'état des routes par zone (en km/h)
         SPEEDS = {"Rurale": 50, "Mixte": 70, "Urbaine": 30}
@@ -844,6 +860,9 @@ def assign_trainers_logic():
             # 4.1. Extraction des informations de l'atelier
             theme = act.get('theme', 'Robotique & Arduino')
             school_name = act.get('school_name', '')
+            act_date = act.get('date')
+            act_time = act.get('time_slot')
+            act_key = f"{act_date}_{act_time}" if act_date and act_time else None
             
             # 4.2. Recherche des coordonnées de l'école (Zone et Distance)
             # On cherche dans notre dictionnaire local pour trouver le type de zone
@@ -877,34 +896,53 @@ def assign_trainers_logic():
             total_mission_time = travel_time_hours + base_duration
 
             # [PARTIE 6 : Moteur de Recherche du Meilleur Formateur]
-            # On cherche le formateur idéal basé sur 2 critères :
-            # 1. Il doit posséder la compétence (skill) pour le thème
-            # 2. Il doit avoir la plus petite charge de travail actuelle (min_workload)
+            # On cherche le formateur idéal basé sur 3 critères :
+            # 1. Pas de conflit d'horaire (même date et créneau)
+            # 2. Il doit posséder la compétence (skill) pour le thème
+            # 3. Il doit avoir la plus petite charge de travail actuelle (min_workload)
             best_trainer = None
             min_workload = float('inf')
 
             for t in trainers:
+                tid = t['id']
                 skills = t.get('skills', [])
+                
+                # Vérification de conflit d'horaire
+                if act_key and act_key in trainer_schedules[tid]:
+                    continue
                 
                 # Vérification des compétences : si le formateur a des skills définis
                 # et que le thème de l'atelier n'en fait pas partie, on l'ignore.
                 if skills and theme not in skills:
                     continue
                 
-                # Si le formateur est compétent, on regarde sa charge de travail
+                # Si le formateur est compétent et disponible, on regarde sa charge de travail
                 # On retient celui qui a le moins d'heures affectées jusqu'à présent
-                if workloads[t['id']] < min_workload:
-                    min_workload = workloads[t['id']]
+                if workloads[tid] < min_workload:
+                    min_workload = workloads[tid]
                     best_trainer = t
 
-            # Cas de secours (Fallback) : Si aucun formateur n'a la compétence exacte,
-            # on affecte la mission au formateur le moins surchargé globalement.
+            # Cas de secours (Fallback) : Si aucun formateur n'a la compétence exacte ET est disponible,
+            # on cherche le formateur disponible le moins surchargé globalement, en ignorant les compétences.
+            if not best_trainer:
+                for t in trainers:
+                    tid = t['id']
+                    if act_key and act_key in trainer_schedules[tid]:
+                        continue
+                    if workloads[tid] < min_workload:
+                        min_workload = workloads[tid]
+                        best_trainer = t
+
+            # Fallback Ultime: Si tout le monde est occupé à ce moment, on assigne quand même au moins chargé.
+            # (Théoriquement impossible s'il y a assez de formateurs)
             if not best_trainer:
                 best_trainer = min(trainers, key=lambda x: workloads[x['id']])
 
             # [PARTIE 7 : Mise à jour et Enregistrement]
             # On ajoute le temps de cette mission au compteur du formateur choisi
             workloads[best_trainer['id']] += total_mission_time
+            if act_key:
+                trainer_schedules[best_trainer['id']].add(act_key)
 
             # On construit l'objet de réponse détaillé pour le frontend
             assignments.append({
