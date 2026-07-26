@@ -42,7 +42,8 @@ const Navbar = () => {
     { name: "Accueil", href: "/" },
     { name: "Caravanes", href: "/dashboard/caravanes" },
     { name: "Équipes", href: "/dashboard/equipes" },
-    { name: "Dashboard", href: "/dashboard" },
+    { name: "Espace Admin", href: "/dashboard" },
+    { name: "Espace Coordinateur", href: "/coordinateur" },
     { name: "Espace Technicien", href: "/technicien" },
     { name: "Espace Formateur", href: "/formateur" },
   ];
@@ -91,7 +92,14 @@ const Navbar = () => {
                 className="flex items-center gap-2 px-4 py-2 bg-[#A4C639]/10 border border-[#A4C639]/30 text-[#A4C639] rounded-full font-bold text-sm hover:bg-[#A4C639] hover:text-white transition-all"
               >
                 <LayoutDashboard size={15} />
-                Mon Dashboard
+                Espace Admin
+              </Link>
+              <Link
+                href="/coordinateur"
+                className="flex items-center gap-2 px-4 py-2 bg-[#FDB813]/10 border border-[#FDB813]/30 text-[#FDB813] rounded-full font-bold text-sm hover:bg-[#FDB813] hover:text-white transition-all"
+              >
+                <User size={15} />
+                Coordinateur
               </Link>
               <button
                 onClick={handleLogout}
