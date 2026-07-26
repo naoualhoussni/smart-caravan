@@ -113,7 +113,7 @@ export default function EspaceFormateur() {
                   <p className="text-white/70 text-sm">6 Séances de 2h au total</p>
                 </div>
               </div>
-              <p className="text-sm text-white/90 font-medium">Les formateurs doivent compléter les séances pour maîtriser l'enseignement dans chaque école.</p>
+              <p className="text-sm text-white/90 font-medium">Les formateurs doivent compléter les séances pour maîtriser l&apos;enseignement dans chaque école.</p>
             </div>
 
             <div className="bg-white rounded-3xl p-6 shadow-sm border border-border">

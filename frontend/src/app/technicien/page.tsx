@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import {
   MapPin, QrCode, Trophy, Zap, Clock, School, FileText,
   CheckCircle2, AlertTriangle, ChevronRight, ArrowUpRight,
-  Loader2, Navigation, Sparkles, X, Camera
+  Loader2, Navigation, Sparkles, X, Camera, Users
 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
@@ -473,7 +473,7 @@ export default function TechnicienHomePage() {
             >
               <p className="text-amber-400 text-sm font-medium flex items-center gap-2">
                 <AlertTriangle size={16} />
-                Si votre atelier créé sur le Web n'apparaît pas ici, c'est que la table "activities" sur Supabase a des règles RLS bloquant la lecture. Une activité de démo est affichée.
+                Si votre atelier créé sur le Web n&apos;apparaît pas ici, c&apos;est que la table &quot;activities&quot; sur Supabase a des règles RLS bloquant la lecture. Une activité de démo est affichée.
               </p>
             </motion.div>
           )}
@@ -549,7 +549,7 @@ export default function TechnicienHomePage() {
 
             <div className="grid sm:grid-cols-2 gap-4">
               <button 
-                onClick={() => alert("Téléchargement du template de rapport d'intervention (Modèle PDF)...")}
+                onClick={() => alert("Téléchargement du template de rapport d&apos;intervention (Modèle PDF)...")}
                 className="w-full flex items-center justify-between p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all text-left group"
               >
                 <div className="flex items-center gap-3">
@@ -698,7 +698,7 @@ export default function TechnicienHomePage() {
                   {hasParentalConsent && <CheckCircle2 size={14} className="text-white" />}
                 </div>
                 <span className="text-sm text-slate-300 font-medium leading-relaxed">
-                  J'ai obtenu le consentement parental (RGPD) pour la capture et diffusion des photos/médias.
+                  J&apos;ai obtenu le consentement parental (RGPD) pour la capture et diffusion des photos/médias.
                 </span>
               </label>
 
@@ -771,7 +771,7 @@ export default function TechnicienHomePage() {
             </div>
             <h3 className="text-2xl font-black mb-3">Scanner de Badges</h3>
             <p className="text-slate-400 font-medium leading-relaxed mb-6">
-              Le scanner de badges utilise la caméra native de l'appareil. Cette fonctionnalité est optimisée pour l'application mobile SmartCaravan (Expo Go).
+              Le scanner de badges utilise la caméra native de l&apos;appareil. Cette fonctionnalité est optimisée pour l&apos;application mobile SmartCaravan (Expo Go).
             </p>
             <p className="text-sm text-[#00B4A0] font-bold mb-6">
               💡 Sur le web, utilisez la page Planning du Dashboard pour scanner les QR codes via webcam.
