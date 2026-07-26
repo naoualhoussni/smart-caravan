@@ -3,9 +3,10 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Users, Plus, Search, Filter, CheckCircle2, X,
-  Sparkles, School, MapPin, ChevronDown, Download, Upload
+  Users, Plus, Search, Filter, CheckCircle2,
+  Sparkles, School, MapPin, ChevronDown, Download, Upload, Key
 } from "lucide-react";
+import Link from "next/link";
 
 // ─── Types ───────────────────────────────────────────────
 interface Formateur {
@@ -377,6 +378,25 @@ export default function FormationPage() {
                     </div>
                   </motion.div>
                 ))}
+              </motion.div>
+            )}
+            {/* CTA → Générer les accès */}
+            {autoResults && autoResults.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-gradient-to-r from-[#1F3C6D]/30 to-[#A4C639]/10 border border-[#A4C639]/20 rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+              >
+                <div>
+                  <h3 className="font-black text-lg">Étape suivante : Générer les accès</h3>
+                  <p className="text-sm text-slate-400 mt-1">
+                    Les formateurs ont été sélectionnés. Créez maintenant 1 compte par école pour qu&apos;ils puissent se connecter.
+                  </p>
+                </div>
+                <Link href="/technicien/formation/acces"
+                  className="flex items-center gap-2 bg-[#A4C639] hover:bg-[#1F3C6D] px-6 py-3 rounded-xl font-black text-sm transition-all whitespace-nowrap shrink-0">
+                  <Key size={16} /> Générer les accès école
+                </Link>
               </motion.div>
             )}
           </motion.div>
