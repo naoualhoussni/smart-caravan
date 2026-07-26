@@ -37,7 +37,7 @@
 .dark {
   --background: #0F172A;
   --foreground: #F1F5F9;
-  --brand-blue: #38BDF8;
+  --brand-blue: #5E9FA3;
   --brand-green: #2DD4BF;
   --brand-gray: #1E293B;
   --card: #1E293B;
@@ -92,8 +92,8 @@
 }
 
 /* Textes bleu foncé → clair */
-.dark .text-\[\#0B2B5B\] {
-  color: #38BDF8 !important;
+.dark .text-\[\#1F3C6D\] {
+  color: #5E9FA3 !important;
 }
 
 /* Textes muted */

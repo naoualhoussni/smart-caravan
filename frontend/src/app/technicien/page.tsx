@@ -363,15 +363,15 @@ export default function TechnicienHomePage() {
         >
           <div>
             <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
-              Bonjour, <span className="text-[#00B4A0]">{profile.fullName || "Technicien"}</span> 👋
+              Bonjour, <span className="text-[#A4C639]">{profile.fullName || "Technicien"}</span> 👋
             </h1>
             <p className="text-slate-400 font-medium mt-1 min-h-[24px]">
               {mounted ? new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) : ""}
             </p>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-[#00B4A0]/10 border border-[#00B4A0]/20 rounded-2xl self-start">
-            <div className="w-2 h-2 bg-[#00B4A0] rounded-full animate-pulse" />
-            <span className="text-sm font-bold text-[#00B4A0]">Sync • Temps réel</span>
+          <div className="flex items-center gap-2 px-4 py-2 bg-[#A4C639]/10 border border-[#A4C639]/20 rounded-2xl self-start">
+            <div className="w-2 h-2 bg-[#A4C639] rounded-full animate-pulse" />
+            <span className="text-sm font-bold text-[#A4C639]">Sync • Temps réel</span>
           </div>
         </motion.div>
 
@@ -382,15 +382,15 @@ export default function TechnicienHomePage() {
           transition={{ delay: 0.1 }}
           className="relative overflow-hidden bg-gradient-to-br from-[#1E293B] to-[#0F172A] rounded-3xl p-6 border border-white/5"
         >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#00B4A0]/10 to-transparent rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#A4C639]/10 to-transparent rounded-full blur-3xl" />
           <div className="relative z-10">
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-14 h-14 bg-gradient-to-br from-amber-400/20 to-amber-500/10 rounded-2xl flex items-center justify-center">
-                <Trophy size={28} className="text-amber-400" />
+              <div className="w-14 h-14 bg-gradient-to-br from-[#FDB813]/20 to-[#FDB813]/10 rounded-2xl flex items-center justify-center">
+                <Trophy size={28} className="text-[#FDB813]" />
               </div>
               <div>
                 <h2 className="text-lg font-black">Niveau : {profile.level}</h2>
-                <p className="text-amber-400 font-bold text-sm">{profile.points} pts cumulés</p>
+                <p className="text-[#FDB813] font-bold text-sm">{profile.points} pts cumulés</p>
               </div>
             </div>
             <div className="space-y-2">
@@ -399,11 +399,11 @@ export default function TechnicienHomePage() {
                   initial={{ width: 0 }}
                   animate={{ width: `${progressPct}%` }}
                   transition={{ duration: 1.5, ease: "easeOut" }}
-                  className="h-full bg-gradient-to-r from-amber-400 to-[#00B4A0] rounded-full"
+                  className="h-full bg-gradient-to-r from-[#FDB813] to-[#A4C639] rounded-full"
                 />
               </div>
               <p className="text-xs text-slate-400 font-medium">
-                Encore <span className="text-amber-400 font-bold">{pointsToNext} pts</span> pour débloquer le prochain palier !
+                Encore <span className="text-[#FDB813] font-bold">{pointsToNext} pts</span> pour débloquer le prochain palier !
               </p>
             </div>
           </div>
@@ -421,19 +421,19 @@ export default function TechnicienHomePage() {
               onClick={() => handleCheckIn(todayActivity)}
               disabled={isCheckedIn}
               className={`w-full p-6 rounded-3xl border transition-all duration-300 text-left group ${isCheckedIn
-                  ? "bg-[#00B4A0]/10 border-[#00B4A0]/30"
-                  : "bg-[#1E293B] border-white/5 hover:border-[#38BDF8]/30 hover:shadow-lg hover:shadow-[#38BDF8]/5"
+                  ? "bg-[#A4C639]/10 border-[#A4C639]/30"
+                  : "bg-[#1E293B] border-white/5 hover:border-[#5E9FA3]/30 hover:shadow-lg hover:shadow-[#5E9FA3]/5"
                 }`}
             >
-              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-all ${isCheckedIn ? "bg-[#00B4A0]/20" : "bg-[#38BDF8]/10 group-hover:bg-[#38BDF8]/20"
+              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-all ${isCheckedIn ? "bg-[#A4C639]/20" : "bg-[#5E9FA3]/10 group-hover:bg-[#5E9FA3]/20"
                 }`}>
                 {isCheckedIn ? (
-                  <CheckCircle2 size={28} className="text-[#00B4A0]" />
+                  <CheckCircle2 size={28} className="text-[#A4C639]" />
                 ) : (
-                  <Navigation size={28} className="text-[#38BDF8]" />
+                  <Navigation size={28} className="text-[#5E9FA3]" />
                 )}
               </div>
-              <h3 className={`text-lg font-black mb-1 ${isCheckedIn ? "text-[#00B4A0]" : ""}`}>
+              <h3 className={`text-lg font-black mb-1 ${isCheckedIn ? "text-[#A4C639]" : ""}`}>
                 {locationText}
               </h3>
               <p className="text-sm text-slate-400 font-medium">{todayActivity?.school_name || "Aucun atelier"}</p>
@@ -445,10 +445,10 @@ export default function TechnicienHomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               onClick={() => setShowQRInfo(true)}
-              className="w-full p-6 rounded-3xl border border-white/5 bg-[#1E293B] hover:border-[#38BDF8]/30 hover:shadow-lg hover:shadow-[#38BDF8]/5 transition-all duration-300 text-left group"
+              className="w-full p-6 rounded-3xl border border-white/5 bg-[#1E293B] hover:border-[#5E9FA3]/30 hover:shadow-lg hover:shadow-[#5E9FA3]/5 transition-all duration-300 text-left group"
             >
-              <div className="w-14 h-14 rounded-2xl bg-[#38BDF8]/10 group-hover:bg-[#38BDF8]/20 flex items-center justify-center mb-4 transition-all">
-                <QrCode size={28} className="text-[#38BDF8]" />
+              <div className="w-14 h-14 rounded-2xl bg-[#5E9FA3]/10 group-hover:bg-[#5E9FA3]/20 flex items-center justify-center mb-4 transition-all">
+                <QrCode size={28} className="text-[#5E9FA3]" />
               </div>
               <h3 className="text-lg font-black mb-1">Scanner Badge</h3>
               <p className="text-sm text-slate-400 font-medium">Badge Élève QR Code</p>
@@ -460,7 +460,7 @@ export default function TechnicienHomePage() {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm font-black text-slate-400 uppercase tracking-widest">Programme du Jour</h2>
-            <Link href="/formateur/carte" className="text-xs font-bold text-[#00B4A0] hover:underline flex items-center gap-1">
+            <Link href="/formateur/carte" className="text-xs font-bold text-[#A4C639] hover:underline flex items-center gap-1">
               Voir sur la carte <ChevronRight size={14} />
             </Link>
           </div>
@@ -469,9 +469,9 @@ export default function TechnicienHomePage() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="bg-amber-500/5 border border-amber-500/20 rounded-2xl p-4 mb-4"
+              className="bg-[#FDB813]/5 border border-[#FDB813]/20 rounded-2xl p-4 mb-4"
             >
-              <p className="text-amber-400 text-sm font-medium flex items-center gap-2">
+              <p className="text-[#FDB813] text-sm font-medium flex items-center gap-2">
                 <AlertTriangle size={16} />
                 Si votre atelier créé sur le Web n&apos;apparaît pas ici, c&apos;est que la table &quot;activities&quot; sur Supabase a des règles RLS bloquant la lecture. Une activité de démo est affichée.
               </p>
@@ -490,12 +490,12 @@ export default function TechnicienHomePage() {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2 text-sm">
-                    <Clock size={14} className="text-[#00B4A0]" />
+                    <Clock size={14} className="text-[#A4C639]" />
                     <span className="text-slate-300 font-medium">{act.date} | {act.time_slot}</span>
                   </div>
                   <span className={`text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider ${act.status === "completed"
-                      ? "bg-[#00B4A0]/10 text-[#00B4A0]"
-                      : "bg-amber-500/10 text-amber-400"
+                      ? "bg-[#A4C639]/10 text-[#A4C639]"
+                      : "bg-[#FDB813]/10 text-[#FDB813]"
                     }`}>
                     {act.status === "completed" ? "Terminé" : "En cours"}
                   </span>
@@ -521,7 +521,7 @@ export default function TechnicienHomePage() {
                   }}
                   className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-sm transition-all ${act.status === "completed"
                       ? "bg-white/5 text-slate-300 hover:bg-white/10"
-                      : "bg-gradient-to-r from-[#00B4A0] to-[#00B4A0]/80 text-white shadow-lg shadow-[#00B4A0]/20 hover:shadow-[#00B4A0]/40"
+                      : "bg-gradient-to-r from-[#A4C639] to-[#A4C639]/80 text-white shadow-lg shadow-[#A4C639]/20 hover:shadow-[#A4C639]/40"
                     }`}
                 >
                   <FileText size={18} />
@@ -538,8 +538,8 @@ export default function TechnicienHomePage() {
           
           <div className="bg-[#1E293B] rounded-3xl p-6 border border-white/5 space-y-6">
             <div className="flex items-center gap-4 border-b border-white/5 pb-4">
-              <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center">
-                <Users size={24} className="text-indigo-400" />
+              <div className="w-12 h-12 bg-[#5E9FA3]/10 rounded-xl flex items-center justify-center">
+                <Users size={24} className="text-[#5E9FA3]" />
               </div>
               <div>
                 <p className="text-xs font-bold text-slate-400 uppercase">Coordinateur de la Province</p>
@@ -553,7 +553,7 @@ export default function TechnicienHomePage() {
                 className="w-full flex items-center justify-between p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all text-left group"
               >
                 <div className="flex items-center gap-3">
-                  <FileText className="text-[#38BDF8]" size={20} />
+                  <FileText className="text-[#5E9FA3]" size={20} />
                   <div>
                     <h3 className="font-bold text-sm">Template Rapport</h3>
                     <p className="text-xs text-slate-400">Modèle officiel à suivre</p>
@@ -564,16 +564,16 @@ export default function TechnicienHomePage() {
 
               <button 
                 onClick={() => alert("Ouvrir le formulaire de Rapport Final de la Province...")}
-                className="w-full flex items-center justify-between p-4 rounded-2xl bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 transition-all text-left group"
+                className="w-full flex items-center justify-between p-4 rounded-2xl bg-[#5E9FA3]/10 hover:bg-[#5E9FA3]/20 border border-[#5E9FA3]/20 transition-all text-left group"
               >
                 <div className="flex items-center gap-3">
-                  <CheckCircle2 className="text-indigo-400" size={20} />
+                  <CheckCircle2 className="text-[#5E9FA3]" size={20} />
                   <div>
-                    <h3 className="font-bold text-sm text-indigo-400">Rapport Final Province</h3>
-                    <p className="text-xs text-indigo-400/70">Soumettre le bilan global</p>
+                    <h3 className="font-bold text-sm text-[#5E9FA3]">Rapport Final Province</h3>
+                    <p className="text-xs text-[#5E9FA3]/70">Soumettre le bilan global</p>
                   </div>
                 </div>
-                <ChevronRight size={16} className="text-indigo-400 group-hover:translate-x-1 transition-transform" />
+                <ChevronRight size={16} className="text-[#5E9FA3] group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
@@ -587,10 +587,10 @@ export default function TechnicienHomePage() {
           className="grid grid-cols-2 sm:grid-cols-4 gap-4"
         >
           {[
-            { label: "Ateliers réalisés", value: activities.filter(a => a.status === "completed").length.toString(), icon: CheckCircle2, color: "text-[#00B4A0]" },
-            { label: "En attente", value: activities.filter(a => a.status === "pending").length.toString(), icon: Clock, color: "text-amber-400" },
-            { label: "Points gagnés", value: `${profile.points}`, icon: Zap, color: "text-amber-400" },
-            { label: "Niveau", value: profile.level, icon: Trophy, color: "text-[#38BDF8]" },
+            { label: "Ateliers réalisés", value: activities.filter(a => a.status === "completed").length.toString(), icon: CheckCircle2, color: "text-[#A4C639]" },
+            { label: "En attente", value: activities.filter(a => a.status === "pending").length.toString(), icon: Clock, color: "text-[#FDB813]" },
+            { label: "Points gagnés", value: `${profile.points}`, icon: Zap, color: "text-[#FDB813]" },
+            { label: "Niveau", value: profile.level, icon: Trophy, color: "text-[#5E9FA3]" },
           ].map((stat, i) => (
             <div key={i} className="bg-[#1E293B] rounded-2xl p-4 border border-white/5 text-center">
               <stat.icon size={22} className={`${stat.color} mx-auto mb-2`} />
@@ -624,7 +624,7 @@ export default function TechnicienHomePage() {
               <button
                 onClick={generateBilanIA}
                 disabled={generatingBilan || selectedActivity?.status === "completed"}
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold bg-gradient-to-r from-[#38BDF8] to-[#38BDF8]/80 text-[#0F172A] shadow-lg transition-all disabled:opacity-50 hover:shadow-[#38BDF8]/30"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold bg-gradient-to-r from-[#5E9FA3] to-[#5E9FA3]/80 text-[#0F172A] shadow-lg transition-all disabled:opacity-50 hover:shadow-[#5E9FA3]/30"
               >
                 {generatingBilan ? (
                   <Loader2 size={20} className="animate-spin" />
@@ -640,13 +640,13 @@ export default function TechnicienHomePage() {
                 onChange={(e) => setBilanText(e.target.value)}
                 placeholder="Ou saisissez le bilan de l'atelier ici..."
                 rows={6}
-                className="w-full bg-[#1E293B] border border-white/10 rounded-2xl p-4 text-white placeholder-slate-500 resize-none focus:outline-none focus:border-[#00B4A0]/50 transition-colors"
+                className="w-full bg-[#1E293B] border border-white/10 rounded-2xl p-4 text-white placeholder-slate-500 resize-none focus:outline-none focus:border-[#A4C639]/50 transition-colors"
               />
 
               {/* Media Upload */}
               <div className="bg-[#1E293B] border border-white/10 rounded-2xl p-4">
                 <label className="flex flex-col items-center justify-center cursor-pointer w-full">
-                  <div className="flex items-center gap-2 text-[#38BDF8] font-bold mb-2">
+                  <div className="flex items-center gap-2 text-[#5E9FA3] font-bold mb-2">
                     <Camera size={20} />
                     <span>Ajouter Photos / Vidéos</span>
                   </div>
@@ -692,7 +692,7 @@ export default function TechnicienHomePage() {
               <label className="flex items-start gap-3 cursor-pointer">
                 <div
                   onClick={() => setHasParentalConsent(!hasParentalConsent)}
-                  className={`w-6 h-6 rounded-lg border-2 border-[#00B4A0] flex items-center justify-center shrink-0 mt-0.5 transition-colors ${hasParentalConsent ? "bg-[#00B4A0]" : "bg-transparent"
+                  className={`w-6 h-6 rounded-lg border-2 border-[#A4C639] flex items-center justify-center shrink-0 mt-0.5 transition-colors ${hasParentalConsent ? "bg-[#A4C639]" : "bg-transparent"
                     }`}
                 >
                   {hasParentalConsent && <CheckCircle2 size={14} className="text-white" />}
@@ -731,7 +731,7 @@ export default function TechnicienHomePage() {
                     {signaturePoints.map((p, i) => (
                       <div
                         key={i}
-                        className="absolute w-1.5 h-1.5 rounded-full bg-[#00B4A0]"
+                        className="absolute w-1.5 h-1.5 rounded-full bg-[#A4C639]"
                         style={{ left: p.x - 3, top: p.y - 3 }}
                       />
                     ))}
@@ -748,7 +748,7 @@ export default function TechnicienHomePage() {
               <button
                 onClick={saveBilan}
                 disabled={selectedActivity?.status === "completed"}
-                className="w-full py-4 rounded-2xl font-bold bg-gradient-to-r from-[#00B4A0] to-[#00B4A0]/80 text-white shadow-lg shadow-[#00B4A0]/20 hover:shadow-[#00B4A0]/40 transition-all disabled:opacity-50"
+                className="w-full py-4 rounded-2xl font-bold bg-gradient-to-r from-[#A4C639] to-[#A4C639]/80 text-white shadow-lg shadow-[#A4C639]/20 hover:shadow-[#A4C639]/40 transition-all disabled:opacity-50"
               >
                 Enregistrer le Bilan
               </button>
@@ -766,14 +766,14 @@ export default function TechnicienHomePage() {
             animate={{ scale: 1, opacity: 1 }}
             className="relative z-10 w-full max-w-md bg-[#1E293B] rounded-3xl p-8 border border-white/10 text-center"
           >
-            <div className="w-20 h-20 bg-[#38BDF8]/10 rounded-3xl flex items-center justify-center mx-auto mb-6">
-              <QrCode size={40} className="text-[#38BDF8]" />
+            <div className="w-20 h-20 bg-[#5E9FA3]/10 rounded-3xl flex items-center justify-center mx-auto mb-6">
+              <QrCode size={40} className="text-[#5E9FA3]" />
             </div>
             <h3 className="text-2xl font-black mb-3">Scanner de Badges</h3>
             <p className="text-slate-400 font-medium leading-relaxed mb-6">
               Le scanner de badges utilise la caméra native de l&apos;appareil. Cette fonctionnalité est optimisée pour l&apos;application mobile SmartCaravan (Expo Go).
             </p>
-            <p className="text-sm text-[#00B4A0] font-bold mb-6">
+            <p className="text-sm text-[#A4C639] font-bold mb-6">
               💡 Sur le web, utilisez la page Planning du Dashboard pour scanner les QR codes via webcam.
             </p>
             <button

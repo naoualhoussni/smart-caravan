@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="scroll-smooth">
-      <body className={`${poppins.variable} font-sans antialiased bg-[#F8F9FC] text-[#0B2B5B]`}>
+      <body className={`${poppins.variable} font-sans antialiased bg-[#F8F9FC] text-[#1F3C6D]`}>
         <Navbar />
         {children}
       </body>

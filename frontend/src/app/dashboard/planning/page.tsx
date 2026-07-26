@@ -217,7 +217,7 @@ export default function PlanningPage() {
     <div className="p-8 bg-slate-50 min-h-screen text-slate-900">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-extrabold text-[#0B2B5B]">Planning des Interventions</h1>
+          <h1 className="text-3xl font-extrabold text-[#1F3C6D]">Planning des Interventions</h1>
           <p className="text-slate-500 mt-2">Gérez et assignez les ateliers de formation sur le terrain</p>
         </div>
         <div className="flex gap-4">
@@ -227,7 +227,7 @@ export default function PlanningPage() {
             className={`font-bold py-3 px-6 rounded-xl transition duration-300 flex items-center gap-2 shadow-lg ${
               isSmartMode 
                 ? 'bg-slate-200 text-slate-700 hover:bg-slate-300 shadow-none'
-                : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-indigo-500/30'
+                : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-[#5E9FA3]/30'
             }`}
           >
             {isGenerating ? (
@@ -242,7 +242,7 @@ export default function PlanningPage() {
           {!isSmartMode && (
             <button
               onClick={() => setShowAddModal(true)}
-              className="bg-[#00B4A0] hover:bg-[#009685] text-white font-bold py-3 px-6 rounded-xl transition duration-200 shadow-lg shadow-teal-500/20 flex items-center gap-2"
+              className="bg-[#A4C639] hover:bg-[#009685] text-white font-bold py-3 px-6 rounded-xl transition duration-200 shadow-lg shadow-teal-500/20 flex items-center gap-2"
             >
               <span>➕</span> Programmer
             </button>
@@ -269,7 +269,7 @@ export default function PlanningPage() {
               </p>
             </div>
 
-            <h3 className="text-xl font-bold text-[#0B2B5B] mt-8 mb-4">Recommandations pour la semaine prochaine</h3>
+            <h3 className="text-xl font-bold text-[#1F3C6D] mt-8 mb-4">Recommandations pour la semaine prochaine</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {predictions.map((pred, i) => (
                 <motion.div
@@ -284,18 +284,18 @@ export default function PlanningPage() {
                     <span className="bg-indigo-50 text-indigo-700 text-xs font-black px-3 py-1 rounded-full uppercase tracking-wider">
                       #{i+1} Suggestion IA
                     </span>
-                    {pred.risk === "Faible" ? <CheckCircle2 className="text-emerald-500 shrink-0" size={22} /> : <AlertTriangle className="text-amber-500 shrink-0" size={22} />}
+                    {pred.risk === "Faible" ? <CheckCircle2 className="text-emerald-500 shrink-0" size={22} /> : <AlertTriangle className="text-[#FDB813] shrink-0" size={22} />}
                   </div>
 
                   {/* Etablissement */}
-                  <h4 className="text-lg font-black text-[#0B2B5B] leading-tight">{pred.nom_etablissement}</h4>
+                  <h4 className="text-lg font-black text-[#1F3C6D] leading-tight">{pred.nom_etablissement}</h4>
                   <div className="flex items-center gap-2 mt-1 mb-1">
                     <span className="text-slate-400 text-xs">📍</span>
                     <span className="text-slate-500 text-sm font-medium">{pred.province}</span>
                     <span className="text-slate-300">·</span>
                     <span className="bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded-full">{pred.type_etablissement}</span>
                   </div>
-                  <p className="text-[#00B4A0] font-bold text-sm mb-4">{pred.theme}</p>
+                  <p className="text-[#A4C639] font-bold text-sm mb-4">{pred.theme}</p>
 
                   {/* Stats */}
                   <div className="space-y-3 mb-4">
@@ -328,7 +328,7 @@ export default function PlanningPage() {
                     <ul className="space-y-1">
                       {pred.raisons?.slice(0, 3).map((r: string, j: number) => (
                         <li key={j} className="flex items-start gap-1.5 text-xs text-slate-500">
-                          <span className="text-indigo-400 mt-0.5 shrink-0">▸</span>
+                          <span className="text-[#5E9FA3] mt-0.5 shrink-0">▸</span>
                           {r}
                         </li>
                       ))}
@@ -337,7 +337,7 @@ export default function PlanningPage() {
 
                   <button
                     onClick={() => handleAcceptRecommendation(pred)}
-                    className="w-full bg-[#0B2B5B] hover:bg-indigo-900 text-white font-bold py-2.5 rounded-xl transition duration-200 shadow-md flex items-center justify-center gap-2 text-sm mt-auto"
+                    className="w-full bg-[#1F3C6D] hover:bg-indigo-900 text-white font-bold py-2.5 rounded-xl transition duration-200 shadow-md flex items-center justify-center gap-2 text-sm mt-auto"
                   >
                     <CheckCircle2 size={16} /> Convertir en Atelier
                   </button>
@@ -356,7 +356,7 @@ export default function PlanningPage() {
             {/* Tableau classique */}
             <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="bg-slate-50 border-b border-slate-100 text-[#0B2B5B] font-bold text-sm">
+                <tr className="bg-slate-50 border-b border-slate-100 text-[#1F3C6D] font-bold text-sm">
                   <th className="p-4 pl-6">École / Établissement</th>
                   <th className="p-4">Province</th>
                   <th className="p-4">Date & Heure</th>
@@ -393,7 +393,7 @@ export default function PlanningPage() {
                     </td>
                     <td className="p-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs text-[#0B2B5B]">
+                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs text-[#1F3C6D]">
                           {act.trainer_name?.charAt(0) || '?'}
                         </div>
                         <span className="font-medium">{act.trainer_name}</span>
@@ -434,23 +434,23 @@ export default function PlanningPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-bold text-[#0B2B5B]">Nouvelle Intervention</h3>
+              <h3 className="text-xl font-bold text-[#1F3C6D]">Nouvelle Intervention</h3>
               <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-600 font-bold">✕</button>
             </div>
 
             <form onSubmit={handleAddActivity} className="space-y-4">
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-1">Nom de l'Établissement</label>
-                <input type="text" required placeholder="Lycée Ibn Toufail" value={newSchool} onChange={(e) => setNewSchool(e.target.value)} className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0B2B5B] outline-none" />
+                <input type="text" required placeholder="Lycée Ibn Toufail" value={newSchool} onChange={(e) => setNewSchool(e.target.value)} className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#1F3C6D] outline-none" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-bold text-slate-700 mb-1">Date</label>
-                  <input type="date" required value={newDate} onChange={(e) => setNewDate(e.target.value)} className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0B2B5B] outline-none" />
+                  <input type="date" required value={newDate} onChange={(e) => setNewDate(e.target.value)} className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#1F3C6D] outline-none" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-slate-700 mb-1">Créneau horaire</label>
-                  <select value={newTime} onChange={(e) => setNewTime(e.target.value)} className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0B2B5B] outline-none">
+                  <select value={newTime} onChange={(e) => setNewTime(e.target.value)} className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#1F3C6D] outline-none">
                     <option value="09:00 - 12:00">Matin (09:00 - 12:00)</option>
                     <option value="14:00 - 17:00">Après-midi (14:00 - 17:00)</option>
                   </select>
@@ -458,7 +458,7 @@ export default function PlanningPage() {
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-1">Thématique</label>
-                <select value={newTheme} onChange={(e) => setNewTheme(e.target.value)} className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0B2B5B] outline-none">
+                <select value={newTheme} onChange={(e) => setNewTheme(e.target.value)} className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#1F3C6D] outline-none">
                   <option value="Robotique & Arduino">Robotique & Arduino</option>
                   <option value="Initiation Python">Initiation Python</option>
                   <option value="Création de Jeux Scratch">Création de Jeux Scratch</option>
@@ -467,11 +467,11 @@ export default function PlanningPage() {
               </div>
               <div>
                 <label className="block text-sm font-bold text-slate-700 mb-1">Formateur Assigné</label>
-                <input type="text" required placeholder="Nom du formateur" value={newTrainer} onChange={(e) => setNewTrainer(e.target.value)} className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#0B2B5B] outline-none" />
+                <input type="text" required placeholder="Nom du formateur" value={newTrainer} onChange={(e) => setNewTrainer(e.target.value)} className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#1F3C6D] outline-none" />
               </div>
               <div className="pt-4 flex gap-4">
                 <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2.5 rounded-xl transition">Annuler</button>
-                <button type="submit" className="flex-1 bg-[#0B2B5B] hover:bg-[#081b3b] text-white font-bold py-2.5 rounded-xl transition">Enregistrer</button>
+                <button type="submit" className="flex-1 bg-[#1F3C6D] hover:bg-[#081b3b] text-white font-bold py-2.5 rounded-xl transition">Enregistrer</button>
               </div>
             </form>
           </div>

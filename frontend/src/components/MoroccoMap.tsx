@@ -149,7 +149,7 @@ export default function MoroccoMap({ caravanes }: MoroccoMapProps) {
               "></div>
               <div style="
                 width:12px;height:12px;border-radius:50%;
-                background:#38BDF8;border:2px solid white;
+                background:#5E9FA3;border:2px solid white;
                 box-shadow:0 0 0 2px #0EA5E9;z-index:1;
               "></div>
             </div>
@@ -173,8 +173,8 @@ export default function MoroccoMap({ caravanes }: MoroccoMapProps) {
         // [CERCLE DE PRÉCISION] — Montre la zone d'incertitude GPS
         const circle = L.circle([lat, lng], {
           radius: accuracy,
-          color: "#38BDF8",
-          fillColor: "#38BDF8",
+          color: "#5E9FA3",
+          fillColor: "#5E9FA3",
           fillOpacity: 0.08,
           weight: 1,
         }).addTo(map);
@@ -216,7 +216,7 @@ export default function MoroccoMap({ caravanes }: MoroccoMapProps) {
         const midLng = (HUB_COORDS[1] + coords[1]) / 2;
         
         const path = L.polyline([HUB_COORDS, [midLat, midLng], coords], {
-          color: '#00B4A0',
+          color: '#A4C639',
           weight: 2,
           opacity: 0.7,
           dashArray: '6, 8',
@@ -228,17 +228,17 @@ export default function MoroccoMap({ caravanes }: MoroccoMapProps) {
       const iconHtml = `
         <div style="position:relative;width:36px;height:36px;display:flex;align-items:center;justify-content:center;">
           ${isActive ? `<div style="position:absolute;width:36px;height:36px;border-radius:50%;background:rgba(0,180,160,0.25);animation:pulse 2s infinite;"></div>` : ""}
-          <div style="width:18px;height:18px;border-radius:50%;background:${isActive ? "#00B4A0" : "#94a3b8"};border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.25);z-index:1;"></div>
+          <div style="width:18px;height:18px;border-radius:50%;background:${isActive ? "#A4C639" : "#94a3b8"};border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.25);z-index:1;"></div>
         </div>
       `;
       const icon = L.divIcon({ html: iconHtml, className: "", iconSize: [36, 36], iconAnchor: [18, 18] });
       const startDate = caravan.start_date ? new Date(caravan.start_date).toLocaleDateString("fr-FR") : "Date inconnue";
       const marker = L.marker(coords, { icon }).addTo(map).bindPopup(`
         <div style="font-family:system-ui;min-width:160px;">
-          <p style="font-weight:900;color:#0B2B5B;margin:0 0 4px;font-size:14px;">${caravan.name}</p>
+          <p style="font-weight:900;color:#1F3C6D;margin:0 0 4px;font-size:14px;">${caravan.name}</p>
           <p style="color:#64748b;margin:0 0 6px;font-size:12px;">📍 ${caravan.province}</p>
           <p style="color:#64748b;margin:0 0 6px;font-size:12px;">📅 Début : ${startDate}</p>
-          <span style="background:${isActive ? "rgba(0,180,160,0.12)" : "#f1f5f9"};color:${isActive ? "#00B4A0" : "#64748b"};font-size:10px;font-weight:800;padding:2px 8px;border-radius:100px;text-transform:uppercase;">${caravan.status}</span>
+          <span style="background:${isActive ? "rgba(0,180,160,0.12)" : "#f1f5f9"};color:${isActive ? "#A4C639" : "#64748b"};font-size:10px;font-weight:800;padding:2px 8px;border-radius:100px;text-transform:uppercase;">${caravan.status}</span>
         </div>
       `);
       newMarkers.push(marker);

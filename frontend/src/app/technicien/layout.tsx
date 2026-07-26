@@ -76,14 +76,14 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
           <div className="flex items-center justify-between h-16">
             {/* Left: Logo */}
             <Link href="/formateur" className="flex items-center gap-3 group">
-              <div className="w-9 h-9 bg-gradient-to-br from-[#00B4A0] to-[#38BDF8] rounded-xl flex items-center justify-center shadow-lg shadow-[#00B4A0]/20 group-hover:shadow-[#00B4A0]/40 transition-all">
+              <div className="w-9 h-9 bg-gradient-to-br from-[#A4C639] to-[#5E9FA3] rounded-xl flex items-center justify-center shadow-lg shadow-[#A4C639]/20 group-hover:shadow-[#A4C639]/40 transition-all">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white">
                   <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
                   <circle cx="12" cy="12" r="2.5"></circle>
                 </svg>
               </div>
               <div className="hidden sm:block">
-                <span className="text-lg font-black tracking-tight">Smart<span className="text-[#00B4A0]">Caravan</span></span>
+                <span className="text-lg font-black tracking-tight">Smart<span className="text-[#A4C639]">Caravan</span></span>
                 <span className="block text-[10px] font-semibold text-slate-400 -mt-0.5 tracking-widest uppercase">Espace Formateur</span>
               </div>
             </Link>
@@ -98,7 +98,7 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
                     href={item.href}
                     className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
                       active
-                        ? "bg-gradient-to-r from-[#00B4A0] to-[#00B4A0]/80 text-white shadow-lg shadow-[#00B4A0]/20"
+                        ? "bg-gradient-to-r from-[#A4C639] to-[#A4C639]/80 text-white shadow-lg shadow-[#A4C639]/20"
                         : "text-slate-400 hover:text-white hover:bg-white/5"
                     }`}
                   >
@@ -113,7 +113,7 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
             <div className="flex items-center gap-3">
               {/* Online indicator */}
               <div className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold ${
-                isOnline ? "bg-[#00B4A0]/10 text-[#00B4A0]" : "bg-red-500/10 text-red-400"
+                isOnline ? "bg-[#A4C639]/10 text-[#A4C639]" : "bg-red-500/10 text-red-400"
               }`}>
                 {isOnline ? <Wifi size={12} /> : <WifiOff size={12} />}
                 {isOnline ? "En ligne" : "Hors ligne"}
@@ -122,13 +122,13 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
               {/* Notifications */}
               <button className="relative p-2 rounded-xl hover:bg-white/5 transition-colors">
                 <Bell size={20} className="text-slate-400" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-[#00B4A0] rounded-full border-2 border-[#0F172A]" />
+                <span className="absolute top-1 right-1 w-2 h-2 bg-[#A4C639] rounded-full border-2 border-[#0F172A]" />
               </button>
 
               {/* Avatar */}
               <button
                 onClick={() => router.push("/formateur/profil")}
-                className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#00B4A0] to-[#38BDF8] flex items-center justify-center text-white font-black text-xs shadow-lg hover:shadow-[#00B4A0]/30 transition-all"
+                className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#A4C639] to-[#5E9FA3] flex items-center justify-center text-white font-black text-xs shadow-lg hover:shadow-[#A4C639]/30 transition-all"
               >
                 {initials}
               </button>
@@ -180,7 +180,7 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
                         onClick={() => setMobileMenuOpen(false)}
                         className={`flex items-center gap-3 px-4 py-3.5 rounded-xl font-semibold text-sm transition-all ${
                           active
-                            ? "bg-[#00B4A0]/15 text-[#00B4A0]"
+                            ? "bg-[#A4C639]/15 text-[#A4C639]"
                             : "text-slate-400 hover:text-white hover:bg-white/5"
                         }`}
                       >
@@ -221,7 +221,7 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
                 key={item.href}
                 href={item.href}
                 className={`flex flex-col items-center gap-0.5 px-3 py-2 rounded-xl transition-all ${
-                  active ? "text-[#00B4A0]" : "text-slate-500"
+                  active ? "text-[#A4C639]" : "text-slate-500"
                 }`}
               >
                 <item.icon size={22} className={active ? "drop-shadow-[0_0_8px_rgba(0,180,160,0.5)]" : ""} />
@@ -229,7 +229,7 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
                 {active && (
                   <motion.div
                     layoutId="bottomTabIndicator"
-                    className="w-1 h-1 bg-[#00B4A0] rounded-full mt-0.5"
+                    className="w-1 h-1 bg-[#A4C639] rounded-full mt-0.5"
                   />
                 )}
               </Link>

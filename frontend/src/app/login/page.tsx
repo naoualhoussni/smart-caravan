@@ -56,8 +56,8 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 relative overflow-hidden pt-24">
       {/* Background Blobs */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#0B2B5B]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#00B4A0]/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#1F3C6D]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#A4C639]/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -67,15 +67,15 @@ const LoginPage = () => {
       >
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 mb-6 group bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
-            <div className="w-8 h-8 bg-[#0B2B5B] rounded-lg flex items-center justify-center shadow-md">
+            <div className="w-8 h-8 bg-[#1F3C6D] rounded-lg flex items-center justify-center shadow-md">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
                 <circle cx="12" cy="12" r="3"></circle>
               </svg>
             </div>
-            <span className="text-xl font-black tracking-tight text-[#0B2B5B]">SmartCaravan<span className="text-[#00B4A0]">.</span></span>
+            <span className="text-xl font-black tracking-tight text-[#1F3C6D]">SmartCaravan<span className="text-[#A4C639]">.</span></span>
           </div>
-          <h1 className="text-3xl font-black mb-2 text-[#0B2B5B]">Bon retour 👋</h1>
+          <h1 className="text-3xl font-black mb-2 text-[#1F3C6D]">Bon retour 👋</h1>
           <p className="text-slate-500 font-medium">Connectez-vous pour piloter votre caravane.</p>
         </div>
 
@@ -86,7 +86,7 @@ const LoginPage = () => {
                 Adresse Email
               </label>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#00B4A0] transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#A4C639] transition-colors">
                   <Mail size={18} />
                 </div>
                 <input
@@ -94,7 +94,7 @@ const LoginPage = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#00B4A0]/20 focus:border-[#00B4A0] transition-all outline-none font-medium text-slate-800"
+                  className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#A4C639]/20 focus:border-[#A4C639] transition-all outline-none font-medium text-slate-800"
                   placeholder="nom@exemple.com"
                 />
               </div>
@@ -108,13 +108,13 @@ const LoginPage = () => {
                 <Link 
                   href="#" 
                   onClick={(e) => { e.preventDefault(); alert("Fonctionnalité en cours de développement."); }}
-                  className="text-xs font-bold text-[#00B4A0] hover:underline"
+                  className="text-xs font-bold text-[#A4C639] hover:underline"
                 >
                   Oublié ?
                 </Link>
               </div>
               <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#00B4A0] transition-colors">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#A4C639] transition-colors">
                   <Lock size={18} />
                 </div>
                 <input
@@ -122,7 +122,7 @@ const LoginPage = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#00B4A0]/20 focus:border-[#00B4A0] transition-all outline-none font-medium text-slate-800"
+                  className="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-[#A4C639]/20 focus:border-[#A4C639] transition-all outline-none font-medium text-slate-800"
                   placeholder="••••••••"
                 />
               </div>
@@ -142,7 +142,7 @@ const LoginPage = () => {
             <button
               disabled={isLoading}
               type="submit"
-              className="w-full py-4 bg-[#0B2B5B] text-white rounded-xl font-black flex items-center justify-center gap-2 hover:bg-[#082045] hover:shadow-lg hover:shadow-[#0B2B5B]/20 transition-all duration-300 group disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full py-4 bg-[#1F3C6D] text-white rounded-xl font-black flex items-center justify-center gap-2 hover:bg-[#082045] hover:shadow-lg hover:shadow-[#1F3C6D]/20 transition-all duration-300 group disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -176,14 +176,14 @@ const LoginPage = () => {
 
         <p className="text-center mt-8 text-sm text-slate-500 font-medium">
           Pas encore de compte ?{" "}
-          <Link href="#" className="text-[#00B4A0] font-bold hover:underline">
+          <Link href="#" className="text-[#A4C639] font-bold hover:underline">
             Contactez l'admin
           </Link>
         </p>
 
         <div className="mt-8 flex justify-center">
            <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest bg-white/50 backdrop-blur-sm px-3 py-1.5 rounded-full border border-slate-100">
-              <ShieldCheck size={14} className="text-[#00B4A0]" />
+              <ShieldCheck size={14} className="text-[#A4C639]" />
               <span>Connexion Chiffrée</span>
            </div>
         </div>

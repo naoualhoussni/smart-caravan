@@ -52,13 +52,13 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-[#0B2B5B] rounded-lg flex items-center justify-center shadow-md">
+          <div className="w-8 h-8 bg-[#1F3C6D] rounded-lg flex items-center justify-center shadow-md">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
               <circle cx="12" cy="12" r="3"></circle>
             </svg>
           </div>
-          <span className="text-xl font-black tracking-tight text-[#0B2B5B]">SmartCaravan<span className="text-[#00B4A0]">.</span></span>
+          <span className="text-xl font-black tracking-tight text-[#1F3C6D]">SmartCaravan<span className="text-[#A4C639]">.</span></span>
         </Link>
 
         {/* Desktop Nav */}
@@ -67,7 +67,7 @@ const Navbar = () => {
             <Link
               key={link.name}
               href={link.href}
-              className="text-sm font-bold text-[#0B2B5B]/70 hover:text-[#00B4A0] transition-colors"
+              className="text-sm font-bold text-[#1F3C6D]/70 hover:text-[#A4C639] transition-colors"
             >
               {link.name}
             </Link>
@@ -81,14 +81,14 @@ const Navbar = () => {
             <div className="flex items-center gap-3">
               <Link
                 href="/formateur"
-                className="flex items-center gap-2 px-4 py-2 bg-[#0B2B5B]/10 border border-[#0B2B5B]/20 text-[#0B2B5B] rounded-full font-bold text-sm hover:bg-[#0B2B5B] hover:text-white transition-all"
+                className="flex items-center gap-2 px-4 py-2 bg-[#1F3C6D]/10 border border-[#1F3C6D]/20 text-[#1F3C6D] rounded-full font-bold text-sm hover:bg-[#1F3C6D] hover:text-white transition-all"
               >
                 <Smartphone size={15} />
                 Espace Formateur
               </Link>
               <Link
                 href="/dashboard"
-                className="flex items-center gap-2 px-4 py-2 bg-[#00B4A0]/10 border border-[#00B4A0]/30 text-[#00B4A0] rounded-full font-bold text-sm hover:bg-[#00B4A0] hover:text-white transition-all"
+                className="flex items-center gap-2 px-4 py-2 bg-[#A4C639]/10 border border-[#A4C639]/30 text-[#A4C639] rounded-full font-bold text-sm hover:bg-[#A4C639] hover:text-white transition-all"
               >
                 <LayoutDashboard size={15} />
                 Mon Dashboard
@@ -106,7 +106,7 @@ const Navbar = () => {
             // Non connecté : bouton Connexion
             <Link
               href="/login"
-              className="px-6 py-2 bg-[#0B2B5B] text-white rounded-full font-bold text-sm hover:bg-[#00B4A0] hover:shadow-lg transition-all"
+              className="px-6 py-2 bg-[#1F3C6D] text-white rounded-full font-bold text-sm hover:bg-[#A4C639] hover:shadow-lg transition-all"
             >
               Connexion
             </Link>
@@ -115,7 +115,7 @@ const Navbar = () => {
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden p-2 text-[#0B2B5B]"
+          className="md:hidden p-2 text-[#1F3C6D]"
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
@@ -141,7 +141,7 @@ const Navbar = () => {
             <Link
               key={link.name}
               href={link.href}
-              className="text-lg font-bold text-[#0B2B5B]"
+              className="text-lg font-bold text-[#1F3C6D]"
               onClick={() => setIsOpen(false)}
             >
               {link.name}
@@ -152,7 +152,7 @@ const Navbar = () => {
             <>
               <Link
                 href="/dashboard"
-                className="mt-2 py-4 bg-[#00B4A0] text-white rounded-2xl font-bold text-center flex items-center justify-center gap-2"
+                className="mt-2 py-4 bg-[#A4C639] text-white rounded-2xl font-bold text-center flex items-center justify-center gap-2"
                 onClick={() => setIsOpen(false)}
               >
                 <LayoutDashboard size={18} />
@@ -167,13 +167,13 @@ const Navbar = () => {
               </button>
               <div className="px-2 py-3 bg-slate-50 rounded-2xl border border-slate-100 text-center">
                 <p className="text-xs text-slate-400 font-semibold">Connecté en tant que</p>
-                <p className="text-sm font-black text-[#0B2B5B] truncate mt-0.5">{user.email}</p>
+                <p className="text-sm font-black text-[#1F3C6D] truncate mt-0.5">{user.email}</p>
               </div>
             </>
           ) : (
             <Link
               href="/login"
-              className="mt-2 py-4 bg-[#0B2B5B] text-white rounded-2xl font-bold text-center"
+              className="mt-2 py-4 bg-[#1F3C6D] text-white rounded-2xl font-bold text-center"
               onClick={() => setIsOpen(false)}
             >
               Connexion

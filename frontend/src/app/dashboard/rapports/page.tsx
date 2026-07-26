@@ -249,14 +249,14 @@ ${report.summary}
       {/* ─── Header ─────────────────────────────────────── */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black text-[#0B2B5B]">Rapports & Documents</h1>
+          <h1 className="text-3xl font-black text-[#1F3C6D]">Rapports & Documents</h1>
           <p className="text-slate-500 font-medium mt-1">
             Générez, consultez et téléchargez vos bilans d'interventions terrain.
           </p>
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="flex items-center gap-2 bg-[#0B2B5B] text-white px-6 py-3 rounded-2xl font-bold hover:shadow-xl hover:shadow-[#0B2B5B]/20 hover:-translate-y-0.5 transition-all"
+          className="flex items-center gap-2 bg-[#1F3C6D] text-white px-6 py-3 rounded-2xl font-bold hover:shadow-xl hover:shadow-[#1F3C6D]/20 hover:-translate-y-0.5 transition-all"
         >
           <Plus size={20} />
           Nouveau Rapport
@@ -266,29 +266,29 @@ ${report.summary}
       {/* ─── KPIs ──────────────────────────────────────── */}
       <div className="grid md:grid-cols-3 gap-6">
         <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
-          <div className="w-12 h-12 bg-[#00B4A0]/10 rounded-2xl flex items-center justify-center text-[#00B4A0]">
+          <div className="w-12 h-12 bg-[#A4C639]/10 rounded-2xl flex items-center justify-center text-[#A4C639]">
             <CheckCircle size={24} />
           </div>
           <div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Rapports</p>
-            <p className="text-2xl font-black text-[#0B2B5B]">{reports.length} rapports</p>
+            <p className="text-2xl font-black text-[#1F3C6D]">{reports.length} rapports</p>
           </div>
         </div>
 
         <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
-          <div className="w-12 h-12 bg-[#0B2B5B]/10 rounded-2xl flex items-center justify-center text-[#0B2B5B]">
+          <div className="w-12 h-12 bg-[#1F3C6D]/10 rounded-2xl flex items-center justify-center text-[#1F3C6D]">
             <Download size={24} />
           </div>
           <div>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Participants cumulés</p>
-            <p className="text-2xl font-black text-[#0B2B5B]">
+            <p className="text-2xl font-black text-[#1F3C6D]">
               {reports.reduce((s, r) => s + r.participants, 0).toLocaleString()} élèves
             </p>
           </div>
         </div>
 
-        <div className="bg-[#0B2B5B] p-6 rounded-3xl shadow-xl flex items-center gap-4 text-white">
-          <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-[#00B4A0]">
+        <div className="bg-[#1F3C6D] p-6 rounded-3xl shadow-xl flex items-center gap-4 text-white">
+          <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-[#A4C639]">
             <BarChart size={24} />
           </div>
           <div>
@@ -307,7 +307,7 @@ ${report.summary}
           placeholder="Rechercher par nom, école, formateur..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="flex-1 px-4 py-2.5 bg-slate-50 rounded-xl border border-slate-100 text-sm font-medium text-[#0B2B5B] focus:outline-none focus:ring-2 focus:ring-[#00B4A0]"
+          className="flex-1 px-4 py-2.5 bg-slate-50 rounded-xl border border-slate-100 text-sm font-medium text-[#1F3C6D] focus:outline-none focus:ring-2 focus:ring-[#A4C639]"
         />
         <div className="flex gap-2">
           {(["ALL", "PDF", "CSV"] as const).map((t) => (
@@ -316,7 +316,7 @@ ${report.summary}
               onClick={() => setFilterType(t)}
               className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 filterType === t
-                  ? "bg-[#0B2B5B] text-white shadow-md"
+                  ? "bg-[#1F3C6D] text-white shadow-md"
                   : "bg-slate-100 text-slate-500 hover:bg-slate-200"
               }`}
             >
@@ -360,21 +360,21 @@ ${report.summary}
                         <FileText size={18} />
                       </div>
                       <div>
-                        <p className="font-bold text-[#0B2B5B] text-sm leading-tight">{report.name}</p>
+                        <p className="font-bold text-[#1F3C6D] text-sm leading-tight">{report.name}</p>
                         <p className="text-[10px] text-slate-400 font-semibold mt-0.5">{report.size}</p>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-1.5">
-                      <MapPin size={12} className="text-[#00B4A0]" />
+                      <MapPin size={12} className="text-[#A4C639]" />
                       <span className="text-sm font-semibold text-slate-700">{report.school}</span>
                     </div>
                     <p className="text-[10px] text-slate-400 font-semibold mt-0.5 pl-4">{report.province}</p>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <div className="w-7 h-7 rounded-full bg-[#0B2B5B] flex items-center justify-center text-white text-[10px] font-black flex-shrink-0">
+                      <div className="w-7 h-7 rounded-full bg-[#1F3C6D] flex items-center justify-center text-white text-[10px] font-black flex-shrink-0">
                         {report.trainer.charAt(0)}
                       </div>
                       <span className="text-sm font-semibold text-slate-700">{report.trainer}</span>
@@ -393,14 +393,14 @@ ${report.summary}
                       <button
                         onClick={() => setSelectedReport(report)}
                         title="Aperçu"
-                        className="p-2 bg-[#0B2B5B]/5 text-[#0B2B5B] rounded-xl hover:bg-[#0B2B5B] hover:text-white transition-all"
+                        className="p-2 bg-[#1F3C6D]/5 text-[#1F3C6D] rounded-xl hover:bg-[#1F3C6D] hover:text-white transition-all"
                       >
                         <Eye size={15} />
                       </button>
                       <button
                         onClick={() => handleDownload(report)}
                         title="Télécharger"
-                        className="p-2 bg-[#00B4A0]/10 text-[#00B4A0] rounded-xl hover:bg-[#00B4A0] hover:text-white transition-all"
+                        className="p-2 bg-[#A4C639]/10 text-[#A4C639] rounded-xl hover:bg-[#A4C639] hover:text-white transition-all"
                       >
                         <Download size={15} />
                       </button>
@@ -437,36 +437,36 @@ ${report.summary}
               <FileText size={22} />
             </div>
 
-            <h2 className="text-xl font-black text-[#0B2B5B] mb-1">{selectedReport.name}</h2>
+            <h2 className="text-xl font-black text-[#1F3C6D] mb-1">{selectedReport.name}</h2>
             <p className="text-xs text-slate-400 font-semibold mb-6">{selectedReport.date}</p>
 
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="bg-slate-50 rounded-2xl p-4 flex items-center gap-3">
-                <MapPin size={16} className="text-[#00B4A0]" />
+                <MapPin size={16} className="text-[#A4C639]" />
                 <div>
                   <p className="text-[10px] text-slate-400 font-black uppercase">École</p>
-                  <p className="text-sm font-bold text-[#0B2B5B]">{selectedReport.school}</p>
+                  <p className="text-sm font-bold text-[#1F3C6D]">{selectedReport.school}</p>
                 </div>
               </div>
               <div className="bg-slate-50 rounded-2xl p-4 flex items-center gap-3">
-                <User size={16} className="text-[#0B2B5B]" />
+                <User size={16} className="text-[#1F3C6D]" />
                 <div>
                   <p className="text-[10px] text-slate-400 font-black uppercase">Formateur</p>
-                  <p className="text-sm font-bold text-[#0B2B5B]">{selectedReport.trainer}</p>
+                  <p className="text-sm font-bold text-[#1F3C6D]">{selectedReport.trainer}</p>
                 </div>
               </div>
               <div className="bg-slate-50 rounded-2xl p-4 flex items-center gap-3">
-                <CheckCircle size={16} className="text-[#00B4A0]" />
+                <CheckCircle size={16} className="text-[#A4C639]" />
                 <div>
                   <p className="text-[10px] text-slate-400 font-black uppercase">Participants</p>
-                  <p className="text-sm font-bold text-[#0B2B5B]">{selectedReport.participants} élèves</p>
+                  <p className="text-sm font-bold text-[#1F3C6D]">{selectedReport.participants} élèves</p>
                 </div>
               </div>
               <div className="bg-slate-50 rounded-2xl p-4 flex items-center gap-3">
-                <Clock size={16} className="text-[#0B2B5B]" />
+                <Clock size={16} className="text-[#1F3C6D]" />
                 <div>
                   <p className="text-[10px] text-slate-400 font-black uppercase">Durée</p>
-                  <p className="text-sm font-bold text-[#0B2B5B]">{selectedReport.duration}</p>
+                  <p className="text-sm font-bold text-[#1F3C6D]">{selectedReport.duration}</p>
                 </div>
               </div>
             </div>
@@ -478,7 +478,7 @@ ${report.summary}
 
             <button
               onClick={() => handleDownload(selectedReport)}
-              className="w-full bg-[#0B2B5B] hover:bg-[#00B4A0] text-white font-bold py-3 rounded-2xl transition-all flex items-center justify-center gap-2"
+              className="w-full bg-[#1F3C6D] hover:bg-[#A4C639] text-white font-bold py-3 rounded-2xl transition-all flex items-center justify-center gap-2"
             >
               <Download size={18} />
               Télécharger le rapport ({selectedReport.type})
@@ -498,14 +498,14 @@ ${report.summary}
               <X size={18} />
             </button>
 
-            <h2 className="text-xl font-black text-[#0B2B5B] mb-1">Nouveau Rapport</h2>
+            <h2 className="text-xl font-black text-[#1F3C6D] mb-1">Nouveau Rapport</h2>
             <p className="text-xs text-slate-400 font-semibold mb-6">Saisissez les informations du bilan d'intervention.</p>
 
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
                 <label className="block text-xs font-black text-slate-600 mb-1">Titre du Rapport *</label>
                 <input required value={newName} onChange={e => setNewName(e.target.value)}
-                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#00B4A0]"
+                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#A4C639]"
                   placeholder="Ex : Rapport Atelier Python - Lycée Al Farabi" />
               </div>
 
@@ -513,13 +513,13 @@ ${report.summary}
                 <div>
                   <label className="block text-xs font-black text-slate-600 mb-1">École *</label>
                   <input required value={newSchool} onChange={e => setNewSchool(e.target.value)}
-                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#00B4A0]"
+                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#A4C639]"
                     placeholder="Nom de l'établissement" />
                 </div>
                 <div>
                   <label className="block text-xs font-black text-slate-600 mb-1">Province</label>
                   <select value={newProvince} onChange={e => setNewProvince(e.target.value)}
-                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#00B4A0]">
+                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#A4C639]">
                     <option>Ifrane</option>
                     <option>Midelt</option>
                     <option>Chefchaouen</option>
@@ -533,7 +533,7 @@ ${report.summary}
                 <div>
                   <label className="block text-xs font-black text-slate-600 mb-1">Formateur</label>
                   <select value={newTrainer} onChange={e => setNewTrainer(e.target.value)}
-                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#00B4A0]">
+                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#A4C639]">
                     <option>Youssef Alami</option>
                     <option>Sara Kabbaj</option>
                     <option>Amine Bennani</option>
@@ -542,7 +542,7 @@ ${report.summary}
                 <div>
                   <label className="block text-xs font-black text-slate-600 mb-1">Type</label>
                   <select value={newType} onChange={e => setNewType(e.target.value as "PDF" | "CSV")}
-                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#00B4A0]">
+                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#A4C639]">
                     <option value="PDF">PDF</option>
                     <option value="CSV">CSV</option>
                   </select>
@@ -553,13 +553,13 @@ ${report.summary}
                 <div>
                   <label className="block text-xs font-black text-slate-600 mb-1">Participants</label>
                   <input type="number" value={newParticipants} onChange={e => setNewParticipants(e.target.value)}
-                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#00B4A0]"
+                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#A4C639]"
                     placeholder="ex : 42" />
                 </div>
                 <div>
                   <label className="block text-xs font-black text-slate-600 mb-1">Durée</label>
                   <input value={newDuration} onChange={e => setNewDuration(e.target.value)}
-                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#00B4A0]"
+                    className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#A4C639]"
                     placeholder="ex : 3h00" />
                 </div>
               </div>
@@ -573,7 +573,7 @@ ${report.summary}
                     className={`flex items-center gap-1 text-[10px] font-black px-2.5 py-1 rounded-full transition-all ${
                       isListening 
                         ? "bg-red-500 text-white animate-pulse" 
-                        : "bg-[#00B4A0]/10 text-[#00B4A0] hover:bg-[#00B4A0]/20"
+                        : "bg-[#A4C639]/10 text-[#A4C639] hover:bg-[#A4C639]/20"
                     }`}
                   >
                     <Mic size={10} />
@@ -581,7 +581,7 @@ ${report.summary}
                   </button>
                 </div>
                 <textarea required rows={3} value={newSummary} onChange={e => setNewSummary(e.target.value)}
-                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#00B4A0]"
+                  className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#A4C639]"
                   placeholder="Décrivez le déroulement de l'atelier, les résultats, les points marquants..." />
               </div>
 
@@ -591,7 +591,7 @@ ${report.summary}
                   Annuler
                 </button>
                 <button type="submit"
-                  className="flex-1 py-3 bg-[#0B2B5B] hover:bg-[#00B4A0] text-white font-bold rounded-2xl transition flex items-center justify-center gap-2">
+                  className="flex-1 py-3 bg-[#1F3C6D] hover:bg-[#A4C639] text-white font-bold rounded-2xl transition flex items-center justify-center gap-2">
                   <Plus size={16} />
                   Créer le Rapport
                 </button>

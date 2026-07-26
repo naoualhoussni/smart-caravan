@@ -109,7 +109,7 @@ export default function CoachPage() {
       >
         <div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight flex items-center gap-3">
-            <Sparkles className="text-[#00B4A0]" size={28} />
+            <Sparkles className="text-[#A4C639]" size={28} />
             IA Coach
           </h1>
           <p className="text-slate-400 font-medium mt-1">
@@ -128,9 +128,9 @@ export default function CoachPage() {
       {/* Chat Area */}
       <div className="flex-1 flex flex-col bg-[#1E293B]/50 rounded-3xl border border-white/5 overflow-hidden">
         {/* Context Badge */}
-        <div className="flex items-center gap-2 px-4 py-2.5 bg-[#00B4A0]/5 border-b border-white/5">
-          <ShieldCheck size={14} className="text-[#00B4A0]" />
-          <span className="text-xs font-bold text-[#00B4A0]">IA connectée au contexte SmartCaravan • Groq LLM</span>
+        <div className="flex items-center gap-2 px-4 py-2.5 bg-[#A4C639]/5 border-b border-white/5">
+          <ShieldCheck size={14} className="text-[#A4C639]" />
+          <span className="text-xs font-bold text-[#A4C639]">IA connectée au contexte SmartCaravan • Groq LLM</span>
         </div>
 
         {/* Messages */}
@@ -145,8 +145,8 @@ export default function CoachPage() {
               {/* Avatar */}
               <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
                 msg.sender === "ai"
-                  ? "bg-gradient-to-br from-[#00B4A0] to-[#38BDF8]"
-                  : "bg-[#0B2B5B]"
+                  ? "bg-gradient-to-br from-[#A4C639] to-[#5E9FA3]"
+                  : "bg-[#1F3C6D]"
               }`}>
                 {msg.sender === "ai" ? (
                   <Bot size={14} className="text-white" />
@@ -158,7 +158,7 @@ export default function CoachPage() {
               {/* Bubble */}
               <div className={`max-w-[80%] sm:max-w-[70%] rounded-2xl px-4 py-3 ${
                 msg.sender === "user"
-                  ? "bg-gradient-to-r from-[#0B2B5B] to-[#0B2B5B]/80 text-white"
+                  ? "bg-gradient-to-r from-[#1F3C6D] to-[#1F3C6D]/80 text-white"
                   : "bg-white/5 text-slate-200"
               }`}>
                 <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.text}</p>
@@ -176,14 +176,14 @@ export default function CoachPage() {
               animate={{ opacity: 1 }}
               className="flex gap-3"
             >
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#00B4A0] to-[#38BDF8] flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#A4C639] to-[#5E9FA3] flex items-center justify-center shrink-0">
                 <Bot size={14} className="text-white" />
               </div>
               <div className="bg-white/5 rounded-2xl px-5 py-4">
                 <div className="flex gap-1.5">
-                  <div className="w-2 h-2 bg-[#00B4A0] rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <div className="w-2 h-2 bg-[#00B4A0] rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <div className="w-2 h-2 bg-[#00B4A0] rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                  <div className="w-2 h-2 bg-[#A4C639] rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                  <div className="w-2 h-2 bg-[#A4C639] rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                  <div className="w-2 h-2 bg-[#A4C639] rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                 </div>
               </div>
             </motion.div>
@@ -198,7 +198,7 @@ export default function CoachPage() {
                 <button
                   key={i}
                   onClick={() => sendMessage(s.text)}
-                  className="flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-[#00B4A0]/10 border border-white/5 hover:border-[#00B4A0]/20 rounded-xl text-sm font-medium text-slate-300 hover:text-[#00B4A0] transition-all"
+                  className="flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-[#A4C639]/10 border border-white/5 hover:border-[#A4C639]/20 rounded-xl text-sm font-medium text-slate-300 hover:text-[#A4C639] transition-all"
                 >
                   <s.icon size={14} />
                   {s.text}
@@ -220,14 +220,14 @@ export default function CoachPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Demandez de l'aide à l'IA..."
-              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-[#00B4A0]/50 transition-colors text-sm"
+              className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-[#A4C639]/50 transition-colors text-sm"
             />
             <button
               type="submit"
               disabled={!input.trim() || isLoading}
               className={`px-4 rounded-xl font-bold transition-all flex items-center justify-center ${
                 input.trim() && !isLoading
-                  ? "bg-gradient-to-r from-[#00B4A0] to-[#00B4A0]/80 text-white shadow-lg shadow-[#00B4A0]/20"
+                  ? "bg-gradient-to-r from-[#A4C639] to-[#A4C639]/80 text-white shadow-lg shadow-[#A4C639]/20"
                   : "bg-white/5 text-slate-500"
               }`}
             >

@@ -99,7 +99,7 @@ export default function ProfilPage() {
       >
         {/* Avatar */}
         <div className="relative inline-block mb-4">
-          <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-[#00B4A0] to-[#38BDF8] flex items-center justify-center text-white text-3xl font-black shadow-2xl shadow-[#00B4A0]/20">
+          <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-[#A4C639] to-[#5E9FA3] flex items-center justify-center text-white text-3xl font-black shadow-2xl shadow-[#A4C639]/20">
             {initials}
           </div>
           <button className="absolute -bottom-1 -right-1 w-8 h-8 bg-[#1E293B] border-2 border-[#0F172A] rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-[#334155] transition-all">
@@ -119,7 +119,7 @@ export default function ProfilPage() {
               initial={{ width: 0 }}
               animate={{ width: `${Math.min(100, (profile.points % 1000) / 10)}%` }}
               transition={{ duration: 1.5 }}
-              className="h-full bg-gradient-to-r from-amber-400 to-[#00B4A0] rounded-full"
+              className="h-full bg-gradient-to-r from-[#FDB813] to-[#A4C639] rounded-full"
             />
           </div>
         </div>
@@ -133,9 +133,9 @@ export default function ProfilPage() {
         className="grid grid-cols-3 gap-3"
       >
         {[
-          { label: "Terminés", value: completedCount, color: "text-[#00B4A0]" },
-          { label: "Planifiés", value: pendingCount, color: "text-amber-400" },
-          { label: "Total Points", value: profile.points, color: "text-[#38BDF8]" },
+          { label: "Terminés", value: completedCount, color: "text-[#A4C639]" },
+          { label: "Planifiés", value: pendingCount, color: "text-[#FDB813]" },
+          { label: "Total Points", value: profile.points, color: "text-[#5E9FA3]" },
         ].map((s, i) => (
           <div key={i} className="bg-[#1E293B] rounded-2xl p-4 border border-white/5 text-center">
             <p className={`text-2xl font-black ${s.color}`}>{s.value}</p>
@@ -158,8 +158,8 @@ export default function ProfilPage() {
             disabled={saving}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
               isEditing
-                ? "bg-[#00B4A0] text-white shadow-lg shadow-[#00B4A0]/20"
-                : "text-[#00B4A0] hover:bg-[#00B4A0]/10"
+                ? "bg-[#A4C639] text-white shadow-lg shadow-[#A4C639]/20"
+                : "text-[#A4C639] hover:bg-[#A4C639]/10"
             }`}
           >
             {saving ? (
@@ -202,7 +202,7 @@ export default function ProfilPage() {
               placeholder="Ex: Youssef Alami"
               className={`w-full bg-white/5 border rounded-xl px-4 py-3 text-sm transition-all ${
                 isEditing
-                  ? "border-[#00B4A0]/30 text-white focus:outline-none focus:border-[#00B4A0]"
+                  ? "border-[#A4C639]/30 text-white focus:outline-none focus:border-[#A4C639]"
                   : "border-white/5 text-slate-300 cursor-not-allowed"
               }`}
             />
@@ -222,7 +222,7 @@ export default function ProfilPage() {
               placeholder="Ex: +212 6 00 00 00 00"
               className={`w-full bg-white/5 border rounded-xl px-4 py-3 text-sm transition-all ${
                 isEditing
-                  ? "border-[#00B4A0]/30 text-white focus:outline-none focus:border-[#00B4A0]"
+                  ? "border-[#A4C639]/30 text-white focus:outline-none focus:border-[#A4C639]"
                   : "border-white/5 text-slate-300 cursor-not-allowed"
               }`}
             />
@@ -238,7 +238,7 @@ export default function ProfilPage() {
         className="bg-[#1E293B] rounded-3xl p-6 border border-white/5"
       >
         <h2 className="text-lg font-black mb-4 flex items-center gap-2">
-          <Award size={20} className="text-amber-400" />
+          <Award size={20} className="text-[#FDB813]" />
           Badges & Récompenses
         </h2>
         <div className="grid grid-cols-3 gap-3">
@@ -250,19 +250,19 @@ export default function ProfilPage() {
               transition={{ delay: 0.4 + i * 0.05 }}
               className={`text-center p-4 rounded-2xl border transition-all ${
                 badge.unlocked
-                  ? "bg-gradient-to-br from-amber-400/10 to-[#00B4A0]/10 border-amber-400/20"
+                  ? "bg-gradient-to-br from-[#FDB813]/10 to-[#A4C639]/10 border-[#FDB813]/20"
                   : "bg-white/[0.02] border-white/5 opacity-40"
               }`}
             >
               <badge.icon
                 size={24}
-                className={`mx-auto mb-2 ${badge.unlocked ? "text-amber-400" : "text-slate-600"}`}
+                className={`mx-auto mb-2 ${badge.unlocked ? "text-[#FDB813]" : "text-slate-600"}`}
               />
               <p className={`text-xs font-bold ${badge.unlocked ? "text-white" : "text-slate-500"}`}>
                 {badge.name}
               </p>
               {badge.unlocked && (
-                <p className="text-[10px] text-[#00B4A0] font-bold mt-1">✓ Débloqué</p>
+                <p className="text-[10px] text-[#A4C639] font-bold mt-1">✓ Débloqué</p>
               )}
             </motion.div>
           ))}
@@ -277,20 +277,20 @@ export default function ProfilPage() {
         className="bg-[#1E293B] rounded-3xl p-6 border border-white/5"
       >
         <h2 className="text-lg font-black mb-4 flex items-center gap-2">
-          <Shield size={20} className="text-[#38BDF8]" />
+          <Shield size={20} className="text-[#5E9FA3]" />
           Sécurité & Confidentialité
         </h2>
         <div className="space-y-3 text-sm text-slate-400">
           <div className="flex items-center gap-3 p-3 bg-white/[0.02] rounded-xl">
-            <CheckCircle2 size={16} className="text-[#00B4A0] shrink-0" />
+            <CheckCircle2 size={16} className="text-[#A4C639] shrink-0" />
             <span>Authentification Supabase sécurisée (JWT)</span>
           </div>
           <div className="flex items-center gap-3 p-3 bg-white/[0.02] rounded-xl">
-            <CheckCircle2 size={16} className="text-[#00B4A0] shrink-0" />
+            <CheckCircle2 size={16} className="text-[#A4C639] shrink-0" />
             <span>Row Level Security (RLS) activée</span>
           </div>
           <div className="flex items-center gap-3 p-3 bg-white/[0.02] rounded-xl">
-            <CheckCircle2 size={16} className="text-[#00B4A0] shrink-0" />
+            <CheckCircle2 size={16} className="text-[#A4C639] shrink-0" />
             <span>Conformité RGPD/CNDP pour les données terrain</span>
           </div>
         </div>

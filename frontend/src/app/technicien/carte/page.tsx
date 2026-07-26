@@ -198,7 +198,7 @@ export default function CartePage() {
 
       const activeIcon = L.divIcon({
         className: "custom-marker",
-        html: `<div style="width:28px;height:28px;background:linear-gradient(135deg,#00B4A0,#38BDF8);border-radius:50%;border:3px solid white;box-shadow:0 4px 12px rgba(0,180,160,0.4);display:flex;align-items:center;justify-content:center;">
+        html: `<div style="width:28px;height:28px;background:linear-gradient(135deg,#A4C639,#5E9FA3);border-radius:50%;border:3px solid white;box-shadow:0 4px 12px rgba(0,180,160,0.4);display:flex;align-items:center;justify-content:center;">
           <div style="width:8px;height:8px;background:white;border-radius:50%;"></div>
         </div>`,
         iconSize: [28, 28],
@@ -231,7 +231,7 @@ export default function CartePage() {
         m.bindPopup(`
           <div style="font-family:Poppins,sans-serif;padding:4px;">
             <strong style="color:#0F172A;font-size:14px;">${marker.name}</strong><br/>
-            <span style="color:${marker.status === 'active' ? '#00B4A0' : '#94A3B8'};font-size:11px;font-weight:bold;text-transform:uppercase;">
+            <span style="color:${marker.status === 'active' ? '#A4C639' : '#94A3B8'};font-size:11px;font-weight:bold;text-transform:uppercase;">
               ${marker.status === 'active' ? '● Atelier en cours' : '● Terminé'}
             </span>
           </div>
@@ -265,7 +265,7 @@ export default function CartePage() {
             className: "user-marker",
             html: `<div style="width:32px;height:32px;position:relative;">
               <div style="width:32px;height:32px;background:rgba(0,180,160,0.2);border-radius:50%;animation:pulse 2s infinite;"></div>
-              <div style="width:14px;height:14px;background:#00B4A0;border-radius:50%;border:3px solid white;position:absolute;top:9px;left:9px;box-shadow:0 2px 8px rgba(0,180,160,0.5);"></div>
+              <div style="width:14px;height:14px;background:#A4C639;border-radius:50%;border:3px solid white;position:absolute;top:9px;left:9px;box-shadow:0 2px 8px rgba(0,180,160,0.5);"></div>
             </div>`,
             iconSize: [32, 32],
             iconAnchor: [16, 16],
@@ -295,7 +295,7 @@ export default function CartePage() {
         </div>
         <button
           onClick={handleLocate}
-          className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-[#00B4A0] to-[#00B4A0]/80 text-white font-bold rounded-2xl shadow-lg shadow-[#00B4A0]/20 hover:shadow-[#00B4A0]/40 transition-all self-start"
+          className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-[#A4C639] to-[#A4C639]/80 text-white font-bold rounded-2xl shadow-lg shadow-[#A4C639]/20 hover:shadow-[#A4C639]/40 transition-all self-start"
         >
           <Locate size={18} />
           Ma Position
@@ -316,7 +316,7 @@ export default function CartePage() {
         {!mapLoaded && (
           <div className="absolute inset-0 flex items-center justify-center bg-[#1E293B]">
             <div className="text-center">
-              <div className="w-10 h-10 border-4 border-[#00B4A0] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <div className="w-10 h-10 border-4 border-[#A4C639] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
               <p className="text-slate-400 font-medium">Chargement de la carte...</p>
             </div>
           </div>
@@ -331,8 +331,8 @@ export default function CartePage() {
         className="bg-[#1E293B] rounded-3xl p-6 border border-white/5"
       >
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-[#00B4A0]/10 rounded-xl flex items-center justify-center">
-            <Navigation size={20} className={position ? "text-[#00B4A0]" : "text-slate-500"} />
+          <div className="w-10 h-10 bg-[#A4C639]/10 rounded-xl flex items-center justify-center">
+            <Navigation size={20} className={position ? "text-[#A4C639]" : "text-slate-500"} />
           </div>
           <div>
             <h3 className="font-black">Votre Tournée</h3>
@@ -347,7 +347,7 @@ export default function CartePage() {
         {/* Legend */}
         <div className="flex flex-wrap gap-4 pt-4 border-t border-white/5">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-gradient-to-r from-[#00B4A0] to-[#38BDF8] rounded-full" />
+            <div className="w-3 h-3 bg-gradient-to-r from-[#A4C639] to-[#5E9FA3] rounded-full" />
             <span className="text-xs font-semibold text-slate-400">Atelier en cours</span>
           </div>
           <div className="flex items-center gap-2">
@@ -355,7 +355,7 @@ export default function CartePage() {
             <span className="text-xs font-semibold text-slate-400">Terminé</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 bg-[#00B4A0] rounded-full ring-4 ring-[#00B4A0]/20" />
+            <div className="w-3 h-3 bg-[#A4C639] rounded-full ring-4 ring-[#A4C639]/20" />
             <span className="text-xs font-semibold text-slate-400">Votre position</span>
           </div>
         </div>
@@ -377,19 +377,19 @@ export default function CartePage() {
                   leafletMapRef.current.setView([marker.lat, marker.lng], 14);
                 }
               }}
-              className="bg-[#1E293B] rounded-2xl p-4 border border-white/5 hover:border-[#00B4A0]/30 transition-all text-left group"
+              className="bg-[#1E293B] rounded-2xl p-4 border border-white/5 hover:border-[#A4C639]/30 transition-all text-left group"
             >
               <div className="flex items-center justify-between">
                 <div className="min-w-0">
                   <p className="font-bold text-sm truncate">{marker.name}</p>
                   <p className="text-xs text-slate-400 flex items-center gap-1 mt-1">
-                    <MapPin size={10} className="text-[#00B4A0] shrink-0" />
+                    <MapPin size={10} className="text-[#A4C639] shrink-0" />
                     {marker.province}
                   </p>
                 </div>
                 <span className={`shrink-0 text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded-full ${
                   marker.status === "active"
-                    ? "bg-[#00B4A0]/10 text-[#00B4A0]"
+                    ? "bg-[#A4C639]/10 text-[#A4C639]"
                     : "bg-slate-700 text-slate-400"
                 }`}>
                   {marker.status === "active" ? "Actif" : "Terminé"}

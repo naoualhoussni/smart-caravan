@@ -255,7 +255,7 @@ export default function DashboardPage() {
           <div className="space-y-4">
             {loadingInsights ? (
               <div className="py-12 flex flex-col items-center justify-center space-y-3">
-                <div className="w-8 h-8 border-4 border-[#0B2B5B] border-t-transparent rounded-full animate-spin" />
+                <div className="w-8 h-8 border-4 border-[#1F3C6D] border-t-transparent rounded-full animate-spin" />
                 <p className="text-xs font-bold text-slate-400 animate-pulse">Consultation de Groq et Supabase...</p>
               </div>
             ) : (

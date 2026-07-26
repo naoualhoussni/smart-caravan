@@ -203,7 +203,7 @@ export default function AnalytiquePage() {
 
           {/* Prévision engagement 6 mois */}
           <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-            <h3 className="font-bold text-[#0B2B5B] mb-1">Prévision Engagement — 6 prochains mois</h3>
+            <h3 className="font-bold text-[#1F3C6D] mb-1">Prévision Engagement — 6 prochains mois</h3>
             <p className="text-xs text-slate-400 mb-4">Régression temporelle basée sur les patterns saisonniers</p>
             <ResponsiveContainer width="100%" height={220}>
               <LineChart data={forecast}>
@@ -219,7 +219,7 @@ export default function AnalytiquePage() {
 
           {/* Top Thèmes Global */}
           <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-            <h3 className="font-bold text-[#0B2B5B] mb-1">Performance des Thèmes</h3>
+            <h3 className="font-bold text-[#1F3C6D] mb-1">Performance des Thèmes</h3>
             <p className="text-xs text-slate-400 mb-4">Score d'engagement moyen par thématique (toutes zones)</p>
             <ResponsiveContainer width="100%" height={220}>
               <BarChart data={topThemes?.Global || []} layout="vertical">
@@ -238,7 +238,7 @@ export default function AnalytiquePage() {
 
           {/* Radar Thèmes */}
           <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-            <h3 className="font-bold text-[#0B2B5B] mb-1">Radar de Performance</h3>
+            <h3 className="font-bold text-[#1F3C6D] mb-1">Radar de Performance</h3>
             <p className="text-xs text-slate-400 mb-4">Vue comparative des thèmes</p>
             <ResponsiveContainer width="100%" height={220}>
               <RadarChart data={radarData}>
@@ -251,7 +251,7 @@ export default function AnalytiquePage() {
 
           {/* Comparaison par zone */}
           <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-            <h3 className="font-bold text-[#0B2B5B] mb-1">Thèmes par Zone Géographique</h3>
+            <h3 className="font-bold text-[#1F3C6D] mb-1">Thèmes par Zone Géographique</h3>
             <p className="text-xs text-slate-400 mb-4">Engagement moyen selon le type de zone</p>
             <div className="space-y-3">
               {['Rurale', 'Mixte', 'Urbaine'].map(zone => {
@@ -278,7 +278,7 @@ export default function AnalytiquePage() {
       {activeTab === 'clusters' && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-1 bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-            <h3 className="font-bold text-[#0B2B5B] mb-1">Segmentation K-Means</h3>
+            <h3 className="font-bold text-[#1F3C6D] mb-1">Segmentation K-Means</h3>
             <p className="text-xs text-slate-400 mb-4">3 clusters identifiés parmi les provinces</p>
             <ResponsiveContainer width="100%" height={220}>
               <PieChart>
@@ -302,7 +302,7 @@ export default function AnalytiquePage() {
           </div>
 
           <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-            <h3 className="font-bold text-[#0B2B5B] mb-4">Provinces par Cluster</h3>
+            <h3 className="font-bold text-[#1F3C6D] mb-4">Provinces par Cluster</h3>
             <div className="overflow-y-auto max-h-80 space-y-2 pr-1">
               {clusters.map((c, i) => (
                 <div key={i} className="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition border border-slate-50">
@@ -328,7 +328,7 @@ export default function AnalytiquePage() {
       {activeTab === 'anomalies' && anomalies && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-start gap-4">
-            <AlertTriangle className="text-amber-500 shrink-0 mt-0.5" size={22} />
+            <AlertTriangle className="text-[#FDB813] shrink-0 mt-0.5" size={22} />
             <div>
               <p className="font-bold text-amber-800">Isolation Forest — {anomalies.nb_anomalies_detectees} anomalies détectées</p>
               <p className="text-sm text-amber-700 mt-1">
@@ -406,7 +406,7 @@ export default function AnalytiquePage() {
 
           {/* Corrélations de Pearson */}
           <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-            <h3 className="font-bold text-[#0B2B5B] mb-1">Corrélations de Pearson</h3>
+            <h3 className="font-bold text-[#1F3C6D] mb-1">Corrélations de Pearson</h3>
             <p className="text-xs text-slate-400 mb-4">Relations statistiques entre les variables du modèle</p>
             <div className="space-y-3">
               {correlations.map((c, i) => (
@@ -477,7 +477,7 @@ export default function AnalytiquePage() {
             
             {/* Workload Formateurs */}
             <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-              <h3 className="font-bold text-[#0B2B5B] mb-1">Charge de Travail par Formateur</h3>
+              <h3 className="font-bold text-[#1F3C6D] mb-1">Charge de Travail par Formateur</h3>
               <p className="text-xs text-slate-400 mb-4">Nombre d'ateliers assignés en temps réel</p>
               {liveData.charts.workload_formateurs.length === 0 ? (
                 <div className="h-[220px] flex items-center justify-center text-slate-400 text-sm italic">
@@ -498,7 +498,7 @@ export default function AnalytiquePage() {
 
             {/* Répartition des statuts */}
             <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-              <h3 className="font-bold text-[#0B2B5B] mb-1">Statut des Activités</h3>
+              <h3 className="font-bold text-[#1F3C6D] mb-1">Statut des Activités</h3>
               <p className="text-xs text-slate-400 mb-4">Avancement des ateliers planifiés</p>
               {liveData.charts.status_repartition.length === 0 ? (
                 <div className="h-[220px] flex items-center justify-center text-slate-400 text-sm italic">
@@ -529,7 +529,7 @@ export default function AnalytiquePage() {
                   <div className="space-y-2">
                     {liveData.charts.status_repartition.map((entry: any, i: number) => {
                       const labels: Record<string, string> = { pending: 'En attente', completed: 'Terminé', canceled: 'Annulé' };
-                      const colors: Record<string, string> = { pending: 'bg-amber-500', completed: 'bg-emerald-500', canceled: 'bg-rose-500' };
+                      const colors: Record<string, string> = { pending: 'bg-[#FDB813]', completed: 'bg-emerald-500', canceled: 'bg-rose-500' };
                       return (
                         <div key={i} className="flex items-center gap-2 text-xs">
                           <div className={`w-3 h-3 rounded-full ${colors[entry.name] || 'bg-slate-400'}`} />
@@ -545,7 +545,7 @@ export default function AnalytiquePage() {
 
             {/* Répartition des thèmes */}
             <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-              <h3 className="font-bold text-[#0B2B5B] mb-1">Thématiques les plus Planifiées</h3>
+              <h3 className="font-bold text-[#1F3C6D] mb-1">Thématiques les plus Planifiées</h3>
               <p className="text-xs text-slate-400 mb-4">Volume d'ateliers par sujet technique</p>
               {liveData.charts.themes_repartition.length === 0 ? (
                 <div className="h-[220px] flex items-center justify-center text-slate-400 text-sm italic">
@@ -566,7 +566,7 @@ export default function AnalytiquePage() {
 
             {/* Rôles des collaborateurs */}
             <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
-              <h3 className="font-bold text-[#0B2B5B] mb-1">Rôles de l'Équipe</h3>
+              <h3 className="font-bold text-[#1F3C6D] mb-1">Rôles de l'Équipe</h3>
               <p className="text-xs text-slate-400 mb-4">Profils enregistrés dans la table profiles</p>
               {liveData.charts.roles_formateurs.length === 0 ? (
                 <div className="h-[220px] flex items-center justify-center text-slate-400 text-sm italic">

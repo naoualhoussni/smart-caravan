@@ -139,7 +139,7 @@ const AssistantIAPage = () => {
 
       {/* Sidebar Insights */}
       <div className="w-full lg:w-80 flex flex-col gap-6">
-        <div className="bg-[#0B2B5B] p-8 rounded-[40px] text-white shadow-xl relative overflow-hidden group">
+        <div className="bg-[#1F3C6D] p-8 rounded-[40px] text-white shadow-xl relative overflow-hidden group">
            <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:bg-brand-green/20 transition-all" />
            <h2 className="text-xl font-black mb-6 flex items-center gap-2">
              <Sparkles size={20} className="text-brand-green" /> Suggestions

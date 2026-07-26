@@ -223,7 +223,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               className="p-2 rounded-xl bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 transition-all active:scale-95"
             >
               {darkMode
-                ? <Sun size={17} className="text-amber-400" />
+                ? <Sun size={17} className="text-[#FDB813]" />
                 : <Moon size={17} className="text-slate-500" />
               }
             </button>
