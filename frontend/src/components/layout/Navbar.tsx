@@ -43,6 +43,7 @@ const Navbar = () => {
     { name: "Caravanes", href: "/dashboard/caravanes" },
     { name: "Équipes", href: "/dashboard/equipes" },
     { name: "Dashboard", href: "/dashboard" },
+    { name: "Espace Technicien", href: "/technicien" },
     { name: "Espace Formateur", href: "/formateur" },
   ];
 

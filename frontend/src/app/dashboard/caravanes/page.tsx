@@ -323,6 +323,24 @@ export default function CaravanesPage() {
                     </div>
                   )}
                 </div>
+
+                {/* Bilan Global */}
+                <div className="p-4 bg-muted/30 rounded-2xl">
+                  <p className="text-xs font-black text-muted-foreground uppercase tracking-wider mb-3">Bilan Global de la Caravane</p>
+                  <textarea 
+                    className="w-full h-24 p-3 bg-white border border-border rounded-xl focus:border-brand-green focus:ring-1 focus:ring-brand-green outline-none resize-none text-sm font-medium"
+                    placeholder="Saisissez le bilan global de cette caravane (objectifs atteints, problèmes rencontrés, etc.)..."
+                    defaultValue={selectedCaravane.bilan_global || ""}
+                    onBlur={async (e) => {
+                      const val = e.target.value;
+                      if (val !== selectedCaravane.bilan_global) {
+                        await supabase.from('caravans').update({ bilan_global: val }).eq('id', selectedCaravane.id);
+                        setSelectedCaravane({...selectedCaravane, bilan_global: val});
+                      }
+                    }}
+                  />
+                  <p className="text-xs text-muted-foreground mt-2 italic">Ce bilan est sauvegardé automatiquement.</p>
+                </div>
               </div>
             </motion.div>
           </div>
