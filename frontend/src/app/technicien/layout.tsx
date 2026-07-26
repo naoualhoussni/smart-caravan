@@ -5,13 +5,15 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Home, Map, Sparkles, User, LogOut, Code2,
-  Menu, X, Bell, ChevronRight, Wifi, WifiOff
+  Home, Map, Sparkles, User, LogOut,
+  Menu, X, Bell, ChevronRight, Wifi, WifiOff, FileText, GraduationCap
 } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 
 const navItems = [
   { label: "Accueil", href: "/technicien", icon: Home },
+  { label: "Rapports", href: "/technicien/rapports", icon: FileText },
+  { label: "Formation", href: "/technicien/formation", icon: GraduationCap },
   { label: "Carte GPS", href: "/technicien/carte", icon: Map },
   { label: "IA Assist", href: "/technicien/coach", icon: Sparkles },
   { label: "Profil", href: "/technicien/profil", icon: User },
