@@ -11,13 +11,12 @@ import {
 import { createClient } from "@/utils/supabase/client";
 
 const navItems = [
-  { label: "Accueil", href: "/formateur", icon: Home },
-  { label: "Carte GPS", href: "/formateur/carte", icon: Map },
-  { label: "IA Coach", href: "/formateur/coach", icon: Sparkles },
-  { label: "Profil", href: "/formateur/profil", icon: User },
+  { label: "Accueil", href: "/technicien", icon: Home },
+  { label: "Carte GPS", href: "/technicien/carte", icon: Map },
+  { label: "IA Assist", href: "/technicien/coach", icon: Sparkles },
+  { label: "Profil", href: "/technicien/profil", icon: User },
 ];
-
-export default function FormateurLayout({ children }: { children: React.ReactNode }) {
+export default function TechnicienLayout({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<any>(null);
@@ -28,8 +27,8 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
 
   useEffect(() => {
     const getUser = async () => {
-      if (typeof window !== 'undefined' && localStorage.getItem("mock_formateur") === "true") {
-        setUser({ email: 'formateur@smartcaravan.com', id: 'mock-id' });
+      if (typeof window !== 'undefined' && localStorage.getItem("mock_technicien") === "true") {
+        setUser({ email: 'technicien@smartcaravan.com', id: 'mock-id' });
         setProfile({ full_name: 'Formateur Test', role: 'Formateur' });
         return;
       }
@@ -58,7 +57,7 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
 
   const handleLogout = async () => {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem("mock_formateur");
+      localStorage.removeItem("mock_technicien");
     }
     await supabase.auth.signOut();
     router.push("/");
@@ -75,7 +74,7 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Left: Logo */}
-            <Link href="/formateur" className="flex items-center gap-3 group">
+            <Link href="/technicien" className="flex items-center gap-3 group">
               <div className="w-9 h-9 bg-gradient-to-br from-[#A4C639] to-[#5E9FA3] rounded-xl flex items-center justify-center shadow-lg shadow-[#A4C639]/20 group-hover:shadow-[#A4C639]/40 transition-all">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white">
                   <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
@@ -84,7 +83,7 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
               </div>
               <div className="hidden sm:block">
                 <span className="text-lg font-black tracking-tight">Smart<span className="text-[#A4C639]">Caravan</span></span>
-                <span className="block text-[10px] font-semibold text-slate-400 -mt-0.5 tracking-widest uppercase">Espace Formateur</span>
+                <span className="block text-[10px] font-semibold text-slate-400 -mt-0.5 tracking-widest uppercase">Espace Technicien</span>
               </div>
             </Link>
 
@@ -127,7 +126,7 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
 
               {/* Avatar */}
               <button
-                onClick={() => router.push("/formateur/profil")}
+                onClick={() => router.push("/technicien/profil")}
                 className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#A4C639] to-[#5E9FA3] flex items-center justify-center text-white font-black text-xs shadow-lg hover:shadow-[#A4C639]/30 transition-all"
               >
                 {initials}
