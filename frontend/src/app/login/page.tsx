@@ -35,6 +35,21 @@ const LoginPage = () => {
         return;
       }
 
+      // Compte test Technicien
+      if (email.trim().toLowerCase() === 'technicien@smartcaravan.com' && password === 'password123') {
+        localStorage.setItem("mock_technicien", "true");
+        router.push("/technicien");
+        router.refresh();
+        return;
+      }
+
+      // Compte test Coordinateur
+      if (email.trim().toLowerCase() === 'coordinateur@smartcaravan.com' && password === 'password123') {
+        router.push("/coordinateur");
+        router.refresh();
+        return;
+      }
+
       const { data, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
