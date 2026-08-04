@@ -28,18 +28,18 @@ export default function EquipesPage() {
 
   const [managingTeam, setManagingTeam] = useState<any>(null);
   const [showInviteModal, setShowInviteModal] = useState(false);
-  const [newMember, setNewMember] = useState({ name: "", email: "", password: "", role: "Formatrice IT" });
+  const [newMember, setNewMember] = useState({ name: "", email: "", password: "", role: "Formatrice IT", province: "Chtouka Ait Baha" });
   const [isCreating, setIsCreating] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   
   const COLORS = ["bg-brand-blue", "bg-brand-green", "bg-purple-500", "bg-orange-500", "bg-pink-500", "bg-slate-700"];
   // Membres chargés depuis Supabase (table profiles) + fallback simulé
   const FALLBACK_MEMBERS = [
-    { id: 1, name: "Youssef Alaoui", role: "Superviseur", initials: "YA", color: "bg-brand-blue" },
-    { id: 2, name: "Sara Benali", role: "Formatrice IT", initials: "SB", color: "bg-brand-green" },
-    { id: 3, name: "Omar Tazi", role: "Formateur Soft Skills", initials: "OT", color: "bg-purple-500" },
-    { id: 4, name: "Amina Chraibi", role: "Formatrice IT", initials: "AC", color: "bg-orange-500" },
-    { id: 5, name: "Karim Idrissi", role: "Logistique", initials: "KI", color: "bg-slate-700" },
+    { id: 1, name: "Youssef Alaoui", role: "Coordinateur Provincial", province: "Chtouka Ait Baha", initials: "YA", color: "bg-brand-blue" },
+    { id: 2, name: "Sara Benali", role: "Formatrice IT", province: "Tinghir", initials: "SB", color: "bg-brand-green" },
+    { id: 3, name: "Omar Tazi", role: "Formateur Soft Skills", province: "Ouarzazate", initials: "OT", color: "bg-purple-500" },
+    { id: 4, name: "Amina Chraibi", role: "Coordinateur Provincial", province: "Zagora", initials: "AC", color: "bg-orange-500" },
+    { id: 5, name: "Karim Idrissi", role: "Logistique", province: "Errachidia", initials: "KI", color: "bg-slate-700" },
   ];
   const [availableMembers, setAvailableMembers] = useState<any[]>(FALLBACK_MEMBERS);
   const [memberSearch, setMemberSearch] = useState("");
@@ -63,6 +63,12 @@ export default function EquipesPage() {
       const { data, error } = await secondarySupabase.auth.signUp({
         email: newMember.email,
         password: newMember.password,
+        options: {
+          data: {
+            role: newMember.role,
+            province: newMember.province
+          }
+        }
       });
 
       if (error) {
@@ -77,6 +83,7 @@ export default function EquipesPage() {
           id: data.user.id,
           full_name: newMember.name,
           role: newMember.role,
+          province: newMember.province
         });
       }
 
@@ -567,10 +574,32 @@ export default function EquipesPage() {
                     value={newMember.role}
                     onChange={(e) => setNewMember({ ...newMember, role: e.target.value })}
                   >
+                    <option value="Coordinateur Provincial" className="dark:bg-slate-900">Coordinateur Provincial</option>
                     <option value="Formatrice IT" className="dark:bg-slate-900">Formateur IT</option>
                     <option value="Formateur Soft Skills" className="dark:bg-slate-900">Formateur Soft Skills</option>
+                    <option value="Technicien Terrain" className="dark:bg-slate-900">Technicien Terrain</option>
                     <option value="Superviseur" className="dark:bg-slate-900">Superviseur</option>
                     <option value="Logistique" className="dark:bg-slate-900">Logistique</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-black text-brand-blue dark:text-white ml-1">Province d&apos;affectation</label>
+                  <select 
+                    required
+                    className="w-full px-5 py-4 bg-muted/50 border border-transparent rounded-2xl focus:bg-white dark:focus:bg-slate-800 focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green outline-none transition-all font-medium appearance-none text-brand-blue dark:text-white"
+                    value={newMember.province}
+                    onChange={(e) => setNewMember({ ...newMember, province: e.target.value })}
+                  >
+                    <option value="Chtouka Ait Baha" className="dark:bg-slate-900">Chtouka Ait Baha</option>
+                    <option value="Tinghir" className="dark:bg-slate-900">Tinghir</option>
+                    <option value="Ouarzazate" className="dark:bg-slate-900">Ouarzazate</option>
+                    <option value="Zagora" className="dark:bg-slate-900">Zagora</option>
+                    <option value="Errachidia" className="dark:bg-slate-900">Errachidia</option>
+                    <option value="Midelt" className="dark:bg-slate-900">Midelt</option>
+                    <option value="Ifrane" className="dark:bg-slate-900">Ifrane</option>
+                    <option value="Agadir" className="dark:bg-slate-900">Agadir</option>
+                    <option value="Taroudant" className="dark:bg-slate-900">Taroudant</option>
                   </select>
                 </div>
 

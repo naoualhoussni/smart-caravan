@@ -38,6 +38,29 @@ export default function CoordinateurPage() {
   ];
 
   useEffect(() => {
+    const loadCoordinatorProvince = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        // 1. Chercher dans les user_metadata
+        if (user.user_metadata?.province) {
+          setSelectedProvince(user.user_metadata.province);
+          return;
+        }
+        // 2. Chercher dans la table profiles
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('province')
+          .eq('id', user.id)
+          .single();
+        if (profile?.province) {
+          setSelectedProvince(profile.province);
+        }
+      }
+    };
+    loadCoordinatorProvince();
+  }, []);
+
+  useEffect(() => {
     fetchCaravanes();
   }, [selectedProvince]);
 
