@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -77,16 +78,15 @@ export default function TechnicienLayout({ children }: { children: React.ReactNo
           <div className="flex items-center justify-between h-16">
             {/* Left: Logo */}
             <Link href="/technicien" className="flex items-center gap-3 group">
-              <div className="w-9 h-9 bg-gradient-to-br from-[#A4C639] to-[#5E9FA3] rounded-xl flex items-center justify-center shadow-lg shadow-[#A4C639]/20 group-hover:shadow-[#A4C639]/40 transition-all">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                  <circle cx="12" cy="12" r="2.5"></circle>
-                </svg>
-              </div>
-              <div className="hidden sm:block">
-                <span className="text-lg font-black tracking-tight">Smart<span className="text-[#A4C639]">Caravan</span></span>
-                <span className="block text-[10px] font-semibold text-slate-400 -mt-0.5 tracking-widest uppercase">Espace Technicien</span>
-              </div>
+              <Image
+                src="/logo-coding-pour-tous.png"
+                alt="Coding Pour Tous"
+                width={100}
+                height={40}
+                className="object-contain h-8 w-auto"
+                priority
+              />
+              <span className="hidden sm:block text-[10px] font-semibold text-slate-400 tracking-widest uppercase border-l border-white/10 pl-3">Espace Technicien</span>
             </Link>
 
             {/* Center: Desktop Nav */}

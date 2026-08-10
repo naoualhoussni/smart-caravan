@@ -2,7 +2,8 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Lock, ArrowRight, ShieldCheck, Globe, Truck } from "lucide-react";
+import Image from "next/image";
+import { Mail, Lock, ArrowRight, ShieldCheck, Globe } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
@@ -81,14 +82,15 @@ const LoginPage = () => {
         className="w-full max-w-md relative z-10"
       >
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 mb-6 group bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
-            <div className="w-8 h-8 bg-[#1F3C6D] rounded-lg flex items-center justify-center shadow-md">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            </div>
-            <span className="text-xl font-black tracking-tight text-[#1F3C6D]">SmartCaravan<span className="text-[#A4C639]">.</span></span>
+          <div className="flex justify-center mb-6">
+            <Image
+              src="/logo-coding-pour-tous.png"
+              alt="Coding Pour Tous"
+              width={160}
+              height={64}
+              className="object-contain h-16 w-auto"
+              priority
+            />
           </div>
           <h1 className="text-3xl font-black mb-2 text-[#1F3C6D]">Bon retour 👋</h1>
           <p className="text-slate-500 font-medium">Connectez-vous pour piloter votre caravane.</p>

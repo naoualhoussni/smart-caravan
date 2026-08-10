@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 import {
@@ -83,13 +84,14 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-[#1F3C6D] rounded-xl flex items-center justify-center shadow-md">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-          </div>
-          <span className="text-xl font-black tracking-tight text-[#1F3C6D]">SmartCaravan<span className="text-[#A4C639]">.</span></span>
+          <Image
+            src="/logo-coding-pour-tous.png"
+            alt="Coding Pour Tous"
+            width={120}
+            height={48}
+            className="object-contain h-10 w-auto"
+            priority
+          />
         </Link>
 
         {/* Desktop Rounded Badge Nav */}

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -59,16 +60,15 @@ export default function FormateurLayout({ children }: { children: React.ReactNod
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/formateur" className="flex items-center gap-3 group">
-              <div className="w-9 h-9 bg-gradient-to-br from-[#1F3C6D] to-[#5E9FA3] rounded-xl flex items-center justify-center shadow-lg">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                  <circle cx="12" cy="12" r="2.5"></circle>
-                </svg>
-              </div>
-              <div className="hidden sm:block">
-                <span className="text-lg font-black tracking-tight">Smart<span className="text-[#FDB813]">Caravan</span></span>
-                <span className="block text-[10px] font-semibold text-slate-400 -mt-0.5 tracking-widest uppercase">Espace Formateur</span>
-              </div>
+              <Image
+                src="/logo-coding-pour-tous.png"
+                alt="Coding Pour Tous"
+                width={100}
+                height={40}
+                className="object-contain h-8 w-auto"
+                priority
+              />
+              <span className="hidden sm:block text-[10px] font-semibold text-slate-400 tracking-widest uppercase border-l border-white/10 pl-3">Espace Formateur</span>
             </Link>
 
             {/* Center: Desktop Nav */}
