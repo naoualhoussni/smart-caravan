@@ -105,7 +105,7 @@ export default function EquipesPage() {
       
       setTimeout(() => {
         setShowInviteModal(false);
-        setNewMember({ name: "", email: "", password: "", role: "Formatrice IT" });
+        setNewMember({ name: "", email: "", password: "", role: "Formatrice IT", province: "Chtouka Ait Baha" });
         setSuccessMsg("");
       }, 3000);
 

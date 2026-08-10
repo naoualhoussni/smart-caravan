@@ -1,14 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-// This route uses the Supabase SERVICE ROLE key to create user accounts
-// It must be called from a server-side API route, never exposed to the client.
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!, // must be set in Vercel env vars
-  { auth: { autoRefreshToken: false, persistSession: false } }
-);
-
 function generatePassword(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let pwd = "";
@@ -21,6 +13,19 @@ function generatePassword(): string {
 
 export async function POST(req: Request) {
   try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!supabaseUrl || !supabaseServiceKey) {
+      return NextResponse.json({ error: "Configuration Supabase manquante sur le serveur." }, { status: 500 });
+    }
+
+    const supabaseAdmin = createClient(
+      supabaseUrl,
+      supabaseServiceKey,
+      { auth: { autoRefreshToken: false, persistSession: false } }
+    );
+
     const body = await req.json();
     const { ecoleNom, province } = body as { ecoleNom: string; province: string };
 
